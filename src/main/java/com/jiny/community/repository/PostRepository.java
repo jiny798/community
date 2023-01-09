@@ -19,17 +19,20 @@ public class PostRepository {
         em.persist(post);
         return post.getId();
     }
+
+    //id 로 Post 가져오기
     public Post findOne(Long id) {
         return em.find(Post.class, id);
     }
 
+    //전체 Post 가져오기
     public List<Post> findAll() {
         return em.createQuery("select p from Post p", Post.class)
                 .getResultList();
     }
 
     /**
-    * 게시글 제목으로 검색하여 게시글 엔티티 가져오기
+    * 게시글 제목으로 검색하여 Post 가져오기
      */
     public List<Post> findByName(String title) {
         return em.createQuery("select p from Post p where p.title = :title",

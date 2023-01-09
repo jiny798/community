@@ -17,6 +17,8 @@ public class Post {
     private Long id;
 
     private LocalDateTime CreatedDate;
+
+    private String title;
     private String content;
     private Long viewCnt;
     private Long star;
@@ -26,6 +28,7 @@ public class Post {
     @JoinColumn(name = "user_id") //FK 이름
     private User user;
 
+    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
     private List<Comment> commentList = new ArrayList<>();
 
     public void setUser(User user){
@@ -38,11 +41,12 @@ public class Post {
         comment.setPost(this);
     }
 
-    public static Post createPost(User user, String content){
+    public static Post createPost(User user,String title ,String content){
         Post post = new Post();
         post.setUser(user);
         post.setCreatedDate(LocalDateTime.now());
 
+        post.setTitle(title);
         post.setContent(content);
         post.setViewCnt(0L);
         post.setStar(0L);
