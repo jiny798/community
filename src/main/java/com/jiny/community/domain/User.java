@@ -19,7 +19,7 @@ public class User {
     @Column(name="user_id")
     private Long id;
 
-    @Column(unique = true,nullable = false)
+    @Column(nullable = false) // unique = true 테스트를 위해 임시로 제거
     private String email;
 
     private String nickname;

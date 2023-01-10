@@ -9,6 +9,6 @@ public class HomeController {
     @GetMapping(value = "/")
     public String getAddPostPage(){
 
-        return "home";
+        return "board";
     }
 }
