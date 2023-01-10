@@ -2,15 +2,10 @@ package com.jiny.community.service;
 
 import com.jiny.community.domain.Post;
 import com.jiny.community.domain.User;
-import com.jiny.community.dto.PostDto;
 import com.jiny.community.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
