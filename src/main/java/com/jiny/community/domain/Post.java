@@ -29,11 +29,22 @@ public class Post {
     private User user;
 
     @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
+    private List<UserLikePost> userLikePosts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
     private List<Comment> commentList = new ArrayList<>();
 
     public void setUser(User user){
         this.user = user;
         user.getPostList().add(this);
+    }
+
+    public void addStar(){
+        this.star++;
+    }
+
+    public void decreaseStar(){
+        this.star--;
     }
 
     public void addComment(Comment comment){

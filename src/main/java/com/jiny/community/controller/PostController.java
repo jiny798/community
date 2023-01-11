@@ -2,11 +2,13 @@ package com.jiny.community.controller;
 
 import com.jiny.community.domain.Post;
 import com.jiny.community.domain.User;
+import com.jiny.community.domain.UserLikePost;
 import com.jiny.community.dto.PostDto;
 import com.jiny.community.dto.postForm;
 import com.jiny.community.repository.PostRepository;
 import com.jiny.community.repository.UserRepository;
 import com.jiny.community.service.PostService;
+import com.jiny.community.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,7 @@ import java.util.List;
 public class PostController {
 
     private final UserRepository userRepository;
+    private final UserService userService;
     private final PostService postService;
     private final PostRepository postRepository;
 
@@ -83,6 +86,14 @@ public class PostController {
         return "redirect:/post/list";
     }
 
+    @PostMapping(value = "/{id}/like")
+    public void likePost(@PathVariable("id")Long postId  ){ //스프링 시큐리티 사용시 회원정보 받을 수 있음.
+        User user = userRepository.findByName("abc@abc.com").get(0);
+        UserLikePost userLikePost = UserLikePost.createLikePost(postRepository.findOne(postId));
+
+        userService.updateLikePost(user,userLikePost); // userId or user 전달 선택
+
+    }
 
 
 }

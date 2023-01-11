@@ -1,6 +1,7 @@
 package com.jiny.community.service;
 
 import com.jiny.community.domain.User;
+import com.jiny.community.domain.UserLikePost;
 import com.jiny.community.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,12 @@ public class UserService {
      */
     public User findOne(Long memberId) {
         return userRepository.findOne(memberId);
+    }
+
+    @Transactional
+    public void updateLikePost(User user , UserLikePost userLikePost) { //itemParam: 파리미터로 넘어온 준영속 상태의 엔티티
+        //User user = userRepository.find(userId);
+        user.getUserLikePosts().add(userLikePost); // 트랜잭션이 끝나면 자동으로 저장 된다
     }
 
 }
