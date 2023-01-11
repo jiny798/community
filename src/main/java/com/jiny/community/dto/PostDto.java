@@ -9,4 +9,5 @@ public class PostDto {
     public String nickname;
     public String title;
     public String content;
+
 }
