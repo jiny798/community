@@ -25,8 +25,8 @@ public class Post {
     private Boolean remove;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id") //FK 이름
-    private User user;
+    @JoinColumn(name = "account_id") //FK 이름
+    private Account account;
 
     @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
     private List<UserLikePost> userLikePosts = new ArrayList<>();
@@ -34,9 +34,9 @@ public class Post {
     @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
     private List<Comment> commentList = new ArrayList<>();
 
-    public void setUser(User user){
-        this.user = user;
-        user.getPostList().add(this);
+    public void setUser(Account account){
+        this.account = account;
+        account.getPostList().add(this);
     }
 
     public void addStar(){
@@ -52,9 +52,9 @@ public class Post {
         comment.setPost(this);
     }
 
-    public static Post createPost(User user,String title ,String content){
+    public static Post createPost(Account account,String title ,String content){
         Post post = new Post();
-        post.setUser(user);
+        post.setUser(account);
         post.setCreatedDate(LocalDateTime.now());
 
         post.setTitle(title);

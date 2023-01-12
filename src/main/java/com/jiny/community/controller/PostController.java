@@ -1,7 +1,7 @@
 package com.jiny.community.controller;
 
+import com.jiny.community.domain.Account;
 import com.jiny.community.domain.Post;
-import com.jiny.community.domain.User;
 import com.jiny.community.domain.UserLikePost;
 import com.jiny.community.dto.PostDto;
 import com.jiny.community.dto.postForm;
@@ -40,7 +40,7 @@ public class PostController {
            PostDto postDto = new PostDto();
            postDto.setTitle(post_list.get(i).getTitle());
            postDto.setContent(post_list.get(i).getContent());
-           postDto.setNickname(post_list.get(i).getUser().getNickname());
+           postDto.setNickname(post_list.get(i).getAccount().getNickname());
            postDto.setId(post_list.get(i).getId());
            posts.add(postDto);
         }
@@ -57,7 +57,7 @@ public class PostController {
         PostDto postDto = new PostDto();
         postDto.setTitle(post.getTitle());
         postDto.setContent(post.getContent());
-        postDto.setNickname(post.getUser().getNickname());
+        postDto.setNickname(post.getAccount().getNickname());
 
         model.addAttribute("post",post);
 
@@ -76,22 +76,23 @@ public class PostController {
     @PostMapping(value = "/add")
     public String createPost(postForm form){
         //임시 User 데이터
-        User user =new User();
-        user.setEmail("abc@abc.com");
-        user.setNickname("jiny");
-        userRepository.save(user);
+        Account account =new Account();
+        account.setEmail("abc@abc.com");
+        account.setNickname("jiny");
+        userRepository.save(account);
 
-        postService.addPost(user,form.getTitle(),form.getContent());
+        postService.addPost(account,form.getTitle(),form.getContent());
 
         return "redirect:/post/list";
+
     }
 
     @PostMapping(value = "/{id}/like")
     public void likePost(@PathVariable("id")Long postId  ){ //스프링 시큐리티 사용시 회원정보 받을 수 있음.
-        User user = userRepository.findByName("abc@abc.com").get(0);
+        Account account = userRepository.findByName("abc@abc.com").get(0);
         UserLikePost userLikePost = UserLikePost.createLikePost(postRepository.findOne(postId));
 
-        userService.updateLikePost(user,userLikePost); // userId or user 전달 선택
+        userService.updateLikePost(account,userLikePost); // userId or user 전달 선택
 
     }
 

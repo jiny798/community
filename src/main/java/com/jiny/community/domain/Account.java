@@ -13,10 +13,10 @@ import java.util.List;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Account {
 
     @Id @GeneratedValue
-    @Column(name="user_id")
+    @Column(name="account_id")
     private Long id;
 
     @Column(nullable = false) // unique = true 테스트를 위해 임시로 제거
@@ -24,13 +24,13 @@ public class User {
 
     private String nickname;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
     private List<Post> postList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
     private List<Comment> commentList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
     private List<UserLikePost> userLikePosts = new ArrayList<>();
 
 }

@@ -1,6 +1,6 @@
 package com.jiny.community.repository;
 
-import com.jiny.community.domain.User;
+import com.jiny.community.domain.Account;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,25 +14,25 @@ public class UserRepository {
     EntityManager em;
 
     @Transactional
-    public Long save(User user){
-        em.persist(user);
-        return user.getId();
+    public Long save(Account account){
+        em.persist(account);
+        return account.getId();
     }
 
-    public User find(Long id){
-        return em.find(User.class,id);
+    public Account find(Long id){
+        return em.find(Account.class,id);
     }
-    public User findOne(Long id) {
-        return em.find(User.class, id);
+    public Account findOne(Long id) {
+        return em.find(Account.class, id);
     }
-    public List<User> findAll() {
-        return em.createQuery("select m from Member m", User.class)
+    public List<Account> findAll() {
+        return em.createQuery("select ac from Account ac", Account.class)
                 .getResultList();
     }
 
-    public List<User> findByName(String email) {
-        return em.createQuery("select u from User u where u.email = :email",
-                        User.class)
+    public List<Account> findByName(String email) {
+        return em.createQuery("select ac from Account ac where ac.email = :email",
+                        Account.class)
                 .setParameter("email", email)
                 .getResultList();
     }

@@ -15,7 +15,7 @@ public class UserLikePost {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private Account account;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Post post;

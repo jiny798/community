@@ -1,7 +1,6 @@
 package com.jiny.community.repository;
 
 import com.jiny.community.domain.Post;
-import com.jiny.community.domain.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
