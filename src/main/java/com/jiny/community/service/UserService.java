@@ -2,7 +2,7 @@ package com.jiny.community.service;
 
 import com.jiny.community.domain.Account;
 import com.jiny.community.domain.UserLikePost;
-import com.jiny.community.repository.UserRepository;
+import com.jiny.community.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,14 +13,14 @@ import java.util.List;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserService {
-    private final UserRepository userRepository;
+    private final AccountRepository accountRepository;
     /*
     회원가입
      */
     @Transactional
     public Long join(Account account) {
         validateDuplicateMember(account); //중복 회원 검증
-        userRepository.save(account);
+        accountRepository.save(account);
         return account.getId();
     }
 
@@ -28,7 +28,7 @@ public class UserService {
      * 중복 회원 검증
      */
     private void validateDuplicateMember(Account account) {
-        List<Account> findMember = userRepository.findByName(account.getEmail());
+        List<Account> findMember = accountRepository.findByName(account.getEmail());
         if (!findMember.isEmpty() ) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
@@ -38,14 +38,14 @@ public class UserService {
      * 전체 회원 조회
      */
     public List<Account> findMembers() {
-        return userRepository.findAll();
+        return accountRepository.findAll();
     }
 
     /**
     id로 조회
      */
     public Account findOne(Long memberId) {
-        return userRepository.findOne(memberId);
+        return accountRepository.findOne(memberId);
     }
 
     @Transactional

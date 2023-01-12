@@ -6,7 +6,7 @@ import com.jiny.community.domain.UserLikePost;
 import com.jiny.community.dto.PostDto;
 import com.jiny.community.dto.postForm;
 import com.jiny.community.repository.PostRepository;
-import com.jiny.community.repository.UserRepository;
+import com.jiny.community.repository.AccountRepository;
 import com.jiny.community.service.PostService;
 import com.jiny.community.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostController {
 
-    private final UserRepository userRepository;
+    private final AccountRepository accountRepository;
     private final UserService userService;
     private final PostService postService;
     private final PostRepository postRepository;
@@ -79,7 +79,7 @@ public class PostController {
         Account account =new Account();
         account.setEmail("abc@abc.com");
         account.setNickname("jiny");
-        userRepository.save(account);
+        accountRepository.save(account);
 
         postService.addPost(account,form.getTitle(),form.getContent());
 
@@ -89,7 +89,7 @@ public class PostController {
 
     @PostMapping(value = "/{id}/like")
     public void likePost(@PathVariable("id")Long postId  ){ //스프링 시큐리티 사용시 회원정보 받을 수 있음.
-        Account account = userRepository.findByName("abc@abc.com").get(0);
+        Account account = accountRepository.findByName("abc@abc.com").get(0);
         UserLikePost userLikePost = UserLikePost.createLikePost(postRepository.findOne(postId));
 
         userService.updateLikePost(account,userLikePost); // userId or user 전달 선택

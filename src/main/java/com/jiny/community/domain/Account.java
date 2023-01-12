@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,7 +23,11 @@ public class Account {
     @Column(nullable = false) // unique = true 테스트를 위해 임시로 제거
     private String email;
 
+    @Column(unique = true)
     private String nickname;
+
+    private String password;
+    private String role;
 
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
     private List<Post> postList = new ArrayList<>();
@@ -32,5 +37,9 @@ public class Account {
 
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
     private List<UserLikePost> userLikePosts = new ArrayList<>();
+
+    public void encodePassword(PasswordEncoder passwordEncoder){
+        this.password = passwordEncoder.encode(this.password);
+    }
 
 }

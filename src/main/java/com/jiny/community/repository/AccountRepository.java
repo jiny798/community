@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class UserRepository {
+public class AccountRepository {
     @PersistenceContext
     EntityManager em;
 
@@ -35,5 +35,12 @@ public class UserRepository {
                         Account.class)
                 .setParameter("email", email)
                 .getResultList();
+    }
+
+    public Account findByNickname(String username){
+        return em.createQuery("select ac from Account ac where ac.nickname = :nickname",
+                        Account.class)
+                .setParameter("nickname", username)
+                .getSingleResult();
     }
 }
