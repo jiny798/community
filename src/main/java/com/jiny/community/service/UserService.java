@@ -4,6 +4,8 @@ import com.jiny.community.domain.Account;
 import com.jiny.community.domain.UserLikePost;
 import com.jiny.community.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,12 +16,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
     private final AccountRepository accountRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
     /*
     회원가입
      */
     @Transactional
     public Long join(Account account) {
         validateDuplicateMember(account); //중복 회원 검증
+        account.encodePassword(passwordEncoder);
         accountRepository.save(account);
         return account.getId();
     }

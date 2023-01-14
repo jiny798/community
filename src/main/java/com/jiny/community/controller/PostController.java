@@ -2,6 +2,7 @@ package com.jiny.community.controller;
 
 import com.jiny.community.domain.Account;
 import com.jiny.community.domain.Post;
+import com.jiny.community.domain.UserAccount;
 import com.jiny.community.domain.UserLikePost;
 import com.jiny.community.dto.PostDto;
 import com.jiny.community.dto.postForm;
@@ -10,6 +11,7 @@ import com.jiny.community.repository.AccountRepository;
 import com.jiny.community.service.PostService;
 import com.jiny.community.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,13 +77,15 @@ public class PostController {
 
     //게시글 등록 요청
     @PostMapping(value = "/add")
-    public String createPost(postForm form){
+    public String createPost(postForm form, Authentication authentication){
         //임시 User 데이터
-        Account account =new Account();
-        account.setEmail("abc@abc.com");
-        account.setNickname("jiny");
+//        Account account =new Account();
+//        account.setEmail("abc@abc.com");
+//        account.setNickname("jiny");
+//        accountRepository.save(account);
+        UserAccount userAccount = (UserAccount)authentication.getPrincipal(); // getDetails 는 무엇인지 확인 필요
+        Account account = accountRepository.findByNickname(userAccount.getAccountNickName())  ;
         accountRepository.save(account);
-
         postService.addPost(account,form.getTitle(),form.getContent());
 
         return "redirect:/post/list";

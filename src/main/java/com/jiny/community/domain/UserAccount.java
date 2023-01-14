@@ -15,5 +15,8 @@ public class UserAccount extends User {
         this.account = account;
     }
 
+    public String getAccountNickName(){
+        return account.getNickname();
+    }
 
 }
