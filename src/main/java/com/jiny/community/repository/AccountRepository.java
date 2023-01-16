@@ -14,9 +14,9 @@ public class AccountRepository {
     EntityManager em;
 
     @Transactional
-    public Long save(Account account){
+    public Account save(Account account){
         em.persist(account);
-        return account.getId();
+        return account;
     }
 
     public Account find(Long id){

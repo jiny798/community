@@ -11,7 +11,7 @@
 <header th:replace="fragment/top :: header">
 </header>
 <div class="container">
-    <form role="form" th:action="@{/account/new}" th:object="${accountForm}"
+    <form role="form" th:action="@{/account/new}" th:object="${form}"
           method="post">
         <div class="form-group">
             <label th:for="name">이메일을 입력하세요</label>

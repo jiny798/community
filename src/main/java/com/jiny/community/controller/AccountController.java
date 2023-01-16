@@ -1,7 +1,6 @@
 package com.jiny.community.controller;
 
 import com.jiny.community.domain.Account;
-import com.jiny.community.dto.account.AccountForm;
 import com.jiny.community.repository.AccountRepository;
 import com.jiny.community.service.AccountService;
 import com.jiny.community.service.UserService;
@@ -24,27 +23,24 @@ public class AccountController {
 
     private final AccountRepository accountRepository;
 
+    private final AccountService accountService;
     private final UserService userService;
 
     @GetMapping(value = "/new")
     public String createForm(Model model){
-        model.addAttribute("accountForm", new AccountForm());
+        model.addAttribute("form", new SignUpForm());
         return "account/createAccountForm";
     }
 
     @PostMapping(value = "/new")
-    public String create(@Valid AccountForm form, BindingResult result){
+    public String create(@Valid SignUpForm form, BindingResult result){
         log.info("회원가입 요청");
         if (result.hasErrors()) {
             return "account/createAccountForm";
         }
-        Account account = new Account();
-        account.setEmail(form.getEmail());
-        account.setRole("USER");
-        account.setNickname(form.getNickname());
-        account.setPassword(form.getPassword());
+        Account account = accountService.signUp(form);
+        accountService.login(account);
 
-        userService.join(account);
         return "redirect:/";
     }
 
