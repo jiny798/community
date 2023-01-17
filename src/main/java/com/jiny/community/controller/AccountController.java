@@ -9,7 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -33,9 +35,10 @@ public class AccountController {
     }
 
     @PostMapping(value = "/new")
-    public String create(@Valid SignUpForm form, BindingResult result){
+    public String create(@Validated @ModelAttribute("form") SignUpForm form, BindingResult result){
         log.info("회원가입 요청");
         if (result.hasErrors()) {
+            log.info("errors={}", result);
             return "account/createAccountForm";
         }
         Account account = accountService.signUp(form);
