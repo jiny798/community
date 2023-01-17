@@ -43,14 +43,16 @@ public class AccountService implements UserDetailsService {
     }
     private Account saveNewAccount(SignUpForm signUpForm) {
         Account account = Account.createAccount(signUpForm.getEmail(), signUpForm.getNickname(), passwordEncoder.encode(signUpForm.getPassword()));
+        account.setRole("USER");
         account.createRandomToken();
         return accountRepository.save(account);
     }
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = accountRepository.findByNickname(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Account account = accountRepository.findByEmail(email);
+
         if(account ==null){
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException(email);
         }
 
         return new UserAccount(account);
@@ -80,7 +82,7 @@ public class AccountService implements UserDetailsService {
         SecurityContextHolder.getContext().setAuthentication(token);
         //회원 정보를 token으로 만들어 Authentication 저장
         //메일에 get으로 보내는 url에 토큰을 실어 보내고
-        //해당 get요청으로 토큰을 오면 Authentication저장된 토큰과 비교
+        //해당 get요청으로 토큰을 오면 Authentication저장된 토큰과 비교해서 isValid 값을 true로 변경
     }
 
     public void verify(Account account) {

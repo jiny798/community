@@ -8,7 +8,11 @@ public class HomeController {
 
     @GetMapping(value = "/")
     public String getAddPostPage(){
-
         return "board";
+    }
+
+    @GetMapping(value = "/login")
+    public String getLoginPage(){
+        return "account/login";
     }
 }

@@ -35,19 +35,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             http
                     .antMatcher("/**")
                     .authorizeRequests()
-                    .mvcMatchers( "/**", "/index", "/signup").permitAll()
+                    .mvcMatchers( "/post/list", "/","/index", "/signup").permitAll()
                     .mvcMatchers("/admin").hasRole("ADMIN")
-                    .mvcMatchers("/user").hasRole("USER")
-                    .mvcMatchers("/**").permitAll()
+                    .mvcMatchers("/user","/post/add").hasRole("USER")
                     .anyRequest().permitAll()  //.authenticated()
                     .expressionHandler(expressionHandler()); //accessDecisionManager의 voter가 사용하는 핸들러만 바꿔뀌움
 
 
-            http.formLogin();
+            http.formLogin()
+                    .loginPage("/login")
+                    .permitAll()
+                    .defaultSuccessUrl("/", true);
             /*
             * Http Basic 은 세션방식의 인증이 아닌 서버로부터 요청받은 인증방식대로 구성한 다음 헤더에 기술해서 서버로 보내는 방식을 취한다는 점입니다.
             form 인증방식은 서버에 해당 사용자의 session 상태가 유효한지를 판단해서 인증처리를 한다는 점입니다.
             **/
+            http.logout()
+                    .logoutSuccessUrl("/");
 
 
         }

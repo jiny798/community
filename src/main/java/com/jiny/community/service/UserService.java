@@ -34,8 +34,8 @@ public class UserService {
      * 중복 회원 검증
      */
     private void validateDuplicateMember(Account account) {
-        List<Account> findMember = accountRepository.findByName(account.getEmail());
-        if (!findMember.isEmpty() ) {
+        Account findMember = accountRepository.findByEmail(account.getEmail());
+        if (findMember != null) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
     }

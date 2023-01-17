@@ -94,10 +94,10 @@ public class PostController {
 
     @PostMapping(value = "/{id}/like")
     public void likePost(@PathVariable("id")Long postId  ){ //스프링 시큐리티 사용시 회원정보 받을 수 있음.
-        Account account = accountRepository.findByName("abc@abc.com").get(0);
-        UserLikePost userLikePost = UserLikePost.createLikePost(postRepository.findOne(postId));
-
-        userService.updateLikePost(account,userLikePost); // userId or user 전달 선택
+//        Account account;
+//        UserLikePost userLikePost = UserLikePost.createLikePost(postRepository.findOne(postId));
+//
+//        userService.updateLikePost(account,userLikePost); // userId or user 전달 선택
 
     }
 

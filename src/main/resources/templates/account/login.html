@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{fragment/header :: common_header}"></div>
+<style>
+.fieldError {
+ border-color: #bd2130;
+ }
+ .form-group {
+ margin-bottom: 12px;
+ margin-top: 12px;
+ }
+</style>
+<body>
+<header th:replace="fragment/top :: header">
+</header>
+<div class="container">
+    <form role="form" th:action="@{/login}" method="post">
+        <div class="form-group">
+            <label th:for="name">이메일</label>
+            <input type="text" name="username" class="form-control"
+                   placeholder="이메일을 입력하세요">
+
+        </div>
+        <div class="form-group">
+            <label th:for="city">비밀번호</label>
+            <input type="password" name="password" class="form-control" placeholder="비밀번호를 입력하세요">
+        </div>
+
+
+
+        <button type="button" class="btn btn-primary">
+            <a class="nav-link active" aria-current="page" href="#" th:href="@{/account/new}">
+            회원 가입</a>
+        </button>
+        <button type="submit" class="btn btn-primary">로그인 하기</button>
+    </form>
+    <br/>
+</div> <!-- /container -->
+</body>
+</html>

@@ -20,7 +20,7 @@ public class EmailController {
     private final UserService userService;
     @GetMapping("/check-email-token")
     public String verifyEmail(String token, String email, Model model) {
-        Account account = accountRepository.findByName(email).get(0);
+        Account account = accountRepository.findByEmail(email);
         if (account == null) {
             model.addAttribute("error", "wrong.email");
             return "account/email-verification";

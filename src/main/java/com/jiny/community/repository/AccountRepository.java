@@ -30,11 +30,11 @@ public class AccountRepository {
                 .getResultList();
     }
 
-    public List<Account> findByName(String email) {
+    public Account findByEmail(String email) {
         return em.createQuery("select ac from Account ac where ac.email = :email",
                         Account.class)
                 .setParameter("email", email)
-                .getResultList();
+                .getSingleResult();
     }
 
     public Account findByNickname(String username){
