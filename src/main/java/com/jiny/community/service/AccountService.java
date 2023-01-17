@@ -64,13 +64,13 @@ public class AccountService implements UserDetailsService {
                 newAccount.getEmail()));
         context.setVariable("nickname", newAccount.getNickname());
         context.setVariable("linkName", "이메일 인증하기");
-        context.setVariable("message", "Webluxible 가입 인증을 위해 링크를 클릭하세요.");
+        context.setVariable("message", "가입 인증을 위해 링크를 클릭하세요.");
         context.setVariable("host", appProperties.getHost());
         String message = templateEngine.process("mail/simple-link", context);
         emailService.sendEmail(EmailMessage.builder()
                 .to(newAccount.getEmail())
-                .subject("Webluxible 회원 가입 인증")
-                .message(message)
+                .subject("회원 가입 인증")
+                .message(message) //정보를 넘기고 sendEmail에서 추가 정보 세팅
                 .build());
     }
 
