@@ -11,19 +11,17 @@ import com.jiny.community.repository.AccountRepository;
 import com.jiny.community.service.PostService;
 import com.jiny.community.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@Controller @Slf4j
 @RequestMapping("/post")
 @RequiredArgsConstructor
 public class PostController {
@@ -93,12 +91,13 @@ public class PostController {
     }
 
     @PostMapping(value = "/{id}/like")
-    public void likePost(@PathVariable("id")Long postId  ){ //스프링 시큐리티 사용시 회원정보 받을 수 있음.
+    public String likePost(@PathVariable("id")Long postId){ //스프링 시큐리티 사용시 회원정보 받을 수 있음.
+        log.info("like");
 //        Account account;
 //        UserLikePost userLikePost = UserLikePost.createLikePost(postRepository.findOne(postId));
 //
 //        userService.updateLikePost(account,userLikePost); // userId or user 전달 선택
-
+        return "detailPage :: #likebtn";
     }
 
 

@@ -31,16 +31,27 @@ public class AccountRepository {
     }
 
     public Account findByEmail(String email) {
-        return em.createQuery("select ac from Account ac where ac.email = :email",
-                        Account.class)
+
+        List<Account> accounts =em.createQuery("select ac from Account ac where ac.email = :email", Account.class)
                 .setParameter("email", email)
-                .getSingleResult();
+                .getResultList();
+        if(accounts.size()==0){
+            return null;
+        }else{
+            return accounts.get(0);
+        }
+
     }
 
     public Account findByNickname(String username){
-        return em.createQuery("select ac from Account ac where ac.nickname = :nickname",
-                        Account.class)
+
+        List<Account> accounts2 =em.createQuery("select ac from Account ac where ac.nickname = :nickname", Account.class)
                 .setParameter("nickname", username)
-                .getSingleResult();
+                .getResultList();
+        if(accounts2.size()==0){
+            return null;
+        }else{
+            return accounts2.get(0);
+        }
     }
 }

@@ -1,5 +1,6 @@
-package com.jiny.community.infra.mail;
+package com.jiny.community.service;
 
+import com.jiny.community.infra.mail.EmailMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

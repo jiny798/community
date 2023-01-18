@@ -5,7 +5,6 @@ import com.jiny.community.domain.Account;
 import com.jiny.community.domain.UserAccount;
 import com.jiny.community.infra.mail.AppProperties;
 import com.jiny.community.infra.mail.EmailMessage;
-import com.jiny.community.infra.mail.EmailService;
 import com.jiny.community.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +21,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.util.Collections;
+import java.util.Optional;
 
 
 @Service
@@ -48,11 +48,13 @@ public class AccountService implements UserDetailsService {
         return accountRepository.save(account);
     }
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Account account = accountRepository.findByEmail(email);
+    @Transactional(readOnly = true)
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
+        Account account = Optional.ofNullable(accountRepository.findByEmail(username))
+                                    .orElse(accountRepository.findByNickname(username));
         if(account ==null){
-            throw new UsernameNotFoundException(email);
+            throw new UsernameNotFoundException(username);
         }
 
         return new UserAccount(account);
