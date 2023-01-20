@@ -15,6 +15,7 @@ public class CommunityApplication {
 		//return NoOpPasswordEncoder.getInstance();
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 		// {id}pw-> 여러 인코딩 지원을 위한 포맷 -> PasswordEncoderFactories사용 시 편하게 가능
+		// test
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(CommunityApplication.class, args);
