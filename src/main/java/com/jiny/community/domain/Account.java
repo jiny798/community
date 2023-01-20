@@ -66,4 +66,9 @@ public class Account {
         joinedAt = LocalDateTime.now();
     }
 
+    public void addLikePost(UserLikePost userLikePost){
+        this.userLikePosts.add(userLikePost);
+        userLikePost.setAccount(this);
+    }
+
 }

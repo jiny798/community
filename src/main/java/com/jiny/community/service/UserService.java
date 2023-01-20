@@ -1,8 +1,11 @@
 package com.jiny.community.service;
 
 import com.jiny.community.domain.Account;
+import com.jiny.community.domain.Post;
 import com.jiny.community.domain.UserLikePost;
 import com.jiny.community.repository.AccountRepository;
+import com.jiny.community.repository.PostRepository;
+import com.jiny.community.repository.UserLikePostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +19,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
     private final AccountRepository accountRepository;
+    private final PostRepository postRepository;
+    private final PostService postService;
+    private final UserLikePostRepository userLikePostRepository;
+
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -46,7 +53,6 @@ public class UserService {
     public List<Account> findMembers() {
         return accountRepository.findAll();
     }
-
     /**
     id로 조회
      */
@@ -55,9 +61,47 @@ public class UserService {
     }
 
     @Transactional
-    public void updateLikePost(Account user , UserLikePost userLikePost) { //itemParam: 파리미터로 넘어온 준영속 상태의 엔티티
-        //User user = userRepository.find(userId);
-        user.getUserLikePosts().add(userLikePost); // 트랜잭션이 끝나면 자동으로 저장 된다
+    public void updateLikePost(Long accountId , Long postId) { //itemParam: 파리미터로 넘어온 준영속 상태의 엔티티
+        Account account=accountRepository.find(accountId);
+        Post post=postRepository.findOne(postId);
+        boolean isLike = false;
+
+        List<UserLikePost> list=account.getUserLikePosts();
+        int index =0;
+        for (int i=0;i<list.size();i++){
+            if (post.getId() == list.get(i).getPost().getId() ){
+                isLike = true;
+                index = i;
+                break;
+            }
+        }
+
+        if(!isLike) { // 좋아요를 하지 않은 게시물이라면
+            // UserLikePost - Post 연결
+            UserLikePost userLikePost = UserLikePost.createLikePost(post);
+            // UserLikePost - User 연결
+            account.addLikePost(userLikePost);
+            post.addStar(); // star 증가
+        }else{
+            post.decreaseStar(); // star 감소
+            userLikePostRepository.delete(list.get(index).getId()); // 해당 게시물 좋아요 리스트에서 제거
+            list.remove(index); //account 연관 관계 list에서도 제거하여 더티체킹 방지
+        }
     }
+    @Transactional
+    public boolean isLikePost(Long accountId , Long postId) { //itemParam: 파리미터로 넘어온 준영속 상태의 엔티티
+        Account account=accountRepository.find(accountId);
+        Post post=postRepository.findOne(postId);
+        boolean isLike = false;
+        List<UserLikePost> list=account.getUserLikePosts();
+        for (int i=0;i<list.size();i++){
+            if (post.getId() == list.get(i).getPost().getId() ){
+                isLike = true;
+                break;
+            }
+        }
+       return isLike;
+    }
+
 
 }

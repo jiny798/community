@@ -19,4 +19,5 @@ public class UserAccount extends User {
         return account.getNickname();
     }
 
+    public Long getAccountId(){return account.getId();}
 }

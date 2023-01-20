@@ -2,6 +2,7 @@ package com.jiny.community.service;
 
 import com.jiny.community.domain.Account;
 import com.jiny.community.domain.Post;
+import com.jiny.community.dto.PostDto;
 import com.jiny.community.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,14 @@ public class PostService {
     }
 
     //게시글 상세 조회
-
+    public PostDto getDetail(Long postId){
+        Post post=postRepository.findOne(postId);
+        PostDto postDto = new PostDto();
+        postDto.setTitle(post.getTitle());
+        postDto.setContent(post.getContent());
+        postDto.setNickname(post.getAccount().getNickname());
+        return postDto;
+    }
 
     //게시글 검색 로직
 
