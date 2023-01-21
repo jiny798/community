@@ -1,19 +1,30 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
+<style>
+</style>
+<header th:fragment="header" class="navbar navbar-dark sticky-top bg-dark p-0 shadow">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#" th:href="@{/}">Community</a>
 
-<header th:fragment="header" class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#" th:href="@{/}">Company name</a>
+  <div class="userinfo" th:if="${#authentication.name} != 'anonymousUser' ">
+      <a th:text="${#authentication.name}+' 님' ">사용자</a>
+
+  </div>
+  <div class="login-status"  th:if="${#authentication.name} == 'anonymousUser' " >
+    <a class="nav-link px-3" href="#" th:href="@{/login}">Sign in</a>
+  </div>
+  <div class="login-status"  th:if="${#authentication.name} != 'anonymousUser' " >
+    <a class="nav-link px-3" href="#" th:href="@{/login}">Sign out</a>
+  </div>
+
+
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search">
-  <div class="navbar-nav">
-    <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="#" th:href="@{/login}">Sign in</a>
-<!--      <a class="nav-link px-3" href="#">Sign out</a>-->
-    </div>
-  </div>
+<!--  <input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search">-->
+
+
+
 </header>
 
 </body>
