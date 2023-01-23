@@ -3,9 +3,8 @@ package com.jiny.community.controller;
 import com.jiny.community.domain.Account;
 import com.jiny.community.domain.Post;
 import com.jiny.community.domain.UserAccount;
-import com.jiny.community.domain.UserLikePost;
 import com.jiny.community.dto.PostDto;
-import com.jiny.community.dto.postForm;
+import com.jiny.community.dto.PostForm;
 import com.jiny.community.repository.PostRepository;
 import com.jiny.community.repository.AccountRepository;
 import com.jiny.community.service.PostService;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,13 +70,13 @@ public class PostController {
     //게시글 등록 폼 가져오기
     @GetMapping(value = "/add")
     public String postForm(Model model){
-        model.addAttribute("postform",new postForm());
+        model.addAttribute("postform",new PostForm());
         return "addPost";
     }
 
     //게시글 등록 요청
     @PostMapping(value = "/add")
-    public String createPost(postForm form, Authentication authentication){
+    public String createPost(PostForm form, Authentication authentication){
 
         UserAccount userAccount = (UserAccount)authentication.getPrincipal(); // getDetails 는 무엇인지 확인 필요
         Account account = accountRepository.findByNickname(userAccount.getAccountNickName())  ;
@@ -105,5 +103,39 @@ public class PostController {
         return "detailPage :: #likebtn";
     }
 
+    @GetMapping(value = "/{id}/edit")
+    public String postEditForm(@PathVariable("id") Long postId, Model model,Authentication authentication){
+        UserAccount userAccount = (UserAccount)authentication.getPrincipal();
+        Account account = accountRepository.findByEmail(userAccount.getAccountEmail());
+        Post post = (Post) postRepository.findOne(postId);
+
+        if(!account.getEmail().equals(post.getAccount().getEmail())){ //post와 account Email이 다르면 해당 로직 실행
+            log.info("수정 권한이 없습니다.");
+            return "board";
+        }
+            
+        PostDto form = new PostDto();
+        form.setId(post.getId());
+        form.setTitle(post.getTitle());
+        form.setContent(post.getContent());
+
+        model.addAttribute("form", form);
+
+        return "postEditPage";
+    }
+
+    @PostMapping(value = "/{id}/edit")
+    public String updatePost(@PathVariable("id") Long postId,@ModelAttribute("form") PostDto postDto,Authentication authentication) {
+        UserAccount userAccount = (UserAccount)authentication.getPrincipal();
+        Account account = accountRepository.findByEmail(userAccount.getAccountEmail());
+        Post post = (Post) postRepository.findOne(postId);
+        if(!account.getEmail().equals(post.getAccount().getEmail())){ //post와 account Email이 다르면 해당 로직 실행
+            log.info("수정 권한이 없습니다.");
+            return "board";
+        }
+        postService.updatePost(postId, postDto);
+
+        return "redirect:/post/" + postId;
+    }
 
 }

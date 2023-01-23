@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="~{fragment/header :: common_header}"></div>
+    <!--    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>-->
+    <script src="/js/summernote/summernote-lite.js"></script>
+    <script src="/js/summernote/lang/summernote-ko-KR.js"></script>
+    <link rel="stylesheet" href="/css/summernote/summernote-lite.css">
+
+
+
+    <title>addPost Page</title>
+</head>
+<body>
+<header th:replace="fragment/top :: header">
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <nav th:replace="~{fragment/left_menu :: left_menu}"></nav>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">글쓰기</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                        <span data-feather="calendar" class="align-text-bottom"></span>
+                        This week
+                    </button>
+                </div>
+            </div>
+
+            <form th:action="@{/post/{id}/edit (id=${form.id}) }" th:object="${form}" method="post">
+                <input type="hidden" th:field="*{id}" />
+                <div>
+                    <!--                        <label th:for="title"></label>-->
+                    <input type="text" th:field="*{title}" class="form-control"
+                           placeholder="제목을 입력하세요">
+                </div>
+                <textarea id="summernote" th:field="*{content}" name="editordata"></textarea>
+
+                <button type="submit" class="btn btn-primary">수정 완료</button>
+            </form>
+
+        </main>
+    </div>
+</div>
+</body>
+
+<script>
+$('#summernote').summernote({
+        placeholder: '글을 입력해주세요.',
+        tabsize: 2,
+        height: 220,
+        toolbar: [
+          ['style', ['style']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+      });
+</script>
+
+</html>

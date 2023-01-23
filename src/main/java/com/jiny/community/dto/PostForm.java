@@ -3,7 +3,7 @@ package com.jiny.community.dto;
 import lombok.Data;
 
 @Data
-public class postForm {
+public class PostForm {
 
     String title;
     String content;

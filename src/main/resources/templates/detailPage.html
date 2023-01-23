@@ -15,11 +15,11 @@
         <nav th:replace="~{fragment/left_menu :: left_menu}"></nav>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Dashboard</h1>
+                <h1 class="h2" th:text="${post.title}" >title</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
-                    <a href="#" th:href="@{/post/add}">
+                    <a href="#" th:href="@{/post/{id}/edit (id=${post.id})}">
                         <button type="button" class="btn btn-sm btn-outline-secondary">
-                            This week
+                            수정하기
                         </button>
                     </a>
                 </div>
@@ -41,6 +41,8 @@
                         <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                     </svg>
                 </div>
+
+
                 <script>
                  var token = $("meta[name='_csrf']").attr("content");
                  var header = $("meta[name='_csrf_header']").attr("content");
@@ -66,6 +68,10 @@
                 });
     </script>
             </div>
+
+            </div>
+            <div class="like_cnt">
+                1231
             </div>
 
 
@@ -94,17 +100,22 @@
     border-radius: 16px;
     border: 1px solid #959595;
     border-color: rgba(185,185,185,0.5);
-    font-size: 0 !important;
+    font-size:0.5rem !important;
+}
+.like_cnt{
+    margin-top:3.9rem
+
 }
 .like{
     float: left;
     position: relative;
 }
 .comment-form{
-    margin-top: 5rem;
+    margin-top: 6rem;
 }
 
 .comment{
+    font-size: 1.2rem;
     display: block;
     width: 100%;
     margin-bottom: 10px;

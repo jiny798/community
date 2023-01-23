@@ -20,4 +20,6 @@ public class UserAccount extends User {
     }
 
     public Long getAccountId(){return account.getId();}
+
+    public String getAccountEmail(){return account.getEmail();}
 }
