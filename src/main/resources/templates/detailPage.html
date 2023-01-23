@@ -46,6 +46,7 @@
                 <script>
                  var token = $("meta[name='_csrf']").attr("content");
                  var header = $("meta[name='_csrf_header']").attr("content");
+                 var cnt = 1;
 
                 $(document).ready(function(){
                 $("#likebtn").on('click',function(){ // 제출 버튼 이벤트 지정
@@ -57,8 +58,15 @@
                     type: "POST", // HTTP Method
                     dataType: 'text', // 전송 데이터 형식
                     success: function(res){ // 성공 시 실행
-
+                        var star = Number($('.like_cnt').text());
                         $('#likebtn').load(location.href+' #likebtn');
+                        $('.like_cnt').text(star+cnt);
+                        if(cnt==1){
+                            cnt = -1;
+                        }else{
+                            cnt = 1;
+                        }
+
                     },
                     error:function(er){ //실패 시 실행
                         alert("실패 원인 : " + er);
@@ -70,8 +78,8 @@
             </div>
 
             </div>
-            <div class="like_cnt">
-                1231
+            <div class="like_cnt" th:text="${post.starCnt}">
+                0
             </div>
 
 

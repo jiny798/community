@@ -33,6 +33,7 @@ public class PostService {
         postDto.setTitle(post.getTitle());
         postDto.setContent(post.getContent());
         postDto.setNickname(post.getAccount().getNickname());
+        postDto.setStarCnt(post.getStar());
         return postDto;
     }
 
