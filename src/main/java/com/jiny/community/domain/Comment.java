@@ -22,6 +22,8 @@ public class Comment {
     @JoinColumn(name ="post_id")
     private Post post;
 
+    private String content;
+
     private LocalDateTime CreatedDate;
 
     private Boolean remove;

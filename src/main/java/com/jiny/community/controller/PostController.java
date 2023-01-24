@@ -1,10 +1,13 @@
 package com.jiny.community.controller;
 
 import com.jiny.community.domain.Account;
+import com.jiny.community.domain.Comment;
 import com.jiny.community.domain.Post;
 import com.jiny.community.domain.UserAccount;
+import com.jiny.community.dto.CommentDto;
 import com.jiny.community.dto.PostDto;
 import com.jiny.community.dto.PostForm;
+import com.jiny.community.repository.CommentRepository;
 import com.jiny.community.repository.PostRepository;
 import com.jiny.community.repository.AccountRepository;
 import com.jiny.community.service.PostService;
@@ -28,6 +31,8 @@ public class PostController {
     private final UserService userService;
     private final PostService postService;
     private final PostRepository postRepository;
+
+    private final CommentRepository commentRepository;
 
     //게시글 목록
     @GetMapping(value = "/list")
@@ -61,6 +66,17 @@ public class PostController {
         }else {
             model.addAttribute("star",0);
         }
+
+        List<Comment> comments = commentRepository.findByPostId(postId);
+        List<CommentDto> commentDtos = new ArrayList<>();
+        for (int i=0;i<comments.size();i++){
+            CommentDto commentDto = new CommentDto();
+            commentDto.setId(comments.get(i).getId());
+            commentDto.setNickname(comments.get(i).getAccount().getNickname());
+            commentDto.setContent(comments.get(i).getContent());
+            commentDtos.add(commentDto);
+        }
+        model.addAttribute("commentList",commentDtos);
 
 
         return "detailPage";

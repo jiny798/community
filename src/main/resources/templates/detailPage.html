@@ -47,7 +47,6 @@
                  var token = $("meta[name='_csrf']").attr("content");
                  var header = $("meta[name='_csrf_header']").attr("content");
                  var cnt = 1;
-
                 $(document).ready(function(){
                 $("#likebtn").on('click',function(){ // 제출 버튼 이벤트 지정
                 $.ajax({
@@ -66,7 +65,6 @@
                         }else{
                             cnt = 1;
                         }
-
                     },
                     error:function(er){ //실패 시 실행
                         alert("실패 원인 : " + er);
@@ -84,14 +82,61 @@
 
 
             <div class="comment-form">
-                <h3 class="h3">Comment</h3>
-                <form th:action="@{/post/comment}" th:object="${comment}" method="post">
-                  <textarea class="comment" id="comment" name="comment"></textarea>
-
-                  <div class="submit">
-                    <button type="submit" class="btn btn-primary">등록</button>
+                <h4 class="h3">Comment</h4>
+                <form>
+                <div>
+                  <textarea class="comment" id="comment_text" name="comment"></textarea>
+                  <div id="comment_btn" class="submit">
+                        <button type="button" class="btn btn-primary">등록</button>
                   </div>
+
+                </div>
                 </form>
+                <script>
+                    var token = $("meta[name='_csrf']").attr("content");
+                    var header = $("meta[name='_csrf_header']").attr("content");
+
+                    $(document).ready(function(){
+                    $("#comment_btn").on('click',function(){
+                        var commentDto = {
+                            content: $("#comment_text").val()
+                        };
+
+                        $.ajax({
+                            beforeSend: function(xhr){
+                            xhr.setRequestHeader(header,token);
+                            },
+                        url: "/post/2/comment", // 목적지
+                        type: "POST",
+                        data: commentDto,
+                        success: function(res){ // 성공 시 실행
+                            //alert("성공");
+                        }
+                        })
+                        .done(function(fragment) {
+                            console.log(fragment);
+                            $('#commentList').replaceWith(fragment);
+                        });
+
+                    });
+                    });
+                </script>
+
+
+            </div>
+
+            <div  class="my-3 p-3 bg-body rounded shadow-sm">
+                <h6 class="border-bottom pb-2 mb-0">댓글</h6>
+
+                <div id="commentList">
+                    <div class="d-flex text-muted pt-3" th:each="commentDto : ${commentList}" >
+                        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+                        <p class="pb-3 mb-0 small lh-sm border-bottom">
+                            <strong class="d-block text-gray-dark" th:text="${commentDto.nickname}">@username</strong>
+                            <span style="white-space: pre-line" th:text="${commentDto.content}">  내용</span>
+                        </p>
+                    </div>
+                </div>
             </div>
 
         </main>
@@ -101,6 +146,7 @@
 
 </body>
 <style>
+
 .postbtn{
     margin-top: 3rem;
     float: left;
