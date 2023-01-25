@@ -38,7 +38,12 @@ public class InitDb {
 
             Category category = new Category();
             category.setName("자유게시판");
+            Category category2 = new Category();
+            category2.setName("Q&A");
+
+
             em.persist(category);
+            em.persist(category2);
             em.persist(account);
 
         }

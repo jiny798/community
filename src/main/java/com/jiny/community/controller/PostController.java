@@ -7,9 +7,11 @@ import com.jiny.community.domain.UserAccount;
 import com.jiny.community.dto.CommentDto;
 import com.jiny.community.dto.PostDto;
 import com.jiny.community.dto.PostForm;
+import com.jiny.community.repository.CategoryRepository;
 import com.jiny.community.repository.CommentRepository;
 import com.jiny.community.repository.PostRepository;
 import com.jiny.community.repository.AccountRepository;
+import com.jiny.community.service.CategoryService;
 import com.jiny.community.service.PostService;
 import com.jiny.community.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,23 +35,15 @@ public class PostController {
     private final UserService userService;
     private final PostService postService;
     private final PostRepository postRepository;
-
     private final CommentRepository commentRepository;
+    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
 
     //게시글 목록
-    @GetMapping(value = "/list")
-    public String postList(Model model){
+    @GetMapping(value = "/list/{str}")
+    public String postList(Model model,@PathVariable String str){
 
-        List<Post> post_list = postRepository.findAll();
-        ArrayList<PostDto> posts = new ArrayList<>();
-        for(int i =0;i<post_list.size();i++){
-           PostDto postDto = new PostDto();
-           postDto.setTitle(post_list.get(i).getTitle());
-           postDto.setContent(post_list.get(i).getContent());
-           postDto.setNickname(post_list.get(i).getAccount().getNickname());
-           postDto.setId(post_list.get(i).getId());
-           posts.add(postDto);
-        }
+        List<PostDto> posts = postService.getPostList(str);
         model.addAttribute("posts",posts);
 
         return "board";
@@ -87,19 +83,22 @@ public class PostController {
     @GetMapping(value = "/add")
     public String postForm(Model model){
         model.addAttribute("postform",new PostForm());
+        ArrayList<String> list = (ArrayList<String>)categoryService.getCategoryNames();
+        model.addAttribute("categoryList",list);
         return "addPost";
     }
 
     //게시글 등록 요청
     @PostMapping(value = "/add")
-    public String createPost(PostForm form, Authentication authentication){
+    public String createPost(PostForm form, Authentication authentication) throws UnsupportedEncodingException {
 
-        UserAccount userAccount = (UserAccount)authentication.getPrincipal(); // getDetails 는 무엇인지 확인 필요
+        UserAccount userAccount = (UserAccount)authentication.getPrincipal();
         Account account = accountRepository.findByNickname(userAccount.getAccountNickName())  ;
-        accountRepository.save(account);
-        postService.addPost(account,form.getTitle(),form.getContent());
 
-        return "redirect:/post/list";
+        postService.addPost(account,form);
+
+        String str = URLEncoder.encode(form.getCategory(), "UTF-8");
+        return "redirect:/post/list/"+str;
 
     }
 

@@ -26,9 +26,17 @@
 
                 <form th:action="@{/post/add}" th:object="${postform}" method="post">
                     <div>
-
-                        <input type="text" th:field="*{title}" class="form-control"
-                               placeholder="제목을 입력하세요">
+                        <div class="col-12">
+                            <input type="text" th:field="*{title}" class="form-control"
+                                   placeholder="제목을 입력하세요">
+                        </div>
+                        <div class="col-md-5" style="padding-top: 1rem; padding-bottom: 1rem;"  >
+                            <select class="form-select" id="country" th:field="*{category}">
+                                <option th:value="${category_name}"  th:each="category_name : ${categoryList}">
+                                    <p th:text="${category_name}"> </p>
+                                </option>
+                            </select>
+                        </div>
                     </div>
                     <textarea id="summernote" th:field="*{content}" name="editordata"></textarea>
 

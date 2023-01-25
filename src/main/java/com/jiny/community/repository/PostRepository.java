@@ -1,5 +1,6 @@
 package com.jiny.community.repository;
 
+import com.jiny.community.domain.Category;
 import com.jiny.community.domain.Post;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +38,13 @@ public class PostRepository {
         return em.createQuery("select p from Post p where p.title = :title",
                         Post.class)
                 .setParameter("title", title)
+                .getResultList();
+    }
+
+    public List<Post> findByCategory(Category category){
+        return em.createQuery("select p from Post p where p.category = :category",
+                        Post.class)
+                .setParameter("category", category)
                 .getResultList();
     }
 

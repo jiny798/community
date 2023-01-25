@@ -56,7 +56,7 @@ public class Post {
         comment.setPost(this);
     }
 
-    public static Post createPost(Account account,String title ,String content){
+    public static Post createPost(Account account,String title ,String content,Category category){
         Post post = new Post();
         post.setUser(account);
         post.setCreatedDate(LocalDateTime.now());
@@ -66,6 +66,7 @@ public class Post {
         post.setViewCnt(0L);
         post.setStar(0L);
         post.setRemove(false);
+        post.setCategory(category);
         return post;
     }
 

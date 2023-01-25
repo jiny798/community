@@ -11,9 +11,15 @@
             <div class="position-sticky pt-3 sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#" th:href="@{/post/list}">
+                        <a class="nav-link active" aria-current="page" href="#" th:href="@{/post/list/자유게시판}">
                             <span data-feather="home" class="align-text-bottom"></span>
                             자유게시판
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#" th:href="@{/post/list/Q&A}">
+                            <span data-feather="home" class="align-text-bottom"></span>
+                            Q&A
                         </a>
                     </li>
                     <li class="nav-item">
@@ -29,7 +35,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="#" th:href="@{/admin}">
                             <span data-feather="shopping-cart" class="align-text-bottom"></span>
                             관리
                         </a>
