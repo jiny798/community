@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/header :: common_header">
+    <title>jiny</title>
+</head>
+<body>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+<header th:replace="fragment/top :: header">
+
+</header>
+
+<div class="container-fluid">
+    <div class="row">
+        <nav th:replace="~{fragment/left_menu :: left_menu}"></nav>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">관리</h1>
+            </div>
+
+            <div class="comment-form">
+                <h4 class="h3">카테고리 등록</h4>
+                <form>
+                    <div class="list-group w-auto">
+
+                        <label class="list-group-item d-flex gap-3">
+                            <span class="pt-1 form-checked-content">
+                                <strong>자유게시판</strong>
+                            </span>
+                        </label>
+
+                        <label class="list-group-item d-flex gap-3 bg-light">
+                        <span class="pt-1 form-checked-content">
+                            <textarea id="category_name" contenteditable="true" class="w-100">Add new Category</textarea>
+                                <small class="d-block text-muted">
+                                    <button id="category_btn" type="submit" class="btn btn-secondary btn-sm">등록</button>
+                                </small>
+                        </span>
+                        </label>
+
+                    </div>
+                </form>
+                <script>
+                    var token = $("meta[name='_csrf']").attr("content");
+                    var header = $("meta[name='_csrf_header']").attr("content");
+
+                    $(document).ready(function(){
+                    $("#category_btn").on('click',function(){
+                        var category = $("#category_name").val();
+                        $.ajax({
+                            beforeSend: function(xhr){
+                            xhr.setRequestHeader(header,token);
+                            },
+                        url: "/admin/category",
+                        type: "POST",
+                        data: category,
+                        success: function(res){
+                            alert("카테고리 추가 완료");
+                        }
+                        });
+
+                    });
+                    });
+
+
+
+                </script>
+
+            </div>
+
+
+        </main>
+    </div>
+</div>
+
+
+</body>
+<style>
+
+.postbtn{
+    margin-top: 3rem;
+    float: left;
+    padding: 0 9px;
+    border-radius: 16px;
+    border: 1px solid #959595;
+    border-color: rgba(185,185,185,0.5);
+    font-size:0.5rem !important;
+}
+.like_cnt{
+    margin-top:3.9rem
+
+}
+.like{
+    float: left;
+    position: relative;
+}
+.comment-form{
+    margin-top: 6rem;
+}
+
+.comment{
+    font-size: 1.2rem;
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    resize: none;
+    box-sizing: border-box;
+}
+
+
+
+</style>
+
+
+</html>

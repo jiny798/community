@@ -26,30 +26,29 @@
                 </div>
             </div>
 
-            <div class="table-responsive">
-                <table class="table table-sm">
-                    <thead>
-                     <tr>
-                        <th width="75%" scope="col">제목</th>
-                        <th scope="col">작성자</th>
-                     </tr>
-                    </thead>
-                    <tbody>
-                     <tr th:each="postdto : ${posts}">
+            <div class="my-3 p-3 bg-body rounded shadow-sm">
 
-                          <td>
-                              <a href="#" th:href="@{/post/{id} (id=${postdto.id})}">
-                              <div width="75%" th:text="${postdto.title}">
-                              title
-                              </div>
-                              </a>
-                          </td>
 
-                          <td th:text="${postdto.nickname}">유저</td>
-                     </tr>
-                    </tbody>
-                </table>
+                <div class="d-flex text-muted pt-3" th:each="postdto : ${posts}">
+                    <div class="mb-0 small lh-sm border-bottom w-100">
+                        <div class="d-flex justify-content-between">
+                            <span th:text="${postdto.nickname}" class="text-gray-dark">Full Name</span>
+<!--                            <a href="#">Follow</a>-->
+                        </div>
+                        <strong id="post_title" th:text="${postdto.title}" class="d-block">@username</strong>
+                        <div class="d-flex justify-content-between">
+                            <span id="heart">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                </svg>
+                                <span>123</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+
 
         </main>
     </div>
@@ -57,7 +56,15 @@
 
 
 </body>
-
+<style>
+    #post_title{
+        margin-top: 0.2rem;
+        font-size: 1rem;
+    }
+    #heart{
+        margin-top: 0.2rem;
+    }
+</style>
 
 
 </html>

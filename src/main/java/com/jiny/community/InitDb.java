@@ -1,6 +1,7 @@
 package com.jiny.community;
 
 import com.jiny.community.domain.Account;
+import com.jiny.community.domain.Category;
 import com.jiny.community.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,7 +34,11 @@ public class InitDb {
             Account account = Account.createAccount("abc798@abc.com","abc798","abc798");
             account.encodePassword(passwordEncoder);
             account.verified();
-            account.setRole("USER");
+            account.setRole("ADMIN");
+
+            Category category = new Category();
+            category.setName("자유게시판");
+            em.persist(category);
             em.persist(account);
 
         }

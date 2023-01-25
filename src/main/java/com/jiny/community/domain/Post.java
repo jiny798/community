@@ -28,6 +28,10 @@ public class Post {
     @JoinColumn(name = "account_id") //FK 이름
     private Account account;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="category_id")
+    private Category category;
+
     @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
     private List<UserLikePost> userLikePosts = new ArrayList<>();
 
