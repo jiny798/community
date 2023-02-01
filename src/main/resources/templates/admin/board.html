@@ -32,9 +32,9 @@
 
                         <label class="list-group-item d-flex gap-3 bg-light">
                         <span class="pt-1 form-checked-content">
-                            <textarea id="category_name" contenteditable="true" class="w-100">Add new Category</textarea>
+                            <textarea id="category_name" contenteditable="true" class="w-100"></textarea>
                                 <small class="d-block text-muted">
-                                    <button id="category_btn" type="submit" class="btn btn-secondary btn-sm">등록</button>
+                                    <button id="category_btn" type="button" class="btn btn-secondary btn-sm">등록</button>
                                 </small>
                         </span>
                         </label>
@@ -54,12 +54,15 @@
                             },
                         url: "/admin/category",
                         type: "POST",
+                        dataType: "text",
                         data: { "categoryName" : categoryName},
                         success: function(res){
-                            alert(category+"카테고리 추가 완료");
+                            console.log(res);
+
+                            window.location = '/'+res +'/';
                         },
-                        fail : function(res){
-                            alert(res);
+                        error : function(res){
+                            alert("카테고리 추가 실패"+res);
                         }
                         });
                     });

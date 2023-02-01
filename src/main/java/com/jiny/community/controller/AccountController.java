@@ -44,7 +44,7 @@ public class AccountController {
         Account account = accountService.signUp(form);
         accountService.login(account);
 
-        return "redirect:/";
+        return "admin/board";
     }
 
 }

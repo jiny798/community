@@ -6,10 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
@@ -30,20 +27,21 @@ public class BoardManageController {
         return "admin/board";
     }
 
+//    @PostMapping(value = "/category")
+//    public String addCategory(String categoryName){
+//        log.info("categoryName ={}",categoryName);
+//        categoryService.addCategory(categoryName);
+//
+//        return "redirect:/admin/";
+//    }
     @PostMapping(value = "/category")
+    @ResponseBody
     public String addCategory(String categoryName){
         log.info("categoryName ={}",categoryName);
         categoryService.addCategory(categoryName);
 
-        return "redirect:/admin/";
+        return "admin";
     }
-//    @PostMapping(value = "/category")
-//    public RedirectView addCategory(String categoryName){
-//        log.info("categoryName ={}",categoryName);
-//        categoryService.addCategory(categoryName);
-//
-//        return new RedirectView("/admin/");
-//    }
 
 
 }
