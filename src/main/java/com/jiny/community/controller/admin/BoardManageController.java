@@ -1,4 +1,4 @@
-package com.jiny.community.admin;
+package com.jiny.community.controller.admin;
 
 import com.jiny.community.repository.CategoryRepository;
 import com.jiny.community.service.CategoryService;
