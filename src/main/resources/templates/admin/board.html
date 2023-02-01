@@ -47,24 +47,23 @@
 
                     $(document).ready(function(){
                     $("#category_btn").on('click',function(){
-                        var category = $("#category_name").val();
+                        var categoryName = $("#category_name").val();
                         $.ajax({
                             beforeSend: function(xhr){
                             xhr.setRequestHeader(header,token);
                             },
                         url: "/admin/category",
                         type: "POST",
-                        data: category,
+                        data: { "categoryName" : categoryName},
                         success: function(res){
-                            alert("카테고리 추가 완료");
+                            alert(category+"카테고리 추가 완료");
+                        },
+                        fail : function(res){
+                            alert(res);
                         }
                         });
-
                     });
                     });
-
-
-
                 </script>
 
             </div>
