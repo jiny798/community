@@ -2,36 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-
 </head>
-
 <body>
-
         <nav th:fragment="left_menu" id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
             <div class="position-sticky pt-3 sidebar-sticky">
+                <ul id="category_ul" class="nav flex-column">
+
+                    <li class="nav-item" th:each="category : ${category_list}">
+                        <a class="nav-link active" aria-current="page" href="#" th:href="@{/post/list/{category}  (category=${category}) }">
+                            <span data-feather="home" class="align-text-bottom" th:text="${category}">자유게시판</span>
+
+                        </a>
+                    </li>
+
+
+                </ul>
+
                 <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#" th:href="@{/post/list/자유게시판}">
-                            <span data-feather="home" class="align-text-bottom"></span>
-                            자유게시판
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#" th:href="@{/post/list/Q&A}">
-                            <span data-feather="home" class="align-text-bottom"></span>
-                            Q&A
-                        </a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <span data-feather="file" class="align-text-bottom"></span>
                             내정보
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file" class="align-text-bottom"></span>
-                            친구 목록
                         </a>
                     </li>
                     <li class="nav-item">
@@ -40,9 +31,7 @@
                             관리
                         </a>
                     </li>
-
                 </ul>
-
             </div>
         </nav>
 

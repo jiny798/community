@@ -41,9 +41,8 @@
                         <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                     </svg>
                 </div>
-
-
-                <script>
+            </div>
+                <script th:inline="javascript">
                  var token = $("meta[name='_csrf']").attr("content");
                  var header = $("meta[name='_csrf_header']").attr("content");
                  var cnt = 1;
@@ -53,9 +52,9 @@
                     beforeSend: function(xhr){
                     xhr.setRequestHeader(header,token);
                     },
-                    url: "/post/2/like", // 목적지
+                    url: "/post/[[${post.id}]]/like", // 목적지
                     type: "POST", // HTTP Method
-                    dataType: 'text', // 전송 데이터 형식
+                    dataType: 'html', // 전송 데이터 형식
                     success: function(res){ // 성공 시 실행
                         var star = Number($('.like_cnt').text());
                         $('#likebtn').load(location.href+' #likebtn');
@@ -72,9 +71,7 @@
                     });
                 });
                 });
-    </script>
-            </div>
-
+                </script>
             </div>
             <div class="like_cnt" th:text="${post.starCnt}">
                 0
@@ -86,13 +83,13 @@
                 <form>
                 <div>
                   <textarea class="comment" id="comment_text" name="comment"></textarea>
-                  <div id="comment_btn" class="submit">
-                        <button type="button" class="btn btn-primary">등록</button>
+                  <div class="submit">
+                        <button id="comment_btn" type="button" class="btn btn-primary">등록</button>
                   </div>
 
                 </div>
                 </form>
-                <script>
+                <script th:inline="javascript">
                     var token = $("meta[name='_csrf']").attr("content");
                     var header = $("meta[name='_csrf_header']").attr("content");
 
@@ -106,7 +103,7 @@
                             beforeSend: function(xhr){
                             xhr.setRequestHeader(header,token);
                             },
-                        url: "/post/2/comment", // 목적지
+                        url: "/post/[[${post.id}]]/comment", // 목적지
                         type: "POST",
                         data: commentDto,
                         success: function(res){ // 성공 시 실행

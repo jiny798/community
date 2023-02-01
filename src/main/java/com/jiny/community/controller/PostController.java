@@ -104,16 +104,17 @@ public class PostController {
 
     @PostMapping(value = "/{id}/like")
     public String likePost(Model model,@PathVariable("id")Long postId,Authentication authentication){ //스프링 시큐리티 사용시 회원정보 받을 수 있음.
-        log.info("user like post");
+        log.info("user like post = {}",postId);
 
         UserAccount userAccount = (UserAccount)authentication.getPrincipal();
-        if(userAccount==null){
-            log.info("not login");
-            return "detailPage :: #likebtn";
-        }
+//        if(userAccount==null){
+//            log.info("not login");
+//            return "detailPage :: #likebtn";
+//        }
         Account account = accountRepository.findByNickname(userAccount.getAccountNickName());
 
         userService.updateLikePost(account.getId(),postId); // userId or user 전달 선택
+
 
         return "detailPage :: #likebtn";
     }

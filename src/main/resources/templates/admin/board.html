@@ -23,11 +23,12 @@
                 <form>
                     <div class="list-group w-auto">
 
-                        <label class="list-group-item d-flex gap-3">
+                        <label class="list-group-item d-flex gap-3" th:each="category : ${category_list}">
                             <span class="pt-1 form-checked-content">
-                                <strong>자유게시판</strong>
+                                <strong th:text="${category}">자유게시판</strong>
                             </span>
                         </label>
+
 
                         <label class="list-group-item d-flex gap-3 bg-light">
                         <span class="pt-1 form-checked-content">

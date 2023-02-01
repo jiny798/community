@@ -27,7 +27,7 @@ public class CommentController {
 
 
     @PostMapping(value = "/post/{id}/comment")
-    public String createPost(CommentDto commentDto, Model model, @PathVariable("id")Long postId, Authentication authentication){
+    public String createComment(CommentDto commentDto, Model model, @PathVariable("id")Long postId, Authentication authentication){
 
         UserAccount userAccount = (UserAccount)authentication.getPrincipal();
         Account account = accountRepository.findByNickname(userAccount.getAccountNickName())  ;

@@ -41,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .anyRequest().permitAll()  //.authenticated()
                     .expressionHandler(expressionHandler()); //accessDecisionManager의 voter가 사용하는 핸들러만 바꿔뀌움
 
+            http.csrf();
 
             http.formLogin()
                     .loginPage("/login")
