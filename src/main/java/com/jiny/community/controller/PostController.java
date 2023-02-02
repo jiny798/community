@@ -4,23 +4,25 @@ import com.jiny.community.domain.Account;
 import com.jiny.community.domain.Comment;
 import com.jiny.community.domain.Post;
 import com.jiny.community.domain.UserAccount;
-import com.jiny.community.dto.CommentDto;
-import com.jiny.community.dto.PostDto;
-import com.jiny.community.dto.PostForm;
+import com.jiny.community.dto.Post.*;
 import com.jiny.community.repository.CategoryRepository;
 import com.jiny.community.repository.CommentRepository;
 import com.jiny.community.repository.PostRepository;
 import com.jiny.community.repository.AccountRepository;
 import com.jiny.community.service.CategoryService;
-import com.jiny.community.service.PostService;
+import com.jiny.community.service.Post.PageService;
+import com.jiny.community.service.Post.PostService;
 import com.jiny.community.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -38,14 +40,23 @@ public class PostController {
     private final CommentRepository commentRepository;
     private final CategoryRepository categoryRepository;
     private final CategoryService categoryService;
+    private final PageService pageService;
 
     //게시글 목록
     @GetMapping(value = "/list/{str}")
-    public String postList(Model model,@PathVariable String str){
+    public String postList(Model model,
+                           @PathVariable String str,
+                           @RequestParam(required = false, defaultValue = "1", value = "page") int pageNo,
+                           Pageable pageable){
+        pageNo =  pageNo - 1;
+        //List<PostResponseDto> posts = postService.getPostList(str);
+        Page<PostResponseDto> postList =postService.getPagingList(pageable,pageNo,str,"id");
+        PageDto pageDto = pageService.getPageInfo(postList);//Page 에 현재 페이지가 있는데 pageNo를 따로 넣어야하나?
 
-        List<PostDto> posts = postService.getPostList(str);
-        model.addAttribute("posts",posts);
-
+        log.info("page = {}",pageDto);
+        model.addAttribute("posts",postList.getContent());
+        model.addAttribute("pageDto",pageDto);
+        model.addAttribute("categoryName",str);
         return "board";
     }
 
@@ -90,7 +101,7 @@ public class PostController {
 
     //게시글 등록 요청
     @PostMapping(value = "/add")
-    public String createPost(PostForm form, Authentication authentication) throws UnsupportedEncodingException {
+    public String createPost(@Valid PostForm form, Authentication authentication) throws UnsupportedEncodingException {
 
         UserAccount userAccount = (UserAccount)authentication.getPrincipal();
         Account account = accountRepository.findByNickname(userAccount.getAccountNickName())  ;
@@ -123,14 +134,14 @@ public class PostController {
     public String postEditForm(@PathVariable("id") Long postId, Model model,Authentication authentication){
         UserAccount userAccount = (UserAccount)authentication.getPrincipal();
         Account account = accountRepository.findByEmail(userAccount.getAccountEmail());
-        Post post = (Post) postRepository.findOne(postId);
+        Post post = (Post) postRepository.findById(postId).get();
 
         if(!account.getEmail().equals(post.getAccount().getEmail())){ //post와 account Email이 다르면 해당 로직 실행
             log.info("수정 권한이 없습니다.");
             return "board";
         }
-            
-        PostDto form = new PostDto();
+
+        PostDetailResponseDto form = new PostDetailResponseDto();
         form.setId(post.getId());
         form.setTitle(post.getTitle());
         form.setContent(post.getContent());
@@ -141,15 +152,15 @@ public class PostController {
     }
 
     @PostMapping(value = "/{id}/edit")
-    public String updatePost(@PathVariable("id") Long postId,@ModelAttribute("form") PostDto postDto,Authentication authentication) {
+    public String updatePost(@PathVariable("id") Long postId, @ModelAttribute("form") PostResponseDto postResponseDto, Authentication authentication) {
         UserAccount userAccount = (UserAccount)authentication.getPrincipal();
         Account account = accountRepository.findByEmail(userAccount.getAccountEmail());
-        Post post = (Post) postRepository.findOne(postId);
+        Post post = (Post) postRepository.findById(postId).get();
         if(!account.getEmail().equals(post.getAccount().getEmail())){ //post와 account Email이 다르면 해당 로직 실행
             log.info("수정 권한이 없습니다.");
             return "board";
         }
-        postService.updatePost(postId, postDto);
+        postService.updatePost(postId, postResponseDto);
 
         return "redirect:/post/" + postId;
     }

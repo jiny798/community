@@ -42,15 +42,12 @@ public class Post {
         this.account = account;
         account.getPostList().add(this);
     }
-
     public void addStar(){
         this.star++;
     }
-
     public void decreaseStar(){
         this.star--;
     }
-
     public void addComment(Comment comment){
         commentList.add(comment);
         comment.setPost(this);

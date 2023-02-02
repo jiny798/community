@@ -2,12 +2,11 @@ package com.jiny.community.controller;
 
 import com.jiny.community.domain.Account;
 import com.jiny.community.domain.UserAccount;
-import com.jiny.community.dto.CommentDto;
-import com.jiny.community.dto.PostForm;
+import com.jiny.community.dto.Post.CommentDto;
 import com.jiny.community.repository.AccountRepository;
 import com.jiny.community.repository.CommentRepository;
 import com.jiny.community.repository.PostRepository;
-import com.jiny.community.service.CommentService;
+import com.jiny.community.service.Post.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

@@ -1,9 +1,11 @@
-package com.jiny.community.dto;
+package com.jiny.community.dto.Post;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class PostDto {
+@AllArgsConstructor
+public class PostResponseDto {
 
     public Long id;
     public String nickname;

@@ -6,6 +6,7 @@ import com.jiny.community.domain.UserLikePost;
 import com.jiny.community.repository.AccountRepository;
 import com.jiny.community.repository.PostRepository;
 import com.jiny.community.repository.UserLikePostRepository;
+import com.jiny.community.service.Post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -63,7 +64,7 @@ public class UserService {
     @Transactional
     public void updateLikePost(Long accountId , Long postId) { //itemParam: 파리미터로 넘어온 준영속 상태의 엔티티
         Account account=accountRepository.find(accountId);
-        Post post=postRepository.findOne(postId);
+        Post post=postRepository.findById(postId).get();
         boolean isLike = false;
 
         List<UserLikePost> list=account.getUserLikePosts();
@@ -91,7 +92,7 @@ public class UserService {
     @Transactional
     public boolean isLikePost(Long accountId , Long postId) { //itemParam: 파리미터로 넘어온 준영속 상태의 엔티티
         Account account=accountRepository.find(accountId);
-        Post post=postRepository.findOne(postId);
+        Post post=postRepository.findById(postId).get();
         boolean isLike = false;
         List<UserLikePost> list=account.getUserLikePosts();
         for (int i=0;i<list.size();i++){

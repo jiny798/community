@@ -1,7 +1,7 @@
-package com.jiny.community.service;
+package com.jiny.community.service.Post;
 
 import com.jiny.community.domain.Comment;
-import com.jiny.community.dto.CommentDto;
+import com.jiny.community.dto.Post.CommentDto;
 import com.jiny.community.repository.AccountRepository;
 import com.jiny.community.repository.CommentRepository;
 import com.jiny.community.repository.PostRepository;
@@ -26,7 +26,7 @@ public class CommentService {
 
         Comment comment = new Comment();
         comment.setAccount(accountRepository.findOne(userId));
-        comment.setPost(postRepository.findOne(postId));
+        comment.setPost(postRepository.findById(postId).get());
         comment.setContent(content);
 
         commentRepository.save(comment);

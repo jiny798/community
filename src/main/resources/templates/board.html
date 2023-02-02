@@ -28,7 +28,6 @@
 
             <div class="my-3 p-3 bg-body rounded shadow-sm">
 
-
                 <div class="d-flex text-muted pt-3" th:each="postdto : ${posts}">
                     <a href="#" th:href="@{/post/{id} (id=${postdto.id})}">
                     <div class="mb-0 small lh-sm border-bottom w-100">
@@ -51,6 +50,30 @@
 
             </div>
 
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <!--이전-->
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <!--페이지번호-->
+                    <!--<li class="page-item"><a class="page-link" href="#">1</a></li> -->
+
+                    <li class="page-item" th:each="page: ${#numbers.sequence(pageDto.startNum, pageDto.endNum) }">
+                        <a class="page-link" th:text="${page}"
+                           th:href="@{/post/list/{categoryName} (categoryName = ${categoryName}, page=${page})}">1</a>
+                    </li>
+
+                    <!--다음-->
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
 
         </main>
     </div>
