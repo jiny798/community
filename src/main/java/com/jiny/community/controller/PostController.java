@@ -63,15 +63,19 @@ public class PostController {
     //게시글 상세
     @GetMapping(value = "/{id}")
     public String getPostDetail(@PathVariable("id") Long postId, Model model,Authentication authentication){
-        model.addAttribute("post",postService.getDetail(postId)); //postDto 전달
+        PostDetailResponseDto post = postService.getDetail(postId);
+        model.addAttribute("post",post); //postDto 전달
+
         UserAccount userAccount = (UserAccount)authentication.getPrincipal();
+
         if(userAccount == null){
-            model.addAttribute("star",0);
+            model.addAttribute("star",-1);
         }
-        if(userService.isLikePost(userAccount.getAccountId(),postId)){
+
+        if(userService.isLikePost(userAccount.getAccountId(),postId)){ //좋아요 했던 게시물인가
             model.addAttribute("star",1);
         }else {
-            model.addAttribute("star",0);
+            model.addAttribute("star",-1);
         }
 
         List<Comment> comments = commentRepository.findByPostId(postId);
