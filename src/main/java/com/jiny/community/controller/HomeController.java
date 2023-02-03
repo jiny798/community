@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 @Controller
@@ -18,8 +20,9 @@ public class HomeController {
     private final CategoryService categoryService;
 
     @GetMapping(value = "/")
-    public String home(HttpServletRequest request){
-        return "board";
+    public String home(HttpServletRequest request) throws UnsupportedEncodingException {
+        String str = URLEncoder.encode("자유게시판", "UTF-8");
+        return "redirect:/post/list/"+str;
     }
 
     @GetMapping(value = "/login")

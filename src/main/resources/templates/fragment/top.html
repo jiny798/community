@@ -2,19 +2,26 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 <style>
+
 </style>
 <header th:fragment="header" class="navbar navbar-dark sticky-top bg-dark p-0 shadow">
-  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#" th:href="@{/}">Community</a>
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#" th:href="@{/}"
+     style="color: white;">Community</a>
 
   <div class="userinfo" th:if="${#authentication.name} != 'anonymousUser' ">
       <a th:text="${#authentication.name}+' 님' ">사용자</a>
 
   </div>
   <div class="login-status"  th:if="${#authentication.name} == 'anonymousUser' " >
-    <a class="nav-link px-3" href="#" th:href="@{/login}">Sign in</a>
+    <a class="nav-link px-3 signin" href="#" th:href="@{/login}"  style="color: white;">Sign in</a>
   </div>
+<!--  <div class="login-status"  th:if="${#authentication.name} != 'anonymousUser' " >-->
+<!--    <a class="nav-link px-3" href="#" th:href="@{/logout}">Sign out</a>-->
+<!--  </div>-->
   <div class="login-status"  th:if="${#authentication.name} != 'anonymousUser' " >
-    <a class="nav-link px-3" href="#" th:href="@{/login}">Sign out</a>
+    <form action="/logout" th:action="@{/logout}" method="post">
+      <button class="signout" type="submit" value="Logout"  style="border: none; color: white; background-color: rgba(var(--bs-dark-rgb);">Sign out</button>
+    </form>
   </div>
 
 

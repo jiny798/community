@@ -41,6 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .anyRequest().permitAll()  //.authenticated()
                     .expressionHandler(expressionHandler()); //accessDecisionManager의 voter가 사용하는 핸들러만 바꿔뀌움
 
+            http.logout() // 로그아웃 기능 작동함
+                    .logoutUrl("/logout") // 로그아웃 처리 URL, default: /logout, 원칙적으로 post 방식만 지원
+                    .logoutSuccessUrl("/") // 로그아웃 성공 후 이동페이지
+                    .deleteCookies("JSESSIONID");
+
             http.csrf();
 
             http.formLogin()
