@@ -12,8 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.ArrayList;
 
 @Controller @Slf4j
 @RequiredArgsConstructor
@@ -26,8 +30,12 @@ public class CommentController {
 
 
     @PostMapping(value = "/post/{id}/comment")
-    public String createComment(CommentDto commentDto, Model model, @PathVariable("id")Long postId, Authentication authentication){
+    public String createComment(@Validated CommentDto commentDto, Model model, BindingResult result, @PathVariable("id")Long postId, Authentication authentication){
 
+        if (result.hasErrors()) {
+            log.info("errors={}", result);
+            return "detailPage :: #commentList";
+        }
         UserAccount userAccount = (UserAccount)authentication.getPrincipal();
         Account account = accountRepository.findByNickname(userAccount.getAccountNickName())  ;
 

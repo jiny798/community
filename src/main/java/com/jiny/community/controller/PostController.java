@@ -50,6 +50,9 @@ public class PostController {
                            @PathVariable String str,
                            @RequestParam(required = false, defaultValue = "1", value = "page") int pageNo,
                            Pageable pageable){
+        if(pageNo == 0 ){
+            pageNo=1;
+        }
         pageNo =  pageNo - 1;
         //List<PostResponseDto> posts = postService.getPostList(str);
         Page<PostResponseDto> postList =postService.getPagingList(pageable,pageNo,str,"id");
@@ -148,6 +151,8 @@ public class PostController {
         UserAccount userAccount = (UserAccount)authentication.getPrincipal();
         Account account = accountRepository.findByEmail(userAccount.getAccountEmail());
         Post post = (Post) postRepository.findById(postId).get();
+        ArrayList<String> list = (ArrayList<String>)categoryService.getCategoryNames();
+        model.addAttribute("categoryList",list);
 
         if(!account.getEmail().equals(post.getAccount().getEmail())){ //post와 account Email이 다르면 해당 로직 실행
             log.info("수정 권한이 없습니다.");
@@ -157,6 +162,7 @@ public class PostController {
         PostDetailResponseDto form = new PostDetailResponseDto();
         form.setId(post.getId());
         form.setTitle(post.getTitle());
+        form.setCategory(post.getCategory().getName());
         form.setContent(post.getContent());
 
         model.addAttribute("form", form);
@@ -165,7 +171,15 @@ public class PostController {
     }
 
     @PostMapping(value = "/{id}/edit")
-    public String updatePost(@PathVariable("id") Long postId, @ModelAttribute("form") PostResponseDto postResponseDto, Authentication authentication) {
+    public String updatePost(Model model,@PathVariable("id") Long postId,@Validated @ModelAttribute("form") PostUpdateForm postUpdateForm,BindingResult result, Authentication authentication) {
+
+        if (result.hasErrors()) {
+            log.info("errors={}", result);
+            ArrayList<String> list = (ArrayList<String>)categoryService.getCategoryNames();
+            model.addAttribute("categoryList",list);
+            return "postEditPage";
+        }
+
         UserAccount userAccount = (UserAccount)authentication.getPrincipal();
         Account account = accountRepository.findByEmail(userAccount.getAccountEmail());
         Post post = (Post) postRepository.findById(postId).get();
@@ -173,7 +187,7 @@ public class PostController {
             log.info("수정 권한이 없습니다.");
             return "board";
         }
-        postService.updatePost(postId, postResponseDto);
+        postService.updatePost(postId, postUpdateForm);
 
         return "redirect:/post/" + postId;
     }

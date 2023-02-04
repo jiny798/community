@@ -6,6 +6,7 @@ import com.jiny.community.domain.Post;
 import com.jiny.community.dto.Post.PostDetailResponseDto;
 import com.jiny.community.dto.Post.PostResponseDto;
 import com.jiny.community.dto.Post.PostForm;
+import com.jiny.community.dto.Post.PostUpdateForm;
 import com.jiny.community.repository.CategoryRepository;
 import com.jiny.community.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -56,10 +57,11 @@ public class PostService {
 
     //게시글 수정
     @Transactional
-    public void updatePost(Long postId, PostResponseDto postResponseDto){
+    public void updatePost(Long postId, PostUpdateForm postUpdateForm){
         Post post =  postRepository.findById(postId).get();
-        post.setTitle(postResponseDto.getTitle());
-        post.setContent(postResponseDto.getContent());
+        post.setTitle(postUpdateForm.getTitle());
+        post.setCategory(categoryRepository.findByName(postUpdateForm.getCategory()));
+        post.setContent(postUpdateForm.getContent());
 
     }
 
