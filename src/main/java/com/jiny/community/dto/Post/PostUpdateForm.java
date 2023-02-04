@@ -3,16 +3,20 @@ package com.jiny.community.dto.Post;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 @Data
-public class PostForm {
+public class PostUpdateForm {
+
+    @NotNull
+    private Long id;
 
     @NotBlank(message ="제목을 입력해주세요")
     String title;
-    
+
     @NotBlank(message = "카테고리를 입력해주세요")
     String category;
+
     @NotBlank(message ="내용을 입력해주세요")
     String content;
 }

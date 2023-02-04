@@ -34,7 +34,6 @@ public class EmailService {
             mimeMessageHelper.setText(emailMessage.getMessage(), true);
             mimeMessageHelper.setFrom(email);
 
-
             javaMailSender.send(mimeMessage);
             log.info("sent email: {}", emailMessage.getMessage());
         } catch (MessagingException e) {

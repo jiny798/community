@@ -30,17 +30,24 @@
                             <input type="text" th:field="*{title}" class="form-control"
                                    placeholder="제목을 입력하세요">
                         </div>
-                        <div class="col-md-5" style="padding-top: 1rem; padding-bottom: 1rem;"  >
+                        <div class="col-md-5" style="padding-top: 1rem; padding-bottom: 1rem; display: inline-block;"  >
                             <select class="form-select" id="country" th:field="*{category}">
                                 <option th:value="${category_name}"  th:each="category_name : ${categoryList}">
                                     <p th:text="${category_name}"> </p>
                                 </option>
                             </select>
                         </div>
+                        <span class="field-error" th:errors="*{title}">
+                        </span>
                     </div>
                     <textarea id="summernote" th:field="*{content}" name="editordata"></textarea>
 
                     <button type="submit" class="btn btn-primary">Write</button>
+
+
+                    <span class="field-error" th:errors="*{content}">
+                    </span>
+
                 </form>
 
             </main>

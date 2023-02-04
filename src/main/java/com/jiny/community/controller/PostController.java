@@ -20,6 +20,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -105,7 +107,14 @@ public class PostController {
 
     //게시글 등록 요청
     @PostMapping(value = "/add")
-    public String createPost(@Valid PostForm form, Authentication authentication) throws UnsupportedEncodingException {
+    public String createPost(Model model,@Validated @ModelAttribute("postform") PostForm form, BindingResult result, Authentication authentication) throws UnsupportedEncodingException {
+
+        if (result.hasErrors()) {
+            log.info("errors={}", result);
+            ArrayList<String> list = (ArrayList<String>)categoryService.getCategoryNames();
+            model.addAttribute("categoryList",list);
+            return "addPost";
+        }
 
         UserAccount userAccount = (UserAccount)authentication.getPrincipal();
         Account account = accountRepository.findByNickname(userAccount.getAccountNickName())  ;
