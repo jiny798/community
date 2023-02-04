@@ -1,6 +1,7 @@
 package com.jiny.community.controller;
 
 import com.jiny.community.domain.Account;
+import com.jiny.community.dto.SignUpForm;
 import com.jiny.community.repository.AccountRepository;
 import com.jiny.community.service.AccountService;
 import com.jiny.community.service.UserService;
@@ -9,11 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -37,6 +40,10 @@ public class AccountController {
     @PostMapping(value = "/new")
     public String create(@Validated @ModelAttribute("form") SignUpForm form, BindingResult result){
         log.info("회원가입 요청");
+        if(!form.getPassword().equals(form.getPassword2())){
+            result.reject("reconfirmPassword");
+        }
+
         if (result.hasErrors()) {
             log.info("errors={}", result);
             return "account/createAccountForm";
