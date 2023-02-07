@@ -1,13 +1,14 @@
 package com.jiny.community.service;
 
 import com.jiny.community.domain.Category;
+import com.jiny.community.dto.Post.CategoryResponseDto;
 import com.jiny.community.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -22,12 +23,18 @@ public class CategoryService {
         categoryRepository.save(category);
     }
 
-    public List<String> getCategoryNames(){
+    public List<CategoryResponseDto> getCategoryNames(){
         List<Category> catelist = categoryRepository.findAll();
-        List<String> list = catelist.stream()
-                .map(c -> c.getName())
+        List<CategoryResponseDto> list = catelist.stream()
+                .map(category -> new CategoryResponseDto(category.getId(), category.getName()))
                 .collect(Collectors.toList());
 
+
         return list;
+    }
+
+    public void removeCategory(Long id){
+        Optional<Category> category = categoryRepository.findById(id);
+        categoryRepository.delete(category.get());
     }
 }

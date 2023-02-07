@@ -103,7 +103,7 @@ public class PostController {
     @GetMapping(value = "/add")
     public String postForm(Model model){
         model.addAttribute("postform",new PostForm());
-        ArrayList<String> list = (ArrayList<String>)categoryService.getCategoryNames();
+        ArrayList<CategoryResponseDto> list = (ArrayList<CategoryResponseDto>)categoryService.getCategoryNames();
         model.addAttribute("categoryList",list);
         return "addPost";
     }
@@ -114,7 +114,7 @@ public class PostController {
 
         if (result.hasErrors()) {
             log.info("errors={}", result);
-            ArrayList<String> list = (ArrayList<String>)categoryService.getCategoryNames();
+            ArrayList<CategoryResponseDto> list = (ArrayList<CategoryResponseDto>)categoryService.getCategoryNames();
             model.addAttribute("categoryList",list);
             return "addPost";
         }
@@ -151,7 +151,7 @@ public class PostController {
         UserAccount userAccount = (UserAccount)authentication.getPrincipal();
         Account account = accountRepository.findByEmail(userAccount.getAccountEmail());
         Post post = (Post) postRepository.findById(postId).get();
-        ArrayList<String> list = (ArrayList<String>)categoryService.getCategoryNames();
+        ArrayList<CategoryResponseDto> list = (ArrayList<CategoryResponseDto>)categoryService.getCategoryNames();
         model.addAttribute("categoryList",list);
 
         if(!account.getEmail().equals(post.getAccount().getEmail())){ //post와 account Email이 다르면 해당 로직 실행
@@ -175,7 +175,7 @@ public class PostController {
 
         if (result.hasErrors()) {
             log.info("errors={}", result);
-            ArrayList<String> list = (ArrayList<String>)categoryService.getCategoryNames();
+            ArrayList<CategoryResponseDto> list = (ArrayList<CategoryResponseDto>)categoryService.getCategoryNames();
             model.addAttribute("categoryList",list);
             return "postEditPage";
         }

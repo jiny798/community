@@ -21,7 +21,6 @@
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">글쓰기</h1>
-
                 </div>
 
                 <form th:action="@{/post/add}" th:object="${postform}" method="post">
@@ -32,8 +31,8 @@
                         </div>
                         <div class="col-md-5" style="padding-top: 1rem; padding-bottom: 1rem; display: inline-block;"  >
                             <select class="form-select" id="country" th:field="*{category}">
-                                <option th:value="${category_name}"  th:each="category_name : ${categoryList}">
-                                    <p th:text="${category_name}"> </p>
+                                <option th:value="${category_name.name}"  th:each="category_name : ${categoryList}">
+                                    <p th:text="${category_name.name}"> </p>
                                 </option>
                             </select>
                         </div>
@@ -43,8 +42,6 @@
                     <textarea id="summernote" th:field="*{content}" name="editordata"></textarea>
 
                     <button type="submit" class="btn btn-primary">Write</button>
-
-
                     <span class="field-error" th:errors="*{content}">
                     </span>
 

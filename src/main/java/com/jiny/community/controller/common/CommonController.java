@@ -1,5 +1,6 @@
 package com.jiny.community.controller.common;
 
+import com.jiny.community.dto.Post.CategoryResponseDto;
 import com.jiny.community.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,8 +15,8 @@ public class CommonController {
     private final CategoryService categoryService;
 
     @ModelAttribute("category_list")
-    public List<String> categoryNames(){
-        List<String> category_list = categoryService.getCategoryNames();
+    public List<CategoryResponseDto> categoryNames(){
+        List<CategoryResponseDto> category_list = categoryService.getCategoryNames();
 
 
         return category_list;

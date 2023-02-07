@@ -1,6 +1,7 @@
 package com.jiny.community.controller;
 
 import com.jiny.community.domain.Account;
+import com.jiny.community.dto.Post.CategoryResponseDto;
 import com.jiny.community.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -32,7 +33,7 @@ public class HomeController {
 
     @GetMapping(value = "/categorys")
     public String getCategorys(Model model){
-        List<String> categorylist = categoryService.getCategoryNames();
+        List<CategoryResponseDto> categorylist = categoryService.getCategoryNames();
         model.addAttribute("category_list",categorylist);
 
        return "fragment/left_menu :: #category_ul";
