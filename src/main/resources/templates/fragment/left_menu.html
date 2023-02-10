@@ -9,7 +9,7 @@
                 <ul id="category_ul" class="nav flex-column">
 
                     <li class="nav-item" th:each="category : ${category_list}">
-                        <a class="nav-link active" aria-current="page" href="#" th:href="@{/post/list/{category}  (category=${category}) }">
+                        <a class="nav-link active" aria-current="page" href="#" th:href="@{/post/list/{category}  (category=${category.name}) }">
                             <span data-feather="home" class="align-text-bottom" th:text="${category.name}">자유게시판</span>
 
                         </a>
