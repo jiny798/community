@@ -1,5 +1,6 @@
 package com.jiny.community.infra.file;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Component
+@Component @Slf4j
 public class FileStore {
 
     @Value("${file.dir}")
@@ -31,6 +32,7 @@ public class FileStore {
     }
     public UploadFile storeFile(MultipartFile multipartFile) throws IOException //3
     {
+        log.info("저장 위치-> {}",fileDir);
         if (multipartFile.isEmpty()) {
             return null;
         }

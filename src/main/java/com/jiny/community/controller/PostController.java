@@ -24,6 +24,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -49,7 +51,7 @@ public class PostController {
     public String postList(Model model,
                            @PathVariable String str,
                            @RequestParam(required = false, defaultValue = "1", value = "page") int pageNo,
-                           Pageable pageable){
+                           Pageable pageable, HttpServletRequest request){
         if(pageNo == 0 ){
             pageNo=1;
         }
@@ -58,6 +60,8 @@ public class PostController {
         Page<PostResponseDto> postList =postService.getPagingList(pageable,pageNo,str,"id");
         PageDto pageDto = pageService.getPageInfo(postList);//Page 에 현재 페이지가 있는데 pageNo를 따로 넣어야하나?
 
+        String contextRoot = request.getSession().getServletContext().getRealPath("/");
+        log.info("contextReal ={}",contextRoot);
         log.info("page = {}",pageDto);
         model.addAttribute("posts",postList.getContent());
         model.addAttribute("pageDto",pageDto);

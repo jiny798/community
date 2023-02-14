@@ -13,6 +13,8 @@
     <title>addPost Page</title>
 </head>
 <body>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 <header th:replace="fragment/top :: header">
 </header>
     <div class="container-fluid">
@@ -52,7 +54,7 @@
     </div>
 </body>
 
-<script>
+<script th:inline="javascript">
 $('#summernote').summernote({
         placeholder: '글을 입력해주세요.',
         tabsize: 2,
@@ -76,17 +78,25 @@ $('#summernote').summernote({
       /*
       * 업로드 메서드
       */
+      var token = $("meta[name='_csrf']").attr("content");
+      var header = $("meta[name='_csrf_header']").attr("content");
+
       function uploadSummernoteImageFile(file, editor) {
 		data = new FormData();
 		data.append("file", file);
 		$.ajax({
+		beforeSend: function(xhr){
+                            xhr.setRequestHeader(header,token);
+                            },
 			data : data,
-			type : "POST",
-			url : "/upload",
+			method : "POST",
+			url : "/upload/file",
 			contentType : false,
+			enctype : 'multipart/form-data',
 			processData : false,
 			success : function(data) {
             	//항상 업로드된 파일의 url이 있어야 한다.
+            	console.log("data.url = "+data.url);
 				$(editor).summernote('insertImage', data.url);
 			}
 		});
