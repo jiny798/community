@@ -1,4 +1,4 @@
-package com.jiny.community.dto;
+package com.jiny.community.dto.user;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

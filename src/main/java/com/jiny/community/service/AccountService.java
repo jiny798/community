@@ -1,6 +1,6 @@
 package com.jiny.community.service;
 
-import com.jiny.community.dto.SignUpForm;
+import com.jiny.community.dto.user.SignUpForm;
 import com.jiny.community.domain.Account;
 import com.jiny.community.domain.UserAccount;
 import com.jiny.community.infra.mail.AppProperties;

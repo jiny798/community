@@ -1,7 +1,7 @@
-package com.jiny.community.controller;
+package com.jiny.community.controller.account;
 
 import com.jiny.community.domain.Account;
-import com.jiny.community.dto.SignUpForm;
+import com.jiny.community.dto.user.SignUpForm;
 import com.jiny.community.repository.AccountRepository;
 import com.jiny.community.service.AccountService;
 import com.jiny.community.service.UserService;
@@ -10,15 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.validation.Valid;
 
 @Controller
 @Slf4j
