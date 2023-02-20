@@ -1,9 +1,9 @@
 package com.jiny.community.service;
 
-import com.jiny.community.domain.Account;
-import com.jiny.community.domain.Post;
-import com.jiny.community.domain.UserLikePost;
-import com.jiny.community.repository.AccountRepository;
+import com.jiny.community.account.domain.Account;
+import com.jiny.community.board.domain.Post;
+import com.jiny.community.account.domain.UserLikePost;
+import com.jiny.community.account.repository.AccountRepository;
 import com.jiny.community.repository.PostRepository;
 import com.jiny.community.repository.UserLikePostRepository;
 import com.jiny.community.service.Post.PostService;
@@ -58,12 +58,12 @@ public class UserService {
     id로 조회
      */
     public Account findOne(Long memberId) {
-        return accountRepository.findOne(memberId);
+        return accountRepository.findById(memberId).get();
     }
 
     @Transactional
     public void updateLikePost(Long accountId , Long postId) { //itemParam: 파리미터로 넘어온 준영속 상태의 엔티티
-        Account account=accountRepository.find(accountId);
+        Account account=accountRepository.findById(accountId).get();
         Post post=postRepository.findById(postId).get();
         boolean isLike = false;
 
@@ -91,7 +91,7 @@ public class UserService {
     }
     @Transactional
     public boolean isLikePost(Long accountId , Long postId) { //itemParam: 파리미터로 넘어온 준영속 상태의 엔티티
-        Account account=accountRepository.find(accountId);
+        Account account=accountRepository.findById(accountId).get();
         Post post=postRepository.findById(postId).get();
         boolean isLike = false;
         List<UserLikePost> list=account.getUserLikePosts();

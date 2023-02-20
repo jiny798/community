@@ -1,8 +1,8 @@
 package com.jiny.community.service.Post;
 
-import com.jiny.community.domain.Comment;
+import com.jiny.community.board.domain.Comment;
 import com.jiny.community.dto.Post.CommentDto;
-import com.jiny.community.repository.AccountRepository;
+import com.jiny.community.account.repository.AccountRepository;
 import com.jiny.community.repository.CommentRepository;
 import com.jiny.community.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class CommentService {
     public void addComment(Long userId,Long postId,String content){
 
         Comment comment = new Comment();
-        comment.setAccount(accountRepository.findOne(userId));
+        comment.setAccount(accountRepository.findById(userId).get());
         comment.setPost(postRepository.findById(postId).get());
         comment.setContent(content);
 

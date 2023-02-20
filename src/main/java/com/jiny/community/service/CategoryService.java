@@ -1,6 +1,6 @@
 package com.jiny.community.service;
 
-import com.jiny.community.domain.Category;
+import com.jiny.community.admin.domain.Category;
 import com.jiny.community.dto.Post.CategoryResponseDto;
 import com.jiny.community.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;

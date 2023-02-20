@@ -1,75 +1,60 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html  xmlns:th="http://www.thymeleaf.org">
 <div th:replace="~{fragment/header :: common_header}"></div>
 <style>
  .fieldError {
- border-color: #bd2130;
+    border-color: #bd2130;
  }
  .form-group {
- margin-bottom: 12px;
- margin-top: 12px;
+    margin-bottom: 12px;
+    margin-top: 12px;
+ }
+ .duplicate{
+    margin-top: 0.5rem;
  }
 
 </style>
 <body>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 <header th:replace="fragment/top :: header">
 </header>
 <div class="container">
+    <div class="py-5 text-center">
+        <h2>회원 가입 </h2>
+    </div>
+
     <form role="form" th:action="@{/account/new}" th:object="${form}"
           method="post">
+        <form th:action="@{/account/valid}" th:object="${IdValidForm}">
         <div class="form-group">
             <label th:for="name">이메일을 입력하세요</label>
-            <input type="text" th:field="*{email}" class="form-control"
+            <input type="text" id="email_text" th:field="*{email}" class="form-control"
                    placeholder="이름을 입력하세요">
-            <div class="field-error" th:errors="*{email}">
+            <small class="field-error" th:errors="*{email}">
                 이메일 형식 오류
-            </div>
+            </small>
         </div>
         <div class="form-group">
             <label th:for="city">닉네임</label>
             <input id="nickname_text" type="text" th:field="*{nickname}" class="form-control" placeholder="닉네임을 입력하세요">
-            <button id="duplicate" type="button" class="btn btn-primary">중복확인</button><b>중복입니다</b>
-            <div class="field-error" th:errors="*{nickname}">
-                닉네임 형식 오류
+
+            <div class="duplicate">
+                <button id="duplicate" type="submit" class="btn btn-primary">중복확인</button>
             </div>
+
+
+            <small class="field-error" th:errors="*{nickname}">
+                닉네임 형식 오류
+            </small>
         </div>
-            <script th:inline="javascript">
-                 var token = $("meta[name='_csrf']").attr("content");
-                 var header = $("meta[name='_csrf_header']").attr("content");
-                $(document).ready(function(){
-                $("#duplicate").on('click',function(){
-                        var userDto = {
-                            nickname: $("#nickname_text").val()
-                        };
-                $.ajax({
-                    beforeSend: function(xhr){
-                    xhr.setRequestHeader(header,token);
-                    },
-                    url: "/admin/category/delete", @@@@@@@@@@@
-                    type: "POST", // HTTP Method
-                    data : userDto,
-                    dataType: 'text', // 전송 데이터 형식
-                    success: function(res){   @@@@@@@@@@@@@@@
-
-                        if(categoryDto.id == 1 || categoryDto.id==2){
-                            alert("자유게시판과 Q&A는 삭제할 수 없습니다.");
-                        }else{
-                        window.location = '/'+res +'/';
-                        }
-                    },
-                    error:function(er){
-
-                    }
-                    });
-                });
-                });
-            </script>
+        </form>
         <div class="form-group">
             <label th:for="street">패스워드</label>
             <input type="text" th:field="*{password}" class="form-control" placeholder="패스워드를 입력하세요">
-            <div class="field-error" th:errors="*{password}">
+            <small class="field-error" th:errors="*{password}">
                 패스워드 형식 오류
-            </div>
+            </small>
         </div>
         <div class="form-group">
             <label th:for="street">패스워드 확인</label>

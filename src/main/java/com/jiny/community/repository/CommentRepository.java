@@ -1,6 +1,6 @@
 package com.jiny.community.repository;
 
-import com.jiny.community.domain.Comment;
+import com.jiny.community.board.domain.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

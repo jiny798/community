@@ -1,6 +1,5 @@
 package com.jiny.community.controller;
 
-import com.jiny.community.domain.Account;
 import com.jiny.community.dto.Post.CategoryResponseDto;
 import com.jiny.community.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;

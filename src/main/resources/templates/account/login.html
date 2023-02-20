@@ -13,6 +13,7 @@
 <body>
 <header th:replace="fragment/top :: header">
 </header>
+
 <div class="container">
     <form role="form" th:action="@{/login}" method="post">
         <div class="form-group">
@@ -27,11 +28,11 @@
         </div>
 
 
-
-        <button type="button" class="btn btn-primary">
-            <a class="nav-link active" aria-current="page" href="#" th:href="@{/account/new}">
-            회원 가입</a>
+        <a aria-current="page" href="#" th:href="@{/account/new}">
+        <button type="button" class="btn btn-primary" >
+            회원 가입
         </button>
+        </a>
         <button type="submit" class="btn btn-primary">로그인 하기</button>
     </form>
     <br/>

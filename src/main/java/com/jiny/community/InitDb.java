@@ -1,8 +1,8 @@
 package com.jiny.community;
 
-import com.jiny.community.domain.Account;
-import com.jiny.community.domain.Category;
-import com.jiny.community.service.AccountService;
+import com.jiny.community.account.domain.Account;
+import com.jiny.community.admin.domain.Category;
+import com.jiny.community.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

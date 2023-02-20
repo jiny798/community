@@ -1,6 +1,6 @@
 package com.jiny.community.repository;
 
-import com.jiny.community.domain.Category;
+import com.jiny.community.admin.domain.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 //List<Comment> findByPostId(Long postId);
 public interface CategoryRepository extends JpaRepository<Category,Long> {

@@ -1,8 +1,8 @@
 package com.jiny.community.service.Post;
 
-import com.jiny.community.domain.Account;
-import com.jiny.community.domain.Category;
-import com.jiny.community.domain.Post;
+import com.jiny.community.account.domain.Account;
+import com.jiny.community.admin.domain.Category;
+import com.jiny.community.board.domain.Post;
 import com.jiny.community.dto.Post.PostDetailResponseDto;
 import com.jiny.community.dto.Post.PostResponseDto;
 import com.jiny.community.dto.Post.PostForm;
@@ -17,7 +17,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 

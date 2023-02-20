@@ -1,8 +1,8 @@
 package com.jiny.community.controller;
 
-import com.jiny.community.domain.Account;
-import com.jiny.community.repository.AccountRepository;
-import com.jiny.community.service.AccountService;
+import com.jiny.community.account.domain.Account;
+import com.jiny.community.account.repository.AccountRepository;
+import com.jiny.community.account.service.AccountService;
 import com.jiny.community.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
