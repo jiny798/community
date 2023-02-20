@@ -1,6 +1,5 @@
 package com.jiny.community.account.controller;
 
-import com.jiny.community.account.controller.dto.IdValidForm;
 import com.jiny.community.account.controller.validator.SignUpFormValidator;
 import com.jiny.community.account.domain.Account;
 import com.jiny.community.account.controller.dto.SignUpForm;
@@ -53,26 +52,6 @@ public class AccountController {
         return "redirect:/";
     }
 
-    @PostMapping(value ="/valid")
-    public String validateId(Model model, @Validated IdValidForm idValidForm, BindingResult result){
-        SignUpForm signUpForm = new SignUpForm();
-        signUpForm.setEmail(idValidForm.getEmail());
-        signUpForm.setNickname(idValidForm.getNickname());
 
-        signUpFormValidator.validate(signUpForm,result);
-        model.addAttribute("form", signUpForm);
 
-        if(result.hasErrors()) {
-            log.debug("아이디 중복 검증 실패");
-            model.addAttribute("isDuplicate",true);
-            return "account/createAccountForm";
-        }else {
-            log.debug("아이디 중복 검증 성공");
-            model.addAttribute("isDuplicate",false);
-            return "account/createAccountForm";
-        }
-
-    }
-
-    
 }
