@@ -1,5 +1,8 @@
 package com.jiny.community.controller;
 
+import com.jiny.community.account.domain.Account;
+import com.jiny.community.account.repository.AccountRepository;
+import com.jiny.community.account.support.CurrentUser;
 import com.jiny.community.dto.Post.CategoryResponseDto;
 import com.jiny.community.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +20,16 @@ import java.util.List;
 public class HomeController {
 
     private final CategoryService categoryService;
-
+    private final AccountRepository accountRepository;
     @GetMapping(value = "/")
-    public String home(HttpServletRequest request) throws UnsupportedEncodingException {
-        String str = URLEncoder.encode("자유게시판", "UTF-8");
-        return "redirect:/post/list/"+str;
+    public String home(HttpServletRequest request, @CurrentUser Account account, Model model) throws UnsupportedEncodingException {
+//        String str = URLEncoder.encode("자유게시판", "UTF-8");
+//        return "redirect:/post/list/"+str;
+        if(account != null) {
+            Account findAccount = accountRepository.findById(account.getId()).get();
+            model.addAttribute("account", findAccount);
+        }
+        return "home";
     }
 
     @GetMapping(value = "/login")

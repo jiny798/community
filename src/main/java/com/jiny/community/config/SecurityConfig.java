@@ -32,7 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             http
                     .antMatcher("/**")
                     .authorizeRequests()
-                    .mvcMatchers( "/", "/index", "/post/list", "/signup").permitAll()
+                    .mvcMatchers( "/", "/index", "/post/list", "/signup"
+                    ,"/email-login","check-email-login","check-email-token","login-link").permitAll()
                     .mvcMatchers("/admin").hasRole("ADMIN")
                     .mvcMatchers("/user","/post/add").hasRole("USER")
                     .anyRequest().permitAll()  //.authenticated()

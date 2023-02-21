@@ -5,20 +5,20 @@
 
 </style>
 <header th:fragment="header" class="navbar navbar-dark sticky-top bg-dark p-0 shadow">
+  <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+  <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
   <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#" th:href="@{/}"
      style="color: white;">Community</a>
 
-  <div class="userinfo" th:if="${#authentication.name} != 'anonymousUser' ">
+  <div class="userinfo" sec:authorize="isAuthenticated()">
       <a th:text="${#authentication.name}+' 님' ">사용자</a>
 
   </div>
-  <div class="login-status"  th:if="${#authentication.name} == 'anonymousUser' " >
+  <div class="login-status"  sec:authorize="!isAuthenticated()">
     <a class="nav-link px-3 signin" href="#" th:href="@{/login}"  style="color: white;">Sign in</a>
   </div>
-<!--  <div class="login-status"  th:if="${#authentication.name} != 'anonymousUser' " >-->
-<!--    <a class="nav-link px-3" href="#" th:href="@{/logout}">Sign out</a>-->
-<!--  </div>-->
-  <div class="login-status"  th:if="${#authentication.name} != 'anonymousUser' " >
+
+  <div class="login-status"  sec:authorize="isAuthenticated()" >
     <form action="/logout" th:action="@{/logout}" method="post">
       <button class="signout" type="submit" value="Logout"  style="border: none; color: white; background-color: rgba(var(--bs-dark-rgb);">Sign out</button>
     </form>

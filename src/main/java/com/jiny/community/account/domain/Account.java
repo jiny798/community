@@ -2,20 +2,20 @@ package com.jiny.community.account.domain;
 
 import com.jiny.community.board.domain.Comment;
 import com.jiny.community.board.domain.Post;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.Hibernate;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Getter @Setter
+@Getter @Setter @Builder @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Account {
@@ -30,16 +30,23 @@ public class Account {
     @Column(unique = true)
     private String nickname;
 
+    private String password;
+    private String role;
     private boolean isValid;
 
     private String emailToken;
+    private LocalDateTime emailTokenGeneratedAt;
+
+    @Embedded
+    private CommonAttribute.Profile profile = new CommonAttribute.Profile();
 
     public void createRandomToken(){
         this.emailToken = UUID.randomUUID().toString();
+        this.emailTokenGeneratedAt = LocalDateTime.now();
     }
-
-    private String password;
-    private String role;
+    public boolean enableSendEmail(){
+        return this.emailTokenGeneratedAt.isBefore(LocalDateTime.now().minusMinutes(5));
+    }
 
     @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
     private List<Post> postList = new ArrayList<>();
@@ -71,6 +78,22 @@ public class Account {
     public void addLikePost(UserLikePost userLikePost){
         this.userLikePosts.add(userLikePost);
         userLikePost.setAccount(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+            return false;
+        }
+        Account account = (Account) o;
+        return id != null && Objects.equals(id, account.id);
+    }
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 
 }

@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
-@AuthenticationPrincipal(expression = "#this == 'anonymousUser' ? null : account")
+@AuthenticationPrincipal(expression = "#this == 'anonymousUser' ? null : account") //account 필드를 찾아 반환
 public @interface CurrentUser {
 
 }

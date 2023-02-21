@@ -1,11 +1,26 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>Hello</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<head th:replace="fragment/header :: common_header">
+  <title>jiny</title>
 </head>
-<body>
-Hello
-<a href="/hello">hello</a>
+
+<body class="bg-light">
+<header th:replace="fragment/top :: header"/>
+
+<div class="alert alert-warning" role="alert" th:if="${account != null && !account.isValid()}">
+  가입을 완료하려면 <a href="#" th:href="@{/check-email}" class="alert-link">계정 인증 이메일을 확인</a>하세요.
+</div>
+
+<div class="container">
+  <div class="py-5 text-center">
+    <h2>Community</h2>
+  </div>
+
+</div>
+<script type="application/javascript">
+    (function () {
+
+    }())
+</script>
 </body>
 </html>

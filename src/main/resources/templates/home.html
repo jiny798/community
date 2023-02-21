@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/header :: common_header">
+  <title>jiny</title>
+</head>
+
+<body class="bg-light">
+<header th:replace="fragment/top :: header"/>
+
+  <div class="container-fluid">
+    <div class="row">
+  <nav th:replace="~{fragment/left_menu :: left_menu}"></nav>
+
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <div class="alert alert-warning" role="alert" th:if="${account != null && !account.isValid()}">
+            가입을 완료하려면 <a href="#" th:href="@{/check-email}" class="alert-link">계정 인증 이메일을 확인</a>하세요.
+          </div>
+
+        <div class="container">
+          <div class="py-5 text-center">
+            <h2>Community</h2>
+          </div>
+        </div>
+      </main>
+
+  </div>
+</div>
+<script type="application/javascript">
+    (function () {
+
+    }())
+</script>
+</body>
+</html>
