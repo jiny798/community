@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/header :: common_header">
+  <title>jiny</title>
+</head>
+<body>
+
+<header th:replace="fragment/top :: header">
+</header>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav th:replace="~{fragment/profile_menu :: settings-menu (currentMenu='profile')}"></nav>
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">프로필</h1>
+      </div>
+
+      <div class="row mt-5">
+
+        <div class="col-10">
+          <h2 class="col-sm-12" th:text="${account.nickname}">nickname</h2>
+          <div class="row mt-3">
+            <form class="col-sm-7" action="#" th:action="@{/settings/profile}" th:object="${profile}" method="post"
+                  novalidate>
+              <div class="form-group">
+                <label for="bio">한 줄 소개</label>
+                <input id="bio" type="text" th:field="*{bio}" class="form-control"
+                       placeholder="간략한 한 줄을 추가해 보세요." aria-describedby="bioHelp" required/>
+                <small id="bioHelp" class="form-text text-muted">
+                  35자 이내로 입력하세요.
+                </small>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('bio')}" th:errors="*{bio}">
+                  35자를 초과하였습니다.
+                </small>
+              </div>
+              <div class="form-group">
+                <label for="company">관심회사</label>
+                <input id="company" type="text" th:field="*{company}" class="form-control"
+                       placeholder="삼성전자" aria-describedby="urlHelp" required/>
+                <small id="urlHelp" class="form-text text-muted">
+                  관심있는 회사를 입력해주세요.
+                </small>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('company')}" th:errors="*{company}">
+                  올바른 URL이 아닙니다.
+                </small>
+              </div>
+
+              <div class="form-group">
+                <button class="button btn-primary btn-block" type="submit" aria-describedby="submitHelp">수정하기
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+    </main>
+  </div>
+</div>
+
+
+</body>
+<style>
+
+</style>
+
+
+</html>

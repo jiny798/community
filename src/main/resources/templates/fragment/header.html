@@ -15,7 +15,12 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous">
   <script src="/js/bootstrap/dashboard.js"></script>
 
-  <script src="node_modules/jdenticon/dist/jdenticon.min.js"></script> <!--jdenticon script 추가-->
+  <script>
+    window.jdenticon_config = {
+        replaceMode: "observe"
+    };
+  </script>
+  <script src="/node_modules/jdenticon/dist/jdenticon.min.js"></script>
   <script src="https://kit.fontawesome.com/6f5e591e5c.js" crossorigin="anonymous"></script>
   <style>
       a{

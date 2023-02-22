@@ -80,6 +80,12 @@ public class Account {
         userLikePost.setAccount(this);
     }
 
+    @PostLoad
+    private void init(){
+        if(profile == null){
+            profile = new CommonAttribute.Profile();
+        }
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) {

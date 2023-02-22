@@ -6,6 +6,7 @@ import javax.persistence.Basic;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
+import java.util.Optional;
 
 public abstract class CommonAttribute {
 
@@ -14,12 +15,18 @@ public abstract class CommonAttribute {
     @Builder @Getter @ToString
     public static class Profile {
         private String bio;
-        private String url;
-        private String job;
-        private String location;
         private String company;
         @Lob @Basic(fetch = FetchType.EAGER)
         private String image;
+
+        public static Profile from(Account account){
+            return new Profile(account);
+        }
+        protected Profile(Account account){
+            Optional<Profile> optionalAccount = Optional.ofNullable(account.getProfile());
+            this.bio= Optional.ofNullable(account.getProfile()).map(CommonAttribute.Profile :: getBio).orElse(null);
+            this.company= Optional.ofNullable(account.getProfile()).map(CommonAttribute.Profile :: getCompany).orElse(null);
+        }
     }
 
 

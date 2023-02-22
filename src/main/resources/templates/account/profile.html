@@ -21,6 +21,7 @@
                     <!-- avatar -->
                     <svg th:if="${#strings.isEmpty(account.profile.image)}" class="img-fluid float-left rounded img-thumbnail"
                          th:data-jdenticon-value="${account.nickname}" width="125" height="125"></svg>
+
                     <svg th:if="${!#strings.isEmpty(account.profile.image)}" class="img-fluid float-left rounded img-thumbnail"
                          th:src="${account.profile.image}" width="125" height="125"></svg>
                 </div>
@@ -32,24 +33,62 @@
                     <p class="lead" th:if="${#strings.isEmpty(account.profile.bio) && isOwner}" >한 줄 소개를 추가해주세요.</p>
                 </div>
                 <div class="row mt-3 justify-content-center">
-                    <div class="col-2">
+                    <div class="col col-lg-2">
                         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                             <a class="nav-link active" id="v-pills-intro-tab" data-bs-toggle="pill" href="#v-pills-profile"
                                role="tab" aria-controls="v-pills-profile" aria-selected="true">소개</a>
-                            <a class="nav-link" id="v-pills-study-tab" data-bs-toggle="pill" href="#v-pills-study" role="tab"
-                               aria-controls="v-pills-study" aria-selected="false">스터디</a>
+                            <a class="nav-link" id="v-pills-write-tab" data-bs-toggle="pill" href="#v-pills-study" role="tab"
+                               aria-controls="v-pills-write" aria-selected="false">작성한 글</a>
+                            <a class="nav-link" id="v-pills-like-tab" data-bs-toggle="pill" href="#v-pills-study" role="tab"
+                               aria-controls="v-pills-like" aria-selected="false">좋아요한 글</a>
                         </div>
                     </div>
+
                     <div class="col-8">
                         <div class="tab-content" id="v-pills-tabContent">
                             <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel"
-                                 aria-labelledby="v-pills-home-tab">Profile
+                                 aria-labelledby="v-pills-home-tab">
+                                <p th:if="${!#strings.isEmpty(account.profile.company)}">
+                                    <span style="...">
+                                        <i class="fa fa-link col-1"></i>
+                                    </span>
+                                    <span th:text="${account.profile.company}" class="col-11"></span>
+                                </p>
+
+                                <p th:if="${isOwner}">
+                                    <span style="font-size: 20px">
+                                        <i class="fa fa-envelope-o col-1"></i>
+                                    </span>
+                                    <span th:text="${account.email}" class="col-9"></span>
+                                </p>
+
+                                <p th:if="${isOwner || account.valid}">
+                                    <span style="...">
+                                        <i class="fa fa-calendar-o col-1"></i>
+                                    </span>
+                                    <span th:if="${isOwner && !account.valid}" class="col-9">
+                                        <a href="#" th:href="@{'/check-email?email=' + ${account.email}}">가입을 완료하려면 이메일을 확인하세요.</a>
+                                    </span>
+                                    <span th:text="${#temporals.format(account.joinedAt, 'yyyy년 M월 가입')}" class="col-9">
+                                    </span>
+                                </p>
+
+                                <div th:if="${isOwner}">
+                                    <a class="btn btn-outline-primary" href="#" th:href="@{/settings/profile}">프로필 수정</a>
+                                </div>
                             </div>
-                            <div class="tab-pane fade" id="v-pills-study" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                                Study
+
+                            <div class="tab-pane fade" id="v-pills-write" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                게시글
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-like" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                좋아요 게시글
                             </div>
                         </div>
                     </div>
+
+
+
                 </div>
             </div>
 

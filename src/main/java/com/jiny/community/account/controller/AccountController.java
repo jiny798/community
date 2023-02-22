@@ -3,6 +3,7 @@ package com.jiny.community.account.controller;
 import com.jiny.community.account.controller.validator.SignUpFormValidator;
 import com.jiny.community.account.domain.Account;
 import com.jiny.community.account.controller.dto.SignUpForm;
+import com.jiny.community.account.domain.CommonAttribute;
 import com.jiny.community.account.repository.AccountRepository;
 import com.jiny.community.account.service.AccountService;
 import com.jiny.community.account.support.CurrentUser;
@@ -73,9 +74,15 @@ public class AccountController {
            throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
         }
         model.addAttribute(findAccount);
-        model.addAttribute("isOwner", findAccount.equals(account)); // (3)
+        model.addAttribute("isOwner", findAccount.equals(account));
         return "account/profile";
     }
 
+    @GetMapping("/settings/profile")
+    public String profileUpdateForm(@CurrentUser Account account, Model model) {
+        model.addAttribute(account);
+        model.addAttribute(CommonAttribute.Profile.from(account));
+        return "account/settings/profile";
+    }
 
 }

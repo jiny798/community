@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<nav th:fragment="settings-menu (currentMenu)" id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+    <div class="position-sticky pt-3 sidebar-sticky">
+        <ul id="category_ul" class="nav flex-column">
+            <li class="nav-item">
+                <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'profile'} ? active" href="#" th:href="@{/settings/profile}">
+                    <span data-feather="home" class="align-text-bottom">프로필</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'password'} ? active" href="#" th:href="@{/settings/password}">
+                    <span data-feather="home" class="align-text-bottom">패스워드</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'notification'} ? active" href="#" th:href="@{/settings/notification}">
+                    <span data-feather="home" class="align-text-bottom">알림</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="#" th:href="@{/admin/}">
+                    <span data-feather="shopping-cart" class="align-text-bottom"></span>
+                    관리
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+</body>
+</html>
