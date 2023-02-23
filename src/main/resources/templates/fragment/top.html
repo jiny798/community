@@ -9,10 +9,13 @@
   <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
   <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#" th:href="@{/}"
      style="color: white;">Community</a>
+   <!--a href="#" th:href="@{/post/{id}/edit (id=${post.id})}">-->
+  <div class="" sec:authorize="isAuthenticated()">
+    <a th:href="@{/profile/{name} (name=${#authentication.name})}">내정보</a>
+  </div>
 
   <div class="userinfo" sec:authorize="isAuthenticated()">
       <a th:text="${#authentication.name}+' 님' ">사용자</a>
-
   </div>
   <div class="login-status"  sec:authorize="!isAuthenticated()">
     <a class="nav-link px-3 signin" href="#" th:href="@{/login}"  style="color: white;">Sign in</a>

@@ -1,10 +1,10 @@
 package com.jiny.community.account.domain;
 
+import com.jiny.community.account.domain.CommonAttribute.Profile;
 import com.jiny.community.board.domain.Comment;
 import com.jiny.community.board.domain.Post;
 import lombok.*;
 import org.hibernate.Hibernate;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -38,7 +38,7 @@ public class Account {
     private LocalDateTime emailTokenGeneratedAt;
 
     @Embedded
-    private CommonAttribute.Profile profile = new CommonAttribute.Profile();
+    private Profile profile = new Profile();
 
     public void createRandomToken(){
         this.emailToken = UUID.randomUUID().toString();
@@ -83,7 +83,7 @@ public class Account {
     @PostLoad
     private void init(){
         if(profile == null){
-            profile = new CommonAttribute.Profile();
+            profile = new Profile();
         }
     }
     @Override
@@ -100,6 +100,15 @@ public class Account {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    public void updateProfile(com.jiny.community.account.controller.dto.Profile profile){
+        if(this.profile ==null){
+            this.profile = new Profile();
+        }
+        this.profile.company=profile.getCompany();
+        this.profile.bio=profile.getBio();
+        this.profile.image = profile.getImage();
     }
 
 }

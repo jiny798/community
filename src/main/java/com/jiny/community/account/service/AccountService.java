@@ -1,7 +1,10 @@
 package com.jiny.community.account.service;
 
+
+import com.jiny.community.account.controller.dto.Profile;
 import com.jiny.community.account.controller.dto.SignUpForm;
 import com.jiny.community.account.domain.Account;
+
 import com.jiny.community.account.domain.UserAccount;
 import com.jiny.community.infra.mail.AppProperties;
 import com.jiny.community.infra.mail.EmailMessage;
@@ -90,4 +93,10 @@ public class AccountService implements UserDetailsService {
         login(account);
     }
 
+    public void updateProfile(Account account, Profile profile){
+
+        account.updateProfile(profile);
+        log.debug("updateProfile={}, {}, {}",profile.getBio(),profile.getCompany(),profile.getImage());
+        accountRepository.save(account);
+    }
 }

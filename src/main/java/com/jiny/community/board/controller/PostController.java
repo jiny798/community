@@ -100,7 +100,6 @@ public class PostController {
         return "detailPage";
     }
 
-
     //게시글 등록 폼 가져오기
     @GetMapping(value = "/add")
     public String postForm(Model model){
@@ -130,7 +129,6 @@ public class PostController {
         return "redirect:/post/list/"+str;
 
     }
-
     @PostMapping(value = "/{id}/like")
     public String likePost(Model model,@PathVariable("id")Long postId,Authentication authentication){ //스프링 시큐리티 사용시 회원정보 받을 수 있음.
         log.info("user like post = {}",postId);

@@ -1,9 +1,9 @@
 package com.jiny.community.account.controller;
 
+import com.jiny.community.account.controller.dto.Profile;
 import com.jiny.community.account.controller.validator.SignUpFormValidator;
 import com.jiny.community.account.domain.Account;
 import com.jiny.community.account.controller.dto.SignUpForm;
-import com.jiny.community.account.domain.CommonAttribute;
 import com.jiny.community.account.repository.AccountRepository;
 import com.jiny.community.account.service.AccountService;
 import com.jiny.community.account.support.CurrentUser;
@@ -13,8 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @Slf4j
@@ -81,8 +84,18 @@ public class AccountController {
     @GetMapping("/settings/profile")
     public String profileUpdateForm(@CurrentUser Account account, Model model) {
         model.addAttribute(account);
-        model.addAttribute(CommonAttribute.Profile.from(account));
+        model.addAttribute(Profile.from(account));
         return "account/settings/profile";
     }
 
+    @PostMapping("/settings/profile")
+    public String updateProfile(@CurrentUser Account account,
+                                @Valid @ModelAttribute("profile") Profile profile, Errors errors, Model model){
+        if(errors.hasErrors()){
+            model.addAttribute(account);
+            return "account/settings/profile";
+        }
+        accountService.updateProfile(account,profile);
+        return "redirect:/profile/"+account.getNickname();
+    }
 }

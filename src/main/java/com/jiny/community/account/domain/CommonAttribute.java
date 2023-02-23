@@ -11,22 +11,18 @@ import java.util.Optional;
 public abstract class CommonAttribute {
 
     @Embeddable
-    @NoArgsConstructor(access = AccessLevel.PROTECTED) @AllArgsConstructor(access = AccessLevel.PROTECTED)
+    @NoArgsConstructor @AllArgsConstructor(access = AccessLevel.PROTECTED)
     @Builder @Getter @ToString
     public static class Profile {
-        private String bio;
-        private String company;
+        protected String bio;
+        protected String company;
         @Lob @Basic(fetch = FetchType.EAGER)
-        private String image;
+        protected String image;
+        public void setAttribute(String bio,String company){
+            this.bio = bio;
+            this.company = company;
+        }
 
-        public static Profile from(Account account){
-            return new Profile(account);
-        }
-        protected Profile(Account account){
-            Optional<Profile> optionalAccount = Optional.ofNullable(account.getProfile());
-            this.bio= Optional.ofNullable(account.getProfile()).map(CommonAttribute.Profile :: getBio).orElse(null);
-            this.company= Optional.ofNullable(account.getProfile()).map(CommonAttribute.Profile :: getCompany).orElse(null);
-        }
     }
 
 
