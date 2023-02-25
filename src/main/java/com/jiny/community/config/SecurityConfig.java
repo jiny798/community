@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatcher("/**")
                     .authorizeRequests()
                     .mvcMatchers( "/", "/index", "/post/list", "/signup"
-                    ,"/email-login","check-email-login","check-email-token","login-link").permitAll()
+                    ,"/email-login","check-email-login","check-email-token","login-link","/login-by-email").permitAll()
                     .mvcMatchers("/admin").hasRole("ADMIN")
                     .mvcMatchers("/user","/post/add").hasRole("USER")
                     .anyRequest().permitAll()  //.authenticated()

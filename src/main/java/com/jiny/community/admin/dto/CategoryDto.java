@@ -1,14 +1,11 @@
-package com.jiny.community.dto.Post;
+package com.jiny.community.admin.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-
 @Data
 @AllArgsConstructor
-public class CategoryResponseDto {
+public class CategoryDto {
 
     private Long id;
-    private String name;
-
 }

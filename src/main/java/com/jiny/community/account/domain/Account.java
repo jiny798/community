@@ -1,8 +1,10 @@
 package com.jiny.community.account.domain;
 
+import com.jiny.community.account.domain.CommonAttribute.NotificationSetting;
 import com.jiny.community.account.domain.CommonAttribute.Profile;
 import com.jiny.community.board.domain.Comment;
 import com.jiny.community.board.domain.Post;
+import com.jiny.community.settings.controller.NotificationForm;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,6 +42,9 @@ public class Account {
     @Embedded
     private Profile profile = new Profile();
 
+    @Embedded
+    private NotificationSetting notificationSetting = new NotificationSetting();
+
     public void createRandomToken(){
         this.emailToken = UUID.randomUUID().toString();
         this.emailTokenGeneratedAt = LocalDateTime.now();
@@ -48,13 +53,13 @@ public class Account {
         return this.emailTokenGeneratedAt.isBefore(LocalDateTime.now().minusMinutes(5));
     }
 
-    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL) @ToString.Exclude
     private List<Post> postList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL) @ToString.Exclude
     private List<Comment> commentList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL) @ToString.Exclude
     private List<UserLikePost> userLikePosts = new ArrayList<>();
 
     public void encodePassword(PasswordEncoder passwordEncoder){
@@ -102,7 +107,7 @@ public class Account {
         return getClass().hashCode();
     }
 
-    public void updateProfile(com.jiny.community.account.controller.dto.Profile profile){
+    public void updateProfile(com.jiny.community.settings.controller.Profile profile){
         if(this.profile ==null){
             this.profile = new Profile();
         }
@@ -111,4 +116,16 @@ public class Account {
         this.profile.image = profile.getImage();
     }
 
+    public void updatePassword(String newPassword){
+        this.password = newPassword;
+    }
+    public void updateNotification(NotificationForm notificationForm) {
+        this.notificationSetting.CommentCreatedByEmail = notificationForm.isCommentCreatedByEmail();
+        this.notificationSetting.CommentCreatedByWeb = notificationForm.isCommentCreatedByWeb();
+
+    }
+
+    public boolean isValid(String token){
+        return this.emailToken.equals(token);
+    }
 }

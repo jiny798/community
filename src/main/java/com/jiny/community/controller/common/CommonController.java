@@ -1,12 +1,11 @@
 package com.jiny.community.controller.common;
 
-import com.jiny.community.dto.Post.CategoryResponseDto;
-import com.jiny.community.service.CategoryService;
+import com.jiny.community.board.dto.CategoryResponseDto;
+import com.jiny.community.admin.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @ControllerAdvice

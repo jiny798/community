@@ -1,7 +1,7 @@
-package com.jiny.community.service.Post;
+package com.jiny.community.board.service;
 
-import com.jiny.community.dto.Post.PageDto;
-import com.jiny.community.dto.Post.PostResponseDto;
+import com.jiny.community.board.dto.PageDto;
+import com.jiny.community.board.dto.PostResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 

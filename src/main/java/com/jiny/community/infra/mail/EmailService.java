@@ -1,4 +1,4 @@
-package com.jiny.community.service;
+package com.jiny.community.infra.mail;
 
 import com.jiny.community.infra.mail.EmailMessage;
 import lombok.RequiredArgsConstructor;

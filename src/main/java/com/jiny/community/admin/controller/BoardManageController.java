@@ -1,15 +1,14 @@
 package com.jiny.community.admin.controller;
 
-import com.jiny.community.dto.CategoryDto;
-import com.jiny.community.dto.Post.CategoryResponseDto;
-import com.jiny.community.repository.CategoryRepository;
-import com.jiny.community.service.CategoryService;
+import com.jiny.community.admin.dto.CategoryDto;
+import com.jiny.community.board.dto.CategoryResponseDto;
+import com.jiny.community.admin.repository.CategoryRepository;
+import com.jiny.community.admin.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 

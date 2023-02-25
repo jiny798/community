@@ -1,7 +1,8 @@
 package com.jiny.community.account.service;
 
 
-import com.jiny.community.account.controller.dto.Profile;
+import com.jiny.community.settings.controller.NotificationForm;
+import com.jiny.community.settings.controller.Profile;
 import com.jiny.community.account.controller.dto.SignUpForm;
 import com.jiny.community.account.domain.Account;
 
@@ -9,9 +10,11 @@ import com.jiny.community.account.domain.UserAccount;
 import com.jiny.community.infra.mail.AppProperties;
 import com.jiny.community.infra.mail.EmailMessage;
 import com.jiny.community.account.repository.AccountRepository;
-import com.jiny.community.service.EmailService;
+import com.jiny.community.infra.mail.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,6 +42,7 @@ public class AccountService implements UserDetailsService {
     private final EmailService emailService;
     private final TemplateEngine templateEngine;
     private final AppProperties appProperties;
+    private final JavaMailSender javaMailSender;
 
     public Account signUp(SignUpForm signUpForm) {
         Account newAccount = saveNewAccount(signUpForm);
@@ -98,5 +102,24 @@ public class AccountService implements UserDetailsService {
         account.updateProfile(profile);
         log.debug("updateProfile={}, {}, {}",profile.getBio(),profile.getCompany(),profile.getImage());
         accountRepository.save(account);
+    }
+
+    public void updatePassword(Account account,String newPassword){
+        account.updatePassword(passwordEncoder.encode(newPassword));
+        accountRepository.save(account);
+    }
+
+    public void updateNotification(Account account, NotificationForm notificationForm) {
+        account.updateNotification(notificationForm);
+        accountRepository.save(account);
+    }
+
+    public void sendLoginLink(Account account){
+        account.generateToken();
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(account.getEmail());
+        mailMessage.setSubject("비밀번호 찾기 이메일 로그인");
+        mailMessage.setText("/login-by-email?token="+account.getEmailToken()+"&email="+account.getEmail());
+        javaMailSender.send(mailMessage);
     }
 }

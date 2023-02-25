@@ -1,4 +1,4 @@
-package com.jiny.community.account.controller.dto;
+package com.jiny.community.settings.controller;
 
 import com.jiny.community.account.domain.Account;
 import com.jiny.community.account.domain.CommonAttribute;

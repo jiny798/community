@@ -1,4 +1,4 @@
-package com.jiny.community.repository;
+package com.jiny.community.account.repository;
 
 import com.jiny.community.account.domain.UserLikePost;
 import org.springframework.stereotype.Repository;

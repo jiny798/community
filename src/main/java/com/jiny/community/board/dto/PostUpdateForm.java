@@ -1,4 +1,4 @@
-package com.jiny.community.dto.Post;
+package com.jiny.community.board.dto;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.jiny.community.repository;
+package com.jiny.community.board.repository;
 
 import com.jiny.community.board.domain.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;

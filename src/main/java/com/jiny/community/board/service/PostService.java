@@ -1,14 +1,14 @@
-package com.jiny.community.service.Post;
+package com.jiny.community.board.service;
 
 import com.jiny.community.account.domain.Account;
 import com.jiny.community.admin.domain.Category;
 import com.jiny.community.board.domain.Post;
-import com.jiny.community.dto.Post.PostDetailResponseDto;
-import com.jiny.community.dto.Post.PostResponseDto;
-import com.jiny.community.dto.Post.PostForm;
-import com.jiny.community.dto.Post.PostUpdateForm;
-import com.jiny.community.repository.CategoryRepository;
-import com.jiny.community.repository.PostRepository;
+import com.jiny.community.board.dto.PostDetailResponseDto;
+import com.jiny.community.board.dto.PostResponseDto;
+import com.jiny.community.board.dto.PostForm;
+import com.jiny.community.board.dto.PostUpdateForm;
+import com.jiny.community.admin.repository.CategoryRepository;
+import com.jiny.community.board.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

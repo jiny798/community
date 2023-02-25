@@ -1,9 +1,9 @@
-package com.jiny.community.controller;
+package com.jiny.community.infra.mail;
 
 import com.jiny.community.account.domain.Account;
 import com.jiny.community.account.repository.AccountRepository;
 import com.jiny.community.account.service.AccountService;
-import com.jiny.community.service.UserService;
+import com.jiny.community.account.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

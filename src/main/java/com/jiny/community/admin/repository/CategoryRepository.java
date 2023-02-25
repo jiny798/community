@@ -1,4 +1,4 @@
-package com.jiny.community.repository;
+package com.jiny.community.admin.repository;
 
 import com.jiny.community.admin.domain.Category;
 import org.springframework.data.jpa.repository.JpaRepository;

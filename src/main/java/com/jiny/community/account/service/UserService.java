@@ -1,12 +1,12 @@
-package com.jiny.community.service;
+package com.jiny.community.account.service;
 
 import com.jiny.community.account.domain.Account;
 import com.jiny.community.board.domain.Post;
 import com.jiny.community.account.domain.UserLikePost;
 import com.jiny.community.account.repository.AccountRepository;
-import com.jiny.community.repository.PostRepository;
-import com.jiny.community.repository.UserLikePostRepository;
-import com.jiny.community.service.Post.PostService;
+import com.jiny.community.board.repository.PostRepository;
+import com.jiny.community.account.repository.UserLikePostRepository;
+import com.jiny.community.board.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

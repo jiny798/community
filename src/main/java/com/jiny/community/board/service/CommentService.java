@@ -1,10 +1,10 @@
-package com.jiny.community.service.Post;
+package com.jiny.community.board.service;
 
 import com.jiny.community.board.domain.Comment;
-import com.jiny.community.dto.Post.CommentDto;
+import com.jiny.community.board.dto.CommentDto;
 import com.jiny.community.account.repository.AccountRepository;
-import com.jiny.community.repository.CommentRepository;
-import com.jiny.community.repository.PostRepository;
+import com.jiny.community.board.repository.CommentRepository;
+import com.jiny.community.board.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

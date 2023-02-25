@@ -1,8 +1,8 @@
-package com.jiny.community.service;
+package com.jiny.community.admin.service;
 
 import com.jiny.community.admin.domain.Category;
-import com.jiny.community.dto.Post.CategoryResponseDto;
-import com.jiny.community.repository.CategoryRepository;
+import com.jiny.community.board.dto.CategoryResponseDto;
+import com.jiny.community.admin.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,23 +1,19 @@
 package com.jiny.community.account.controller;
 
-import com.jiny.community.account.controller.dto.Profile;
 import com.jiny.community.account.controller.validator.SignUpFormValidator;
 import com.jiny.community.account.domain.Account;
 import com.jiny.community.account.controller.dto.SignUpForm;
 import com.jiny.community.account.repository.AccountRepository;
 import com.jiny.community.account.service.AccountService;
 import com.jiny.community.account.support.CurrentUser;
-import com.jiny.community.service.UserService;
+import com.jiny.community.account.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @Controller
 @Slf4j
@@ -37,13 +33,13 @@ public class AccountController {
 
     @PostMapping(value = "/account/new")
     public String create(@Validated @ModelAttribute("form") SignUpForm form, BindingResult result){
-        log.info("회원가입 요청");
+        log.info("회원가입 요청 = {}",form.getEmail());
         if(!form.getPassword().equals(form.getPassword2())){
-            result.reject("notEqualsPassword");
+            result.rejectValue("password","wrong.value","패스워드가 서로 일치하지 않습니다.");
         }
         signUpFormValidator.validate(form,result);
         if (result.hasErrors()) {
-            log.info("errors={}", result);
+            log.debug("errors={}", result);
             return "account/createAccountForm";
         }
 
@@ -70,32 +66,36 @@ public class AccountController {
         return "redirect:/";
     }
 
-    @GetMapping("/profile/{nickname}")
-    public String viewProfile(@PathVariable String nickname,Model model,@CurrentUser Account account ){
-        Account findAccount = accountRepository.findByNickname(nickname);
-        if(findAccount ==null){
-           throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
-        }
-        model.addAttribute(findAccount);
-        model.addAttribute("isOwner", findAccount.equals(account));
-        return "account/profile";
+    @GetMapping("/email-login")
+    public String emailLoginForm(){
+        return "account/email-login";
     }
 
-    @GetMapping("/settings/profile")
-    public String profileUpdateForm(@CurrentUser Account account, Model model) {
-        model.addAttribute(account);
-        model.addAttribute(Profile.from(account));
-        return "account/settings/profile";
+    @PostMapping("/email-login")
+    public String sendLinkForEmailLogin(String email, Model model, RedirectAttributes attributes) { // (2)
+        Account account = accountRepository.findByEmail(email);
+        if (account == null) {
+            model.addAttribute("error", "유효한 이메일 주소가 아닙니다.");
+            return "account/email-login";
+        }
+        if (!account.enableToSendEmail()) {
+            model.addAttribute("error", "너무 잦은 요청입니다. 5분 뒤에 다시 시도하세요.");
+            return "account/email-login";
+        }
+        accountService.sendLoginLink(account);
+        attributes.addFlashAttribute("message", "로그인 가능한 링크를 이메일로 전송하였습니다.");
+        return "redirect:/email-login";
     }
 
-    @PostMapping("/settings/profile")
-    public String updateProfile(@CurrentUser Account account,
-                                @Valid @ModelAttribute("profile") Profile profile, Errors errors, Model model){
-        if(errors.hasErrors()){
-            model.addAttribute(account);
-            return "account/settings/profile";
+    @GetMapping("/login-by-email")
+    public String loginByEmail(String token, String email, Model model) { // (3)
+        Account account = accountRepository.findByEmail(email);
+        if (account == null || !account.isValid(token)) {
+            model.addAttribute("error", "로그인할 수 없습니다.");
+            return "account/logged-in-by-email";
         }
-        accountService.updateProfile(account,profile);
-        return "redirect:/profile/"+account.getNickname();
+        accountService.login(account);
+        return "account/logged-in-by-email";
     }
+
 }

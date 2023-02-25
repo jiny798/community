@@ -11,7 +11,7 @@ import java.util.Optional;
 public abstract class CommonAttribute {
 
     @Embeddable
-    @NoArgsConstructor @AllArgsConstructor(access = AccessLevel.PROTECTED)
+    @NoArgsConstructor(access = AccessLevel.PROTECTED) @AllArgsConstructor(access = AccessLevel.PROTECTED)
     @Builder @Getter @ToString
     public static class Profile {
         protected String bio;
@@ -25,6 +25,14 @@ public abstract class CommonAttribute {
 
     }
 
+    @Embeddable
+    @NoArgsConstructor(access = AccessLevel.PROTECTED) @AllArgsConstructor(access = AccessLevel.PROTECTED)
+    @Builder @Getter @ToString
+    public static class NotificationSetting {
+        protected boolean CommentCreatedByEmail = false;
+        protected boolean CommentCreatedByWeb = true;
+
+    }
 
 
 }
