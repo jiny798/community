@@ -3,16 +3,19 @@ package com.jiny.community.board.service;
 import com.jiny.community.board.domain.Comment;
 import com.jiny.community.board.dto.CommentDto;
 import com.jiny.community.account.repository.AccountRepository;
+import com.jiny.community.board.event.CommentCreatedEvent;
 import com.jiny.community.board.repository.CommentRepository;
 import com.jiny.community.board.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service @Slf4j
 @RequiredArgsConstructor
 @Transactional
 public class CommentService {
@@ -20,15 +23,17 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final AccountRepository accountRepository;
     private final PostRepository postRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public void addComment(Long userId,Long postId,String content){
-
+        log.debug("CommentService - 댓글 추가");
         Comment comment = new Comment();
         comment.setAccount(accountRepository.findById(userId).get());
         comment.setPost(postRepository.findById(postId).get());
         comment.setContent(content);
 
+        eventPublisher.publishEvent(new CommentCreatedEvent(comment));
         commentRepository.save(comment);
     }
 

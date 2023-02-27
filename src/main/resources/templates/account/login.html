@@ -27,13 +27,18 @@
             <input type="password" name="password" class="form-control" placeholder="비밀번호를 입력하세요">
         </div>
 
+        <small id="passwordHelp" class="form-text text-muted">
+            패스워드가 기억나지 않으시나요? <a href="#" th:href="@{/email-login}">이메일로 로그인하기</a>
+        </small>
 
-        <a aria-current="page" href="#" th:href="@{/account/new}">
-        <button type="button" class="btn btn-primary" >
-            회원 가입
-        </button>
-        </a>
-        <button type="submit" class="btn btn-primary">로그인 하기</button>
+        <div>
+            <a aria-current="page" href="#" th:href="@{/account/new}">
+                <button type="button" class="btn btn-primary" >
+                    회원 가입
+                </button>
+            </a>
+            <button type="submit" class="btn btn-primary">로그인 하기</button>
+        </div>
     </form>
     <br/>
 </div> <!-- /container -->

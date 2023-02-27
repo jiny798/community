@@ -20,6 +20,7 @@ public class ConsoleMailSender implements JavaMailSender {
     }
 
     @Override public MimeMessage createMimeMessage(InputStream contentStream) throws MailException {
+
         return null;
     }
 
@@ -40,7 +41,7 @@ public class ConsoleMailSender implements JavaMailSender {
     }
 
     @Override public void send(SimpleMailMessage simpleMessage) throws MailException {
-        log.info("{}", simpleMessage);
+        log.info("메일이 전송되었습니다. {}", simpleMessage);
     }
 
     @Override public void send(SimpleMailMessage... simpleMessages) throws MailException {

@@ -1,4 +1,4 @@
-package com.jiny.community.infra.mail;
+package com.jiny.community.account.service;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

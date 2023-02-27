@@ -49,7 +49,7 @@ public class Account {
         this.emailToken = UUID.randomUUID().toString();
         this.emailTokenGeneratedAt = LocalDateTime.now();
     }
-    public boolean enableSendEmail(){
+    public boolean isEnableToSendEmail(){
         return this.emailTokenGeneratedAt.isBefore(LocalDateTime.now().minusMinutes(5));
     }
 

@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @Slf4j
@@ -57,7 +58,7 @@ public class AccountController {
 
     @GetMapping("/resend-email")
     public String resendEmail(@CurrentUser Account account,Model model){
-        if(!account.enableSendEmail()){
+        if(!account.isEnableToSendEmail()){
             model.addAttribute("error","5분 후 다시 시도해주세요.");
             model.addAttribute("email",account.getEmail());
             return "account/check-email";
@@ -73,12 +74,13 @@ public class AccountController {
 
     @PostMapping("/email-login")
     public String sendLinkForEmailLogin(String email, Model model, RedirectAttributes attributes) { // (2)
+        log.debug("이메일 전달 {}",email);
         Account account = accountRepository.findByEmail(email);
         if (account == null) {
             model.addAttribute("error", "유효한 이메일 주소가 아닙니다.");
             return "account/email-login";
         }
-        if (!account.enableToSendEmail()) {
+        if (!account.isEnableToSendEmail()) {
             model.addAttribute("error", "너무 잦은 요청입니다. 5분 뒤에 다시 시도하세요.");
             return "account/email-login";
         }
@@ -92,10 +94,10 @@ public class AccountController {
         Account account = accountRepository.findByEmail(email);
         if (account == null || !account.isValid(token)) {
             model.addAttribute("error", "로그인할 수 없습니다.");
-            return "account/logged-in-by-email";
+            return "account/email-logged";
         }
         accountService.login(account);
-        return "account/logged-in-by-email";
+        return "account/email-logged";
     }
 
 }

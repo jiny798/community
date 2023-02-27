@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
 </head>
 <body>
-        <nav th:fragment="left_menu" id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+        <div th:fragment="left_menu" id="sidebarMenu" class="col-md-3 col-lg-1 d-md-block bg-light sidebar collapse">
             <div class="position-sticky pt-3 sidebar-sticky">
                 <ul id="category_ul" class="nav flex-column">
                     <li class="nav-item" th:each="category : ${category_list}">
@@ -22,7 +22,7 @@
                     </li>
                 </ul>
             </div>
-        </nav>
+        </div>
 
 </body>
 </html>
