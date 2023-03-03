@@ -1,21 +1,44 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-<style>
 
-</style>
 <header th:fragment="header" class="navbar navbar-dark sticky-top bg-dark p-0 shadow">
+  <style>
+  .inline {
+    display: inline;
+  }
+</style>
   <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
   <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
   <a class="navbar-brand col-md-3 col-lg-1 me-0 px-3 fs-6" href="#" th:href="@{/}"
      style="color: white;">Community</a>
-   <!--a href="#" th:href="@{/post/{id}/edit (id=${post.id})}">-->
-  <div class="" sec:authorize="isAuthenticated()">
-    <a th:href="@{/profile/{name} (name=${#authentication.name})}">내정보</a>
-  </div>
+
+<!--  <div class="" sec:authorize="isAuthenticated()">-->
+<!--    <a th:href="@{/profile/{name} (name=${#authentication.name})}">내정보</a>-->
+<!--  </div>-->
 
   <div class="userinfo" sec:authorize="isAuthenticated()">
-      <a th:text="${#authentication.name}+' 님' ">사용자</a>
+    <a class="inline nav-link" th:href="@{/notifications}">
+      <i class="fa fa-bell-o" aria-hidden="true"></i>
+    </a>
+    <a class="inline" th:text="${#authentication.name}+' 님' ">사용자</a>
+
+    <a class="inline nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+       aria-haspopup="true" aria-expanded="false">
+      <i class="fa-solid fa-sun"></i>
+    </a>
+
+    <div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="userDropdown">
+      <h6 class="dropdown-header">
+        <span sec:authentication="name">Username</span>
+      </h6>
+      <a class="dropdown-item" th:href="@{'/profile/' + ${#authentication.name}}">프로필</a>
+      <a class="dropdown-item">스터디</a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="#" th:href="@{'/settings/profile'}">설정</a>
+
+    </div>
+
   </div>
   <div class="login-status"  sec:authorize="!isAuthenticated()">
     <a class="nav-link px-3 signin" href="#" th:href="@{/login}"  style="color: white;">Sign in</a>
