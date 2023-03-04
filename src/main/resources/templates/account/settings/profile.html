@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="fragment/header :: common_header">
+<head th:replace="fragment/head :: common_head">
   <title>jiny</title>
 </head>
 <body>
@@ -10,12 +10,14 @@
 
 <div class="container-fluid">
   <div class="row">
-    <nav th:replace="~{fragment/profile_menu :: settings-menu (currentMenu='profile')}"></nav>
+
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">프로필</h1>
       </div>
-
+      <div>
+        <nav th:replace="~{fragment/profile_menu :: settings-menu (currentMenu='profile')}"></nav>
+      </div>
       <div class="row mt-5">
 
         <div class="col-10">
@@ -63,8 +65,8 @@
                   프로필 이미지
                 </div>
                 <div id="current-profile-image" class="mt-3">
-                  <svg th:if="${#strings.isEmpty(profile.image)}" class="rounded"
-                       th:data-jdenticon-value="${account.nickname}" width="125" height="125"></svg>
+                  <i class="fa-solid fa-user" width="125" height="125"></i>
+
                   <img th:if="${!#strings.isEmpty(profile.image)}" class="rounded"
                        th:src="${profile.image}"
                        width="125" height="125" alt="name" th:alt="${account.nickname}"/>

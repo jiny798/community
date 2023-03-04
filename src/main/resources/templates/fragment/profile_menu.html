@@ -4,34 +4,21 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<nav th:fragment="settings-menu (currentMenu)" id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-    <div class="position-sticky pt-3 sidebar-sticky">
-        <ul id="category_ul" class="nav flex-column">
-            <li class="nav-item">
-                <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'profile'} ? active" href="#" th:href="@{/settings/profile}">
-                    <span data-feather="home" class="align-text-bottom">프로필</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'password'} ? active" href="#" th:href="@{/settings/password}">
-                    <span data-feather="home" class="align-text-bottom">패스워드</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'notification'} ? active" href="#" th:href="@{/settings/notification}">
-                    <span data-feather="home" class="align-text-bottom">알림</span>
-                </a>
-            </li>
-        </ul>
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link" href="#" th:href="@{/admin/}">
-                    <span data-feather="shopping-cart" class="align-text-bottom"></span>
-                    관리
-                </a>
-            </li>
-        </ul>
-    </div>
+<nav th:fragment="settings-menu (currentMenu)" id="sidebarMenu" class="">
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link " th:classappend="${currentMenu == 'profile'} ? active" th:href="@{/settings/profile}" aria-current="page" href="#">프로필</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " th:classappend="${currentMenu == 'password'} ? active" th:href="@{/settings/password}" href="#">패스워드 변경</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " th:classappend="${currentMenu == 'notification'} ? active" th:href="@{/settings/notification}">알림 설정</a>
+        </li>
+    </ul>
+
+
+
 </nav>
 
 </body>

@@ -33,7 +33,7 @@ public class CommentService {
         comment.setPost(postRepository.findById(postId).get());
         comment.setContent(content);
 
-        eventPublisher.publishEvent(new CommentCreatedEvent(comment));
+        eventPublisher.publishEvent(new CommentCreatedEvent(comment)); //커멘트 정보와 함께 이벤트 발생
         commentRepository.save(comment);
     }
 

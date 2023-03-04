@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragment/header :: common_header">
+<head th:replace="fragment/head :: common_head">
     <title>jiny</title>
 </head>
 <body>
@@ -9,12 +9,12 @@
 
 </header>
 
-<div class="container-fluid">
+<div class="container py-3">
     <div class="row">
-        <nav th:replace="~{fragment/left_menu :: left_menu}"></nav>
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+        <main >
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2" th:text="${post.title}" >title</h1>
+                <h1 class="h2" th:text="${post.title}">title</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <a href="#" th:href="@{/post/{id}/edit (id=${post.id})}">
                         <button type="button" class="btn btn-sm btn-outline-secondary">
@@ -24,23 +24,26 @@
                 </div>
             </div>
 
-            <div th:object="${post}" >
+            <div th:object="${post}">
                 <div th:utext="*{content}"></div>
             </div>
 
             <div class="postbtn">
-            <div class="like" id="likebtn">
-                <div th:if="${star == -1}"> <!-- th:if="${star == 0}" -->
-                    <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-suit-heart" viewBox="0 0 16 16">
-                        <path d="m8 6.236-.894-1.789c-.222-.443-.607-1.08-1.152-1.595C5.418 2.345 4.776 2 4 2 2.324 2 1 3.326 1 4.92c0 1.211.554 2.066 1.868 3.37.337.334.721.695 1.146 1.093C5.122 10.423 6.5 11.717 8 13.447c1.5-1.73 2.878-3.024 3.986-4.064.425-.398.81-.76 1.146-1.093C14.446 6.986 15 6.131 15 4.92 15 3.326 13.676 2 12 2c-.777 0-1.418.345-1.954.852-.545.515-.93 1.152-1.152 1.595L8 6.236zm.392 8.292a.513.513 0 0 1-.784 0c-1.601-1.902-3.05-3.262-4.243-4.381C1.3 8.208 0 6.989 0 4.92 0 2.755 1.79 1 4 1c1.6 0 2.719 1.05 3.404 2.008.26.365.458.716.596.992a7.55 7.55 0 0 1 .596-.992C9.281 2.049 10.4 1 12 1c2.21 0 4 1.755 4 3.92 0 2.069-1.3 3.288-3.365 5.227-1.193 1.12-2.642 2.48-4.243 4.38z"/>
-                    </svg>
+                <div class="like" id="likebtn">
+                    <div th:if="${star == -1}"> <!-- th:if="${star == 0}" -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-suit-heart" viewBox="0 0 16 16">
+                            <path d="m8 6.236-.894-1.789c-.222-.443-.607-1.08-1.152-1.595C5.418 2.345 4.776 2 4 2 2.324 2 1 3.326 1 4.92c0 1.211.554 2.066 1.868 3.37.337.334.721.695 1.146 1.093C5.122 10.423 6.5 11.717 8 13.447c1.5-1.73 2.878-3.024 3.986-4.064.425-.398.81-.76 1.146-1.093C14.446 6.986 15 6.131 15 4.92 15 3.326 13.676 2 12 2c-.777 0-1.418.345-1.954.852-.545.515-.93 1.152-1.152 1.595L8 6.236zm.392 8.292a.513.513 0 0 1-.784 0c-1.601-1.902-3.05-3.262-4.243-4.381C1.3 8.208 0 6.989 0 4.92 0 2.755 1.79 1 4 1c1.6 0 2.719 1.05 3.404 2.008.26.365.458.716.596.992a7.55 7.55 0 0 1 .596-.992C9.281 2.049 10.4 1 12 1c2.21 0 4 1.755 4 3.92 0 2.069-1.3 3.288-3.365 5.227-1.193 1.12-2.642 2.48-4.243 4.38z"/>
+                        </svg>
+                    </div>
+                    <div th:if="${star == 1}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-heart-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                        </svg>
+                    </div>
                 </div>
-                <div th:if="${star == 1}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                    </svg>
-                </div>
-            </div>
                 <script th:inline="javascript">
                  var token = $("meta[name='_csrf']").attr("content");
                  var header = $("meta[name='_csrf_header']").attr("content");
@@ -81,6 +84,7 @@
                     });
                 });
                 });
+
                 </script>
             </div>
             <div class="like_cnt" th:text="${post.starCnt}">
@@ -91,13 +95,13 @@
             <div class="comment-form">
                 <h4 class="h3">Comment</h4>
                 <form>
-                <div>
-                  <textarea class="comment" id="comment_text" name="comment"></textarea>
-                  <div class="submit">
-                        <button id="comment_btn" type="button" class="btn btn-primary">등록</button>
-                  </div>
+                    <div>
+                        <textarea class="comment" id="comment_text" name="comment"></textarea>
+                        <div class="submit">
+                            <button id="comment_btn" type="button" class="btn btn-primary">등록</button>
+                        </div>
 
-                </div>
+                    </div>
                 </form>
                 <script th:inline="javascript">
                     var token = $("meta[name='_csrf']").attr("content");
@@ -126,17 +130,23 @@
 
                     });
                     });
+
                 </script>
 
 
             </div>
 
-            <div  class="my-3 p-3 bg-body rounded shadow-sm">
+            <div class="my-3 p-3 bg-body rounded shadow-sm">
                 <h6 class="border-bottom pb-2 mb-0">댓글</h6>
 
                 <div id="commentList">
-                    <div class="d-flex text-muted pt-3" th:each="commentDto : ${commentList}" >
-                        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+                    <div class="d-flex text-muted pt-3" th:each="commentDto : ${commentList}">
+                        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
+                             xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+                             preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+                            <rect width="100%" height="100%" fill="#007bff"/>
+                            <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+                        </svg>
                         <p class="pb-3 mb-0 small lh-sm border-bottom">
                             <strong class="d-block text-gray-dark" th:text="${commentDto.nickname}">@username</strong>
                             <span style="white-space: pre-line" th:text="${commentDto.content}">  내용</span>
@@ -183,6 +193,7 @@
     resize: none;
     box-sizing: border-box;
 }
+
 </style>
 
 

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="fragment/header :: common_header">
-  <title>jiny</title>
+<head th:replace="fragment/head :: common_head">
+    <title>jiny</title>
 </head>
 <body>
 
@@ -9,45 +9,51 @@
 </header>
 
 <div class="container-fluid">
-  <div class="row">
-    <nav th:replace="~{fragment/profile_menu :: settings-menu (currentMenu='password')}"></nav>
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">알림 설정</h1>
-      </div>
-      <div th:if="${message}" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
-        <span th:text="${message}">수정 완료</span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
+    <div class="row">
 
-      <div class="row mt-3" th:fragment="profile-form">
-        <form class="col-12" action="#" th:action="@{/settings/notification}" th:object="${notificationForm}" method="post" novalidate>
-          <div class="alert alert-light" role="alert">
-            <strong><a href="#" th:href="@{/settings/keywords}">작성한 게시글</a>에 댓글이 달렸을 때</strong> 알림을 받을 방법을 설정하세요.
-          </div>
-          <div class="form-group">
-            <div class="form-check form-switch form-check-inline">
-              <input type="checkbox" th:field="*{commentCreatedByEmail}" class="form-check-input" id="commentCreatedByEmail">
-              <label class="form-check-label" for="commentCreatedByEmail">이메일로 받기</label>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">알림 설정</h1>
             </div>
-            <div class="form-check form-switch form-check-inline">
-              <input type="checkbox" th:field="*{commentCreatedByWeb}" class="form-check-input" id="commentCreatedByWeb">
-              <label class="form-check-label" for="commentCreatedByWeb">웹으로 받기</label>
+            <div>
+                <nav th:replace="~{fragment/profile_menu :: settings-menu (currentMenu='notification')}"></nav>
             </div>
-          </div>
+            <div th:if="${message}" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+                <span th:text="${message}">수정 완료</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div class="row mt-3" th:fragment="profile-form">
+                <form class="col-12" action="#" th:action="@{/settings/notification}" th:object="${notificationForm}"
+                      method="post" novalidate>
+                    <div class="alert alert-light" role="alert">
+                        <strong><a href="#" th:href="@{/settings/keywords}">작성한 게시글</a>에 댓글이 달렸을 때</strong> 알림을 받을 방법을
+                        설정하세요.
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check form-switch form-check-inline">
+                            <input type="checkbox" th:field="*{commentCreatedByEmail}" class="form-check-input"
+                                   id="commentCreatedByEmail">
+                            <label class="form-check-label" for="commentCreatedByEmail">이메일로 받기</label>
+                        </div>
+                        <div class="form-check form-switch form-check-inline">
+                            <input type="checkbox" th:field="*{commentCreatedByWeb}" class="form-check-input"
+                                   id="commentCreatedByWeb">
+                            <label class="form-check-label" for="commentCreatedByWeb">웹으로 받기</label>
+                        </div>
+                    </div>
 
 
-          <div class="form-group">
-            <button class="btn btn-outline-primary" type="submit" aria-describedby="submitHelp">저장하기</button>
-          </div>
-        </form>
-      </div>
+                    <div class="form-group">
+                        <button class="btn btn-outline-primary" type="submit" aria-describedby="submitHelp">저장하기
+                        </button>
+                    </div>
+                </form>
+            </div>
 
 
-
-
-    </main>
-  </div>
+        </main>
+    </div>
 </div>
 
 

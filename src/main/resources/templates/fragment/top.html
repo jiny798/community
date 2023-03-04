@@ -2,63 +2,114 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 
-<header th:fragment="header" class="navbar navbar-dark sticky-top bg-dark p-0 shadow">
+<nav id="navigation" th:fragment="header" class="navbar navbar-expand-lg bg-light">
   <style>
   .inline {
     display: inline;
   }
+  .userinfo{
+<!--    float : right;-->
+    color: white;
+
+    }
+    .login-status{
+
+    color: white;
+    }
 </style>
   <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
   <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
-  <a class="navbar-brand col-md-3 col-lg-1 me-0 px-3 fs-6" href="#" th:href="@{/}"
-     style="color: white;">Community</a>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">DATA MAP</a>
 
-<!--  <div class="" sec:authorize="isAuthenticated()">-->
-<!--    <a th:href="@{/profile/{name} (name=${#authentication.name})}">내정보</a>-->
-<!--  </div>-->
 
-  <div class="userinfo" sec:authorize="isAuthenticated()">
-    <a class="inline nav-link" th:href="@{/notifications}">
-      <i class="fa fa-bell-o" aria-hidden="true"></i>
-    </a>
-    <a class="inline" th:text="${#authentication.name}+' 님' ">사용자</a>
 
-    <a class="inline nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-       aria-haspopup="true" aria-expanded="false">
-      <i class="fa-solid fa-sun"></i>
-    </a>
+<!--    <i class="fa-duotone fa-bars"></i>-->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-    <div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="userDropdown">
-      <h6 class="dropdown-header">
-        <span sec:authentication="name">Username</span>
-      </h6>
-      <a class="dropdown-item" th:href="@{'/profile/' + ${#authentication.name}}">프로필</a>
-      <a class="dropdown-item">스터디</a>
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="#" th:href="@{'/settings/profile'}">설정</a>
 
+
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#" th:href="@{/}">Home</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            게시판
+          </a>
+          <ul class="dropdown-menu">
+            <li class="nav-item" th:each="category : ${category_list}">
+              <a class="dropdown-item" aria-current="page" href="#" th:href="@{/post/list/{category}  (category=${category.name}) }">
+                <span data-feather="home" class="align-text-bottom" th:text="${category.name}">자유게시판</span>
+              </a>
+            </li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" th:href="@{/profile/{name} (name=${#authentication.name})}">
+            마이페이지
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" th:href="@{/admin/}">
+            관리
+          </a>
+        </li>
+      </ul>
+
+      <ul class="nav justify-content-end">
+        <li class="nav-item">
+          <a class="nav-link" href="#" th:href="@{/login}" sec:authorize="!isAuthenticated()">
+            로그인
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" th:href="@{/account/new}" sec:authorize="!isAuthenticated()">
+            회원가입
+          </a>
+        </li>
+
+        <li class="nav-item" sec:authorize="isAuthenticated()">
+          <i class="fa-solid fa-user" th:if="${#strings.isEmpty(account?.profile?.image)}"  width="24" height="24"></i>
+          <img th:if="${!#strings.isEmpty(account?.profile?.image)}"
+               th:src="${account.profile.image}" width="24" height="24" class="rounded border"/>
+
+          <a class="" th:text="${#authentication.name}+' 님' ">사용자</a>
+        </li>
+        <!--알림-->
+        <li class="nav-item" sec:authorize="isAuthenticated()">
+          <a class="inline nav-link" th:href="@{/notifications}">
+            <i th:if="${!hasNotification}" class="fa fa-bell-o" aria-hidden="true"></i>
+            <span class="text-info"><i th:if="${hasNotification}" class="fa fa-bell" aria-hidden="true"></i></span>
+          </a>
+        </li>
+
+        <li class="nav-item" sec:authorize="isAuthenticated()">
+          <form action="/logout" th:action="@{/logout}" method="post">
+            <button class="signout" type="submit" value="Logout"  style="border: none; color: black; background-color: rgba(var(--bs-dark-rgb);">Sign out</button>
+          </form>
+        </li>
+
+
+
+      </ul>
+
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
     </div>
-
-  </div>
-  <div class="login-status"  sec:authorize="!isAuthenticated()">
-    <a class="nav-link px-3 signin" href="#" th:href="@{/login}"  style="color: white;">Sign in</a>
-  </div>
-
-  <div class="login-status"  sec:authorize="isAuthenticated()" >
-    <form action="/logout" th:action="@{/logout}" method="post">
-      <button class="signout" type="submit" value="Logout"  style="border: none; color: white; background-color: rgba(var(--bs-dark-rgb);">Sign out</button>
-    </form>
   </div>
 
 
-  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-<!--  <input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search">-->
 
-
-
-</header>
+</nav>
 
 </body>
 </html>

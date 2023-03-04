@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 
 @Slf4j
 @Async
-@Transactional(readOnly = true)
+@Transactional
 @Component @RequiredArgsConstructor
 public class CommentEventListener {
 
@@ -35,16 +35,17 @@ public class CommentEventListener {
     @EventListener
     public void handleStudyCreatedEvent(CommentCreatedEvent commentCreatedEvent){
         Comment comment = commentCreatedEvent.getComment();
-        Post findpost = comment.getPost();
+        Post findpost = comment.getPost(); // 커멘트가 등록된 post 조회
         log.info("COMMENT IS CREATED = "+comment.getContent()+" id= "+comment.getId());
         //TODO NOTIFICATION 전달
-        Account account = accountRepository.findById(findpost.getAccount().getId()).get();
+        Account account = accountRepository.findById(findpost.getAccount().getId()).get(); //조회된 post의 주인 조회
 
             CommonAttribute.NotificationSetting notificationSetting = account.getNotificationSetting();
-            if(notificationSetting.isCommentCreatedByEmail()){
+
+            if(notificationSetting.isCommentCreatedByEmail()){ //계정 이메일 알림 설정 확인
                 sendEmail(comment,account);
             }
-            if(notificationSetting.isCommentCreatedByWeb()){
+            if(notificationSetting.isCommentCreatedByWeb()){ //계정 웹 알림 설정 확인
                 saveNotification(comment,account);
             }
 
@@ -66,7 +67,9 @@ public class CommentEventListener {
                 .build());
     }
 
+
     private void saveNotification(Comment comment,Account account){
+        log.debug("notification sava ={}, {}",comment.getContent(),account.getNickname());
         notificationRepository.save(Notification.from("댓글 알림",
                 "/post/"+comment.getPost().getId(),
                 false,

@@ -1,50 +1,63 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragment/header :: common_header">
+<head th:replace="fragment/head :: common_head">
     <title>jiny</title>
 </head>
+<style>
+    .get_write_form{
+        float:right;
+    }
+
+</style>
 <body>
 
 <header th:replace="fragment/top :: header"/>
 
-<div class="container-fluid">
+<div class="container py-3">
     <div class="row">
-        <nav th:replace="~{fragment/left_menu :: left_menu}"></nav>
+        <!--        <nav th:replace="~{fragment/left_menu :: left_menu}"></nav>-->
 
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Dashboard</h1>
-                <div class="btn-toolbar mb-2 mb-md-0">
-                    <div class="btn-group me-2">
+        <main>
 
+            <div class="row">
+                <div class="col">
+                    <h1 class="h2">Dashboard</h1>
+
+
+                </div>
+                <div class="col">
+                    <div class="get_write_form">
+                        <a href="#" th:href="@{/post/add}">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                글쓰기
+                            </button>
+                        </a>
                     </div>
-                    <a href="#" th:href="@{/post/add}">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">
-                        글쓰기
-                    </button>
-                    </a>
                 </div>
             </div>
+
 
             <div class="my-3 p-2 bg-body rounded shadow-sm">
 
                 <div class="d-flex text-muted pt-3" th:each="postdto : ${posts}">
                     <a href="#" th:href="@{/post/{id} (id=${postdto.id})}">
-                    <div class="mb-0 small lh-sm border-bottom w-100">
-                        <div class="d-flex justify-content-between">
-                            <span th:text="${postdto.nickname}" class="text-gray-dark">Full Name</span>
-<!--                            <a href="#">Follow</a>-->
-                        </div>
-                        <strong id="post_title" th:text="${postdto.title}" class="d-block">@username</strong>
-                        <div class="d-flex justify-content-between">
+                        <div class="mb-0 small lh-sm border-bottom w-100">
+                            <div class="d-flex justify-content-between">
+                                <span th:text="${postdto.nickname}" class="text-gray-dark">Full Name</span>
+                                <!--                            <a href="#">Follow</a>-->
+                            </div>
+                            <strong id="post_title" th:text="${postdto.title}" class="d-block">@username</strong>
+                            <div class="d-flex justify-content-between">
                             <span id="heart">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor"
+                                     class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                          d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                                 </svg>
                                 <span th:text="${postdto.starCnt}">1</span>
                             </span>
+                            </div>
                         </div>
-                    </div>
                     </a>
                 </div>
 
@@ -93,6 +106,7 @@
   a:link { color: black; text-decoration: none;}
   a:visited { color: black; text-decoration: none;}
   a:hover { color: gray; text-decoration: underline;}
+
 
 </style>
 
