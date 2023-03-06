@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 public class PageService {
 
     public PageDto getPageInfo(Page<PostResponseDto> postList ) {
+        int currentPage = postList.getNumber();
         int pageNo = postList.getNumber();
         int totalPage = postList.getTotalPages();
         // 현재 페이지를 통해 현재 페이지 그룹의 시작 페이지를 구함
@@ -23,6 +24,6 @@ public class PageService {
         int prevIndex = postList.previousOrFirstPageable().getPageNumber()+1;
         int nextIndex = postList.nextOrLastPageable().getPageNumber()+1;
 
-        return new PageDto(totalPage, startNumber, endNumber, hasPrev, hasNext, prevIndex, nextIndex);
+        return new PageDto(currentPage,totalPage, startNumber, endNumber, hasPrev, hasNext, prevIndex, nextIndex);
     }
 }

@@ -68,7 +68,7 @@
                 <ul class="pagination">
                     <!--이전-->
                     <li class="page-item" th:classappend="${!postPage.hasPrevious()}? disabled">
-                        <a class="page-link" href="#" aria-label="Previous"  th:href="@{'/post/list/'+${category}+'?page='+${postPage.getNumber()-1} } ">
+                        <a class="page-link" href="#" aria-label="Previous" th:href="@{'/post/search?keyword='+ ${keyword}+'&page='+${postPage.getNumber()-1} } ">
                             <span aria-hidden="true">이전</span>
                         </a>
                     </li>
@@ -76,12 +76,12 @@
 
                     <li class="page-item" th:each="i : ${#numbers.sequence(startNumber, endNumber ) }"  th:classappend="${i == postPage.getNumber()}? active">
                         <a class="page-link" th:text="${i+1}"
-                           th:href="@{'/post/list/'+${category}+'?page='+${i} }">1</a>
+                           th:href="@{'/post/search?keyword='+ ${keyword}+'&page='+${i} }">1</a>
                     </li>
 
                     <!--다음-->
                     <li class="page-item" th:classappend="${!postPage.hasNext()}? disabled">
-                        <a class="page-link" href="#" aria-label="Next"  th:href="@{'/post/list/'+${category}+'?page='+${postPage.getNumber()+1} }">
+                        <a class="page-link" href="#" aria-label="Next" th:href="@{'/post/search?keyword='+ ${keyword}+'&page='+${postPage.getNumber()+1} }">
                             <span aria-hidden="true">다음</span>
                         </a>
                     </li>
@@ -102,6 +102,7 @@
     #heart{
         margin-top: 0.2rem;
     }
+
     .disabled{
         display:none;
     }

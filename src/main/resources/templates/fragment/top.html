@@ -20,7 +20,7 @@
   <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
   <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">DATA MAP</a>
+    <a class="navbar-brand" href="#" th:href="@{/}" >DATA MAP</a>
 
 
 
@@ -76,7 +76,7 @@
         </li>
 
         <li class="nav-item" sec:authorize="isAuthenticated()">
-          <i class="fa-solid fa-user" th:if="${#strings.isEmpty(account?.profile?.image)}"  width="24" height="24"></i>
+          <i class="fa-solid fa-user" th:if="${#strings.isEmpty(account?.profile?.image)}"></i>
           <img th:if="${!#strings.isEmpty(account?.profile?.image)}"
                th:src="${account.profile.image}" width="24" height="24" class="rounded border"/>
 
@@ -100,8 +100,8 @@
 
       </ul>
 
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <form th:action="@{/post/search}" method="get" class="d-flex" role="search">
+        <input name="keyword" class="form-control me-2" type="search" placeholder="게시물 검색" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
     </div>

@@ -5,8 +5,8 @@ import com.jiny.community.account.domain.CommonAttribute;
 import com.jiny.community.account.repository.AccountRepository;
 import com.jiny.community.board.domain.Comment;
 import com.jiny.community.board.domain.Post;
-import com.jiny.community.infra.mail.EmailMessage;
-import com.jiny.community.infra.mail.EmailService;
+import com.jiny.community.account.infra.mail.EmailMessage;
+import com.jiny.community.account.infra.mail.EmailService;
 import com.jiny.community.notification.domain.Notification;
 import com.jiny.community.notification.domain.NotificationType;
 import com.jiny.community.notification.repository.NotificationRepository;
@@ -16,7 +16,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.thymeleaf.ITemplateEngine;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 

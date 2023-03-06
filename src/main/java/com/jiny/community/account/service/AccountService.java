@@ -1,16 +1,15 @@
 package com.jiny.community.account.service;
 
 
-import com.jiny.community.account.domain.CommonAttribute;
 import com.jiny.community.settings.controller.NotificationForm;
 import com.jiny.community.settings.controller.Profile;
 import com.jiny.community.account.controller.dto.SignUpForm;
 import com.jiny.community.account.domain.Account;
 
 import com.jiny.community.account.domain.UserAccount;
-import com.jiny.community.infra.mail.EmailMessage;
+import com.jiny.community.account.infra.mail.EmailMessage;
 import com.jiny.community.account.repository.AccountRepository;
-import com.jiny.community.infra.mail.EmailService;
+import com.jiny.community.account.infra.mail.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

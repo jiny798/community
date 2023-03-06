@@ -1,6 +1,7 @@
 package com.jiny.community.board.controller;
 
 import com.jiny.community.account.domain.Account;
+import com.jiny.community.account.support.CurrentUser;
 import com.jiny.community.board.domain.Comment;
 import com.jiny.community.board.domain.Post;
 import com.jiny.community.account.domain.UserAccount;
@@ -17,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,28 +51,35 @@ public class PostController {
     @GetMapping(value = "/list/{str}")
     public String postList(Model model,
                            @PathVariable String str,
-                           @RequestParam(required = false, defaultValue = "1", value = "page") int pageNo,
-                           Pageable pageable, HttpServletRequest request){
-        if(pageNo == 0 ){
-            pageNo=1;
+                           @RequestParam(required = false, defaultValue = "0", value = "page") int pageNo
+                           , HttpServletRequest request, @CurrentUser Account account){
+        if(account != null) {
+            Account findAccount = accountRepository.findById(account.getId()).get();
+            model.addAttribute("account", findAccount);
         }
-        pageNo =  pageNo - 1;
-        //List<PostResponseDto> posts = postService.getPostList(str);
-        Page<PostResponseDto> postList =postService.getPagingList(pageable,pageNo,str,"id");
-        PageDto pageDto = pageService.getPageInfo(postList);//Page 에 현재 페이지가 있는데 pageNo를 따로 넣어야하나?
 
-        String contextRoot = request.getSession().getServletContext().getRealPath("/");
-        log.info("contextReal ={}",contextRoot);
-        log.info("page = {}",pageDto);
-        model.addAttribute("posts",postList.getContent());
-        model.addAttribute("pageDto",pageDto);
-        model.addAttribute("categoryName",str);
+        Page<PostResponseDto> postPage =postService.getPagingList(pageNo,str,"id");
+
+        int startNumber = (int)((Math.floor(pageNo/5)*5)+1 <= postPage.getTotalPages() ? (Math.floor(pageNo/5)*5) : postPage.getTotalPages());
+        int endNumber = (startNumber + 4 < postPage.getTotalPages() ? startNumber + 4 : postPage.getTotalPages()-1);
+
+        model.addAttribute("postPage",postPage);
+        model.addAttribute("startNumber",startNumber);
+        model.addAttribute("endNumber",endNumber);
+        model.addAttribute("category",str);
+
+
+
         return "board";
     }
 
     //게시글 상세
     @GetMapping(value = "/{id}")
-    public String getPostDetail(@PathVariable("id") Long postId, Model model,Authentication authentication){
+    public String getPostDetail(@PathVariable("id") Long postId, Model model,Authentication authentication,@CurrentUser Account account){
+        if(account != null) {
+            Account findAccount = accountRepository.findById(account.getId()).get();
+            model.addAttribute("account", findAccount);
+        }
         PostDetailResponseDto post = postService.getDetail(postId);
         model.addAttribute("post",post); //postDto 전달
 
@@ -122,7 +132,6 @@ public class PostController {
 
         UserAccount userAccount = (UserAccount)authentication.getPrincipal();
         Account account = accountRepository.findByNickname(userAccount.getAccountNickName())  ;
-
         postService.addPost(account,form);
 
         String str = URLEncoder.encode(form.getCategory(), "UTF-8");
@@ -132,12 +141,7 @@ public class PostController {
     @PostMapping(value = "/{id}/like")
     public String likePost(Model model,@PathVariable("id")Long postId,Authentication authentication){ //스프링 시큐리티 사용시 회원정보 받을 수 있음.
         log.info("user like post = {}",postId);
-
         UserAccount userAccount = (UserAccount)authentication.getPrincipal();
-//        if(userAccount==null){
-//            log.info("not login");
-//            return "detailPage :: #likebtn";
-//        }
         Account account = accountRepository.findByNickname(userAccount.getAccountNickName());
 
         userService.updateLikePost(account.getId(),postId); // userId or user 전달 선택
@@ -191,5 +195,23 @@ public class PostController {
 
         return "redirect:/post/" + postId;
     }
+
+    @GetMapping("/search")
+    public String searchPost(String keyword, Model model,@PageableDefault(size = 5) Pageable pageable){
+        log.debug("게시물 검색 {} 페이지 번호 {}",keyword,pageable.getPageNumber());
+        Page<PostResponseDto> postPage = postService.getPosts(keyword,pageable);
+
+        int pageNo =pageable.getPageNumber();
+
+        int startNumber = (int)((Math.floor(pageNo/5)*5)+1 <= postPage.getTotalPages() ? (Math.floor(pageNo/5)*5) : postPage.getTotalPages());
+        int endNumber = (startNumber + 4 < postPage.getTotalPages() ? startNumber + 4 : postPage.getTotalPages()-1);
+        log.debug("num = {} {} {}",pageNo,startNumber,endNumber);
+        model.addAttribute("postPage",postPage);
+        model.addAttribute("keyword",keyword);
+        model.addAttribute("startNumber",startNumber);
+        model.addAttribute("endNumber",endNumber);
+        return "board_search";
+    }
+
 
 }

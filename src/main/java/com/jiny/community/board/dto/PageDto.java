@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class PageDto {
+    int currentPage;
     int totalPage;
     int startNum;
     int endNum;

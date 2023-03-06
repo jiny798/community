@@ -1,20 +1,14 @@
-package com.jiny.community.infra.mail;
+package com.jiny.community.account.infra.mail;
 
-import com.jiny.community.account.domain.Account;
 import com.jiny.community.account.repository.AccountRepository;
-import com.jiny.community.infra.mail.EmailMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.validation.Valid;
 
 
 @Service

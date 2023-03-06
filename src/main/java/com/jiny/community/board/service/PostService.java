@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -64,26 +65,9 @@ public class PostService {
 
     }
 
+    public Page<PostResponseDto> getPagingList( int pageNo, String categoryName, String name) {
 
-    public List<PostResponseDto> getPostList(String categoryName){
-        Category category = categoryRepository.findByName(categoryName);
-        List<Post> post_list = postRepository.findByCategory(category);
-        ArrayList<PostResponseDto> posts = new ArrayList<>();
-
-        for(int i =0;i<post_list.size();i++){
-//            PostResponseDto postResponseDto = new PostResponseDto();
-//            postResponseDto.setTitle(post_list.get(i).getTitle());
-//            postResponseDto.setContent(post_list.get(i).getContent());
-//            postResponseDto.setNickname(post_list.get(i).getAccount().getNickname());
-//            postResponseDto.setId(post_list.get(i).getId());
-//            posts.add(postResponseDto);
-        }
-        return posts;
-    }
-
-    public Page<PostResponseDto> getPagingList(Pageable pageable, int pageNo, String categoryName, String name) {
-
-        pageable = PageRequest.of(pageNo, 5 , Sort.by(Sort.Direction.DESC, name));
+        Pageable pageable = PageRequest.of(pageNo, 5 , Sort.by(Sort.Direction.DESC, name));
         Category category=categoryRepository.findByName(categoryName);
 
         Page<Post> page = postRepository.findByCategory(category,pageable);
@@ -103,6 +87,18 @@ public class PostService {
         return postList;
     }
 
+    public Page<PostResponseDto> getPosts(String keyword,Pageable pageable){
+        Page<Post> list = postRepository.findByKeyword(keyword,pageable);
+
+        Page<PostResponseDto> posts =  list.map(p -> new PostResponseDto(p.getId(),
+                p.getAccount().getNickname(),
+                p.getTitle(),
+                p.getContent(),
+                p.getCategory().getName(),
+                p.getStar()));
+
+        return posts;
+    }
 
 
 }

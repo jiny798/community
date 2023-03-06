@@ -1,4 +1,4 @@
-package com.jiny.community.infra.file;
+package com.jiny.community.board.file;
 
 import lombok.Data;
 

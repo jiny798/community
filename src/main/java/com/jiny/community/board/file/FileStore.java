@@ -1,4 +1,4 @@
-package com.jiny.community.infra.file;
+package com.jiny.community.board.file;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

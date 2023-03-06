@@ -1,17 +1,43 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">
 
-<ul th:fragment="notification-list (notifications)" class="list-group list-group-flush">
-  <a href="#" th:href="@{${notification.link}}" th:each="notification: ${notifications}"
-     class="list-group-item list-group-item-action">
-    <div class="d-flex w-100 justify-content-between">
-      <small class="text-muted" th:text="${notification.title}">Notification title</small>
-      <small class="fromNow text-muted" th:text="${notification.created}">3 days ago</small>
-    </div>
-    <p th:text="${notification.message}" class="text-left mb-0 mt-1">message</p>
-  </a>
-</ul>
+<!--<div th:fragment="notification-list (notifications)" th:each="notification: ${notifications}">-->
+<!--<a href="#" th:href="@{${notification.link}}" >-->
+<!--    <div class="d-flex text-muted pt-3">-->
+
+<!--        <div th:if="${notification.checked}">-->
+<!--        <i class="fa-lg fa-regular fa-envelope"></i>-->
+<!--        </div>-->
+
+<!--        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">-->
+
+<!--            <div class="d-flex justify-content-between">-->
+<!--                <strong th:text="${notification.title}" class="text-gray-dark">title</strong>-->
+<!--                <a href="#" th:href="@{${notification.link}}" th:text="${notification.created}">days</a>-->
+<!--            </div>-->
+<!--            <span class="" th:text="${notification.message}">message</span>-->
+
+<!--        </div>-->
+<!--    </div>-->
+<!--</a>-->
+<!--</div>-->
+
+<a th:fragment="notification-list (notifications)" class="list-group list-group-flush">
+    <a  href="#" th:href="@{${notification.link}}" th:each="notification: ${notifications}"
+       class="list-group-item list-group-item-action">
+
+        <div class="d-flex w-100 justify-content-between">
+            <small>
+                <span th:if="${!notification.checked}"><i class="fa-regular fa-envelope"></i></span>
+                <span> </span>
+                <strong th:text="${notification.title}"> Noti title</strong>
+            </small>
+            <small class="fromNow text-muted" th:text="${notification.created}">3 days ago</small>
+        </div>
+        <p th:text="${notification.message}" class="text-left mb-0 mt-1">message</p>
+    </a>
+</a>
 
 </html>

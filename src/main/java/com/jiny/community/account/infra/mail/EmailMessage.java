@@ -1,4 +1,4 @@
-package com.jiny.community.infra.mail;
+package com.jiny.community.account.infra.mail;
 
 import lombok.*;
 

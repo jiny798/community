@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="fragment/head :: common_head">
+</head>
+
+<body>
+
+<header th:replace="fragment/top :: header">
+</header>
+<section class="jumbotron text-center">
+    <div class="container">
+        <h2>오류</h2>
+        <p class="lead text-muted">
+            잘못된 요청입니다.<br/>
+        </p>
+        <p>
+            <a th:href="@{/}" class="btn btn-primary my-2">홈으로 이동</a>
+        </p>
+    </div>
+</section>
+</body>
+</html>
