@@ -39,22 +39,25 @@ public class CommonController {
         }
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<CustomError> handleNotFoundException(NotFoundException notFoundException, ServletWebRequest webRequest){
-        return ResponseEntity.status(notFoundException.getStatusCode())
-                .body(CustomError.builder()
-                        .time(LocalDateTime.now().toString())
-                        .status(notFoundException.getRawStatusCode())
-                        .error(notFoundException.getStatusCode().toString())
-                        .message(notFoundException.getMessage())
-                        .path(webRequest.getRequest().getRequestURI())
-                        .build());
+    @ExceptionHandler(NotFoundException.class) //ResponseEntity<CustomError>
+    public String handleNotFoundException(NotFoundException notFoundException, ServletWebRequest webRequest,Model model){
+        model.addAttribute("message",notFoundException.getMessage().toString().substring(3));
+        return "error/error";
+//        return ResponseEntity.status(notFoundException.getStatusCode())
+//                .body(CustomError.builder()
+//                        .time(LocalDateTime.now().toString())
+//                        .status(notFoundException.getRawStatusCode())
+//                        .error(notFoundException.getStatusCode().toString())
+//                        .message(notFoundException.getMessage())
+//                        .path(webRequest.getRequest().getRequestURI())
+//                        .build());
     }
     @ExceptionHandler(RuntimeException.class)
-    public String handleRuntimeException(@CurrentUser Account account, HttpServletRequest request,RuntimeException ex){
+    public String handleRuntimeException(@CurrentUser Account account, HttpServletRequest request,RuntimeException ex,Model model){
         log.info(getNickname(account)+ "request uri = {}",request.getRequestURI());
         log.error("bad request",ex);
-        return "error";
+        model.addAttribute("message",ex.getMessage());
+        return "error/error";
     }
 
     private String getNickname(Account account){

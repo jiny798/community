@@ -4,9 +4,11 @@ import com.jiny.community.account.domain.Account;
 import com.jiny.community.account.repository.AccountRepository;
 import com.jiny.community.account.service.AccountService;
 import com.jiny.community.account.support.CurrentUser;
+import com.jiny.community.controller.common.NotFoundException;
 import com.jiny.community.settings.validator.PasswordFormValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -55,7 +57,7 @@ public class SettingsController {
     public String viewProfile(@PathVariable String nickname, Model model, @CurrentUser Account account ){
         Account findAccount = accountRepository.findByNickname(nickname);
         if(findAccount ==null){
-            throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
+            throw new NotFoundException(HttpStatus.BAD_REQUEST,"사용자를 찾을 수 없습니다.");
         }
         model.addAttribute(findAccount);
         model.addAttribute("isOwner", findAccount.equals(account));

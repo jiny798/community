@@ -2,13 +2,16 @@ package com.jiny.community.board.controller;
 
 import com.jiny.community.account.domain.Account;
 import com.jiny.community.account.domain.UserAccount;
+import com.jiny.community.account.support.CurrentUser;
 import com.jiny.community.board.dto.CommentDto;
 import com.jiny.community.account.repository.AccountRepository;
 import com.jiny.community.board.repository.CommentRepository;
 import com.jiny.community.board.repository.PostRepository;
 import com.jiny.community.board.service.CommentService;
+import com.jiny.community.controller.common.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,14 +31,16 @@ public class CommentController {
 
 
     @PostMapping(value = "/post/{id}/comment")
-    public String createComment(@Validated CommentDto commentDto, Model model, BindingResult result, @PathVariable("id")Long postId, Authentication authentication){
+    public String createComment(@Validated CommentDto commentDto, @CurrentUser Account account, Model model, BindingResult result, @PathVariable("id")Long postId, Authentication authentication){
 
         if (result.hasErrors()) {
             log.info("errors={}", result);
             return "detailPage :: #commentList";
         }
-        UserAccount userAccount = (UserAccount)authentication.getPrincipal();
-        Account account = accountRepository.findByNickname(userAccount.getAccountNickName())  ;
+
+        if(account==null){
+            new NotFoundException(HttpStatus.BAD_REQUEST,"로그인이 필요합니다.");
+        }
 
         commentService.addComment(account.getId(),postId,commentDto.getContent());
 

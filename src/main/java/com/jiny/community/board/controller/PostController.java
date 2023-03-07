@@ -2,6 +2,8 @@ package com.jiny.community.board.controller;
 
 import com.jiny.community.account.domain.Account;
 import com.jiny.community.account.support.CurrentUser;
+import com.jiny.community.api.CommonResult;
+import com.jiny.community.api.ResponseService;
 import com.jiny.community.board.domain.Comment;
 import com.jiny.community.board.domain.Post;
 import com.jiny.community.account.domain.UserAccount;
@@ -14,12 +16,14 @@ import com.jiny.community.admin.service.CategoryService;
 import com.jiny.community.board.service.PageService;
 import com.jiny.community.board.service.PostService;
 import com.jiny.community.account.service.UserService;
+import com.jiny.community.controller.common.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,6 +50,7 @@ public class PostController {
     private final CategoryRepository categoryRepository;
     private final CategoryService categoryService;
     private final PageService pageService;
+    private final ResponseService responseService;
 
     //게시글 목록
     @GetMapping(value = "/list/{str}")
@@ -79,21 +84,18 @@ public class PostController {
         if(account != null) {
             Account findAccount = accountRepository.findById(account.getId()).get();
             model.addAttribute("account", findAccount);
+            if(userService.isLikePost(account.getId(),postId)){ //좋아요 했던 게시물인가
+                model.addAttribute("star",1);
+            }else {
+                model.addAttribute("star",-1);
+            }
+        }else{
+            model.addAttribute("star",-1); // 좋아요 미체크
         }
         PostDetailResponseDto post = postService.getDetail(postId);
         model.addAttribute("post",post); //postDto 전달
 
-        UserAccount userAccount = (UserAccount)authentication.getPrincipal();
-
-        if(userAccount == null){
-            model.addAttribute("star",-1);
-        }
-
-        if(userService.isLikePost(userAccount.getAccountId(),postId)){ //좋아요 했던 게시물인가
-            model.addAttribute("star",1);
-        }else {
-            model.addAttribute("star",-1);
-        }
+//        UserAccount userAccount = (UserAccount)authentication.getPrincipal();
 
         List<Comment> comments = commentRepository.findByPostId(postId);
         List<CommentDto> commentDtos = new ArrayList<>();
@@ -139,15 +141,17 @@ public class PostController {
 
     }
     @PostMapping(value = "/{id}/like")
-    public String likePost(Model model,@PathVariable("id")Long postId,Authentication authentication){ //스프링 시큐리티 사용시 회원정보 받을 수 있음.
+    @ResponseBody
+    public CommonResult likePost(Model model, @CurrentUser Account account, @PathVariable("id")Long postId, Authentication authentication){ //스프링 시큐리티 사용시 회원정보 받을 수 있음.
         log.info("user like post = {}",postId);
-        UserAccount userAccount = (UserAccount)authentication.getPrincipal();
-        Account account = accountRepository.findByNickname(userAccount.getAccountNickName());
+        if(account==null){
+            new NotFoundException(HttpStatus.BAD_REQUEST,"로그인이 필요합니다.");
+            return responseService.getFailResult();
+        }else {
+            userService.updateLikePost(account.getId(), postId); // userId or user 전달 선택
+            return responseService.getSuccessResult();
+        }
 
-        userService.updateLikePost(account.getId(),postId); // userId or user 전달 선택
-
-
-        return "detailPage :: #likebtn";
     }
 
     @GetMapping(value = "/{id}/edit")

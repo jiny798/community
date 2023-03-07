@@ -5,7 +5,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 
 public class NotFoundException extends HttpStatusCodeException {
 
-    protected NotFoundException(HttpStatus httpStatus, String message){
+    public NotFoundException(HttpStatus httpStatus, String message){
         super(httpStatus,message);
     }
 }
