@@ -51,5 +51,12 @@ public class ResponseService {
         result.setMsg(CommonResponse.FAIL.getMsg());
         return result;
     }
+    public CommonResult getFailResult(String msg){
+        CommonResult result = new CommonResult();
+        result.setSuccess(false);
+        result.setCode(CommonResponse.FAIL.getCode());
+        result.setMsg(msg);
+        return result;
+    }
 
 }

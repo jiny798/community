@@ -21,7 +21,7 @@ public class InitDb {
     @PostConstruct
     public void init() {
         initService.dbInit1();
-//        initService.dbInit2();
+        initService.dbInit2();
 //        initService.dbInit3();
     }
 
@@ -52,14 +52,13 @@ public class InitDb {
 
         }
 
-//        public void dbInit2(){
-//            SignUpForm signUpForm = new SignUpForm();
-//            signUpForm.setEmail("jyoung798@naver.com");
-//            signUpForm.setNickname("korea123");
-//            signUpForm.setPassword("korea123!");
-//            signUpForm.setPassword2("korea123!");
-//            accountService.signUp(signUpForm);
-//        }
+        public void dbInit2(){
+            Account account = Account.createAccount("abc123@naver.com","abc123","abc123");
+            account.encodePassword(passwordEncoder);
+            account.verified();
+            account.setRole("ADMIN");
+            em.persist(account);
+        }
 //        public void dbInit3(){
 //            Account account = accountRepository.findByNickname("korea123");
 //            account.setValid(true);

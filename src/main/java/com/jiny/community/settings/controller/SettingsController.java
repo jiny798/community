@@ -4,7 +4,7 @@ import com.jiny.community.account.domain.Account;
 import com.jiny.community.account.repository.AccountRepository;
 import com.jiny.community.account.service.AccountService;
 import com.jiny.community.account.support.CurrentUser;
-import com.jiny.community.controller.common.NotFoundException;
+import com.jiny.community.common.controller.common.NotFoundException;
 import com.jiny.community.settings.validator.PasswordFormValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

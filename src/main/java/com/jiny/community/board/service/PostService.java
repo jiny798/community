@@ -1,6 +1,7 @@
 package com.jiny.community.board.service;
 
 import com.jiny.community.account.domain.Account;
+import com.jiny.community.account.repository.AccountRepository;
 import com.jiny.community.admin.domain.Category;
 import com.jiny.community.board.domain.Post;
 import com.jiny.community.board.dto.PostDetailResponseDto;
@@ -28,13 +29,15 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final CategoryRepository categoryRepository;
+    private final AccountRepository accountRepository;
 
     //게시글 등록
     @Transactional
     public Long addPost(Account account, PostForm postForm){ //
         Category category = categoryRepository.findByName(postForm.getCategory());
+        Account findAccount = accountRepository.findByNickname(account.getNickname());
 
-        Post post = Post.createPost(account,postForm.getTitle(),postForm.getContent(),category);
+        Post post = Post.createPost(findAccount,postForm.getTitle(),postForm.getContent(),category);
         postRepository.save(post);
         return post.getId();
 
@@ -50,7 +53,6 @@ public class PostService {
         postResponseDto.setContent(post.getContent());
         postResponseDto.setNickname(post.getAccount().getNickname());
         postResponseDto.setStarCnt(post.getStar());
-
 
         return postResponseDto;
     }

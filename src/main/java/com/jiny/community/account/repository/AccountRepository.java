@@ -3,9 +3,13 @@ package com.jiny.community.account.repository;
 import com.jiny.community.account.domain.Account;
 import com.jiny.community.board.domain.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.LockModeType;
+import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface AccountRepository extends JpaRepository<Account,Long>{

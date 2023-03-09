@@ -1,4 +1,4 @@
-package com.jiny.community.controller.common;
+package com.jiny.community.common.controller.common;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpStatusCodeException;

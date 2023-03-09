@@ -26,8 +26,6 @@ public class BoardManageController {
         log.info("카테고리 사이즈 = {}",categorylist.size());
         model.addAttribute("category_list",categorylist);
 
-
-
         return "admin/board";
     }
 

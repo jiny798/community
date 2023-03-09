@@ -1,29 +1,31 @@
-package com.jiny.community.controller.common;
+package com.jiny.community.common.controller.common;
 
 import com.jiny.community.account.domain.Account;
 import com.jiny.community.account.repository.AccountRepository;
 import com.jiny.community.account.support.CurrentUser;
+import com.jiny.community.api.CommonResult;
+import com.jiny.community.api.ResponseService;
 import com.jiny.community.board.dto.CategoryResponseDto;
 import com.jiny.community.admin.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @ControllerAdvice @Slf4j
 @RequiredArgsConstructor
-public class CommonController {
+public class CommonControllerAdvice {
     private final CategoryService categoryService;
     private final AccountRepository accountRepository;
+    private final ResponseService responseService;
 
     @ModelAttribute("category_list")
     public List<CategoryResponseDto> categoryNames(){
@@ -51,6 +53,12 @@ public class CommonController {
 //                        .message(notFoundException.getMessage())
 //                        .path(webRequest.getRequest().getRequestURI())
 //                        .build());
+    }
+
+    @ExceptionHandler(ApiCustomException.class)
+    @ResponseBody
+    public CommonResult handleApiCustomErrorException(ApiCustomException apiCustomException, ServletWebRequest webRequest, Model model){
+       return responseService.getFailResult(apiCustomException.getMessage().toString());
     }
     @ExceptionHandler(RuntimeException.class)
     public String handleRuntimeException(@CurrentUser Account account, HttpServletRequest request,RuntimeException ex,Model model){

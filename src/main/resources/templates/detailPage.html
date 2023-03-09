@@ -58,8 +58,6 @@
                     type: "POST", // HTTP Method
                     dataType: 'json', //서버로부터 받는
                     success: function(res){ // 성공 시 실행
-
-
                         if(res.success===true){
                             var starCnt = Number($('.like_cnt').text());
                             if(clickCnt==1){
@@ -88,15 +86,6 @@
                     });
                 });
                 });
-
-
-
-
-
-
-
-
-
 
                 </script>
             </div>
@@ -130,32 +119,46 @@
                             },
                         url: "/post/[[${post.id}]]/comment", // 목적지
                         method: "POST",
+                        dataType: 'json', //서버로부터 받는
                         data: commentDto,
-                        success: function(res){ // 성공 시 실행
-                            //alert("성공");
-                        }
-                        })
-                        .done(function(fragment) {
+                        fail: function(res){
+                            console.log(res);    
+                        },
+                        success: function(res){ 
+                            console.log(res);
+                            if(res.success===true){
+                                var n = res.data.length
+                                $("#commentList").empty();
+                                $("#comment_text").val("");
+                                for (var i = 0; i < n; i++) {
+                                    // [ul 태그 특정 id 에 li 태그 추가]
+                                    
+                                    $("#commentList").append(
+                                        "<div class='d-flex text-muted pt-3'>" +
+                                            "<svg class= 'bd-placeholder-img flex-shrink-0 me-2 rounded' width = '32' height = '32' " +
+                                            "xmlns = 'http://www.w3.org/2000/svg' role = 'img' aria-label='Placeholder: 32x32' "+
+                                            "preserveAspectRatio = 'xMidYMid slice' focusable = 'false'>"+
+                                            "<title>Placeholder</title>"+
+                                            "<rect width='100%' height='100%' fill='#007bff'/>"+
+                                            "<text x='50%' y='50%' fill='#007bff' dy='.3em'>32x32</text>"+
+                                            "</svg >"+
+                                            "<p class='pb-3 mb-0 small lh-sm border-bottom'>"+
+                                            "<strong class='d-block text-gray-dark' >"+ res.data[i].nickname +"</strong>"+
+                                            "<span style='white-space: pre-line'>"+ res.data[i].content +"</span>"+
+                                            "</p>"+
+                                        "</div > "    
 
-                            $('#commentList').replaceWith(fragment);
-                            $("#comment_text").val("");
+                                    );
+                                }
+                            }else{
+                                alert("로그인 후 사용해주세요");
+                            }
+                        }
                         });
 
                     });
                     });
-
-
-
-
-
-
-
-
-
-
                 </script>
-
-
             </div>
 
             <div class="my-3 p-3 bg-body rounded shadow-sm">
@@ -171,7 +174,7 @@
                         </svg>
                         <p class="pb-3 mb-0 small lh-sm border-bottom">
                             <strong class="d-block text-gray-dark" th:text="${commentDto.nickname}">@username</strong>
-                            <span style="white-space: pre-line" th:text="${commentDto.content}">  내용</span>
+                            <span style="white-space: pre-line" th:text="${commentDto.content}">내용</span>
                         </p>
                     </div>
                 </div>

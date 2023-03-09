@@ -16,12 +16,11 @@ import com.jiny.community.admin.service.CategoryService;
 import com.jiny.community.board.service.PageService;
 import com.jiny.community.board.service.PostService;
 import com.jiny.community.account.service.UserService;
-import com.jiny.community.controller.common.NotFoundException;
+import com.jiny.community.common.controller.common.ApiCustomException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -64,10 +63,12 @@ public class PostController {
         }
 
         Page<PostResponseDto> postPage =postService.getPagingList(pageNo,str,"id");
+        int startNumber=0; int endNumber=0;
 
-        int startNumber = (int)((Math.floor(pageNo/5)*5)+1 <= postPage.getTotalPages() ? (Math.floor(pageNo/5)*5) : postPage.getTotalPages());
-        int endNumber = (startNumber + 4 < postPage.getTotalPages() ? startNumber + 4 : postPage.getTotalPages()-1);
-
+        if( postPage.getTotalPages() != 0) {
+             startNumber = (int) ((Math.floor(pageNo / 5) * 5) + 1 <= postPage.getTotalPages() ? (Math.floor(pageNo / 5) * 5) : postPage.getTotalPages());
+             endNumber = (startNumber + 4 < postPage.getTotalPages() ? startNumber + 4 : postPage.getTotalPages() - 1);
+        }
         model.addAttribute("postPage",postPage);
         model.addAttribute("startNumber",startNumber);
         model.addAttribute("endNumber",endNumber);
@@ -123,8 +124,9 @@ public class PostController {
 
     //게시글 등록 요청
     @PostMapping(value = "/add")
-    public String createPost(Model model,@Validated @ModelAttribute("postform") PostForm form, BindingResult result, Authentication authentication) throws UnsupportedEncodingException {
+    public String createPost(Model model,@Validated @ModelAttribute("postform") PostForm form, BindingResult result,@CurrentUser Account account) throws UnsupportedEncodingException {
 
+        log.debug("account proxy= {}",account.getClass().getName());
         if (result.hasErrors()) {
             log.info("errors={}", result);
             ArrayList<CategoryResponseDto> list = (ArrayList<CategoryResponseDto>)categoryService.getCategoryNames();
@@ -132,8 +134,6 @@ public class PostController {
             return "addPost";
         }
 
-        UserAccount userAccount = (UserAccount)authentication.getPrincipal();
-        Account account = accountRepository.findByNickname(userAccount.getAccountNickName())  ;
         postService.addPost(account,form);
 
         String str = URLEncoder.encode(form.getCategory(), "UTF-8");
@@ -142,11 +142,11 @@ public class PostController {
     }
     @PostMapping(value = "/{id}/like")
     @ResponseBody
-    public CommonResult likePost(Model model, @CurrentUser Account account, @PathVariable("id")Long postId, Authentication authentication){ //스프링 시큐리티 사용시 회원정보 받을 수 있음.
+    public CommonResult likePost(Model model, @CurrentUser Account account, @PathVariable("id")Long postId){ //스프링 시큐리티 사용시 회원정보 받을 수 있음.
         log.info("user like post = {}",postId);
         if(account==null){
-            new NotFoundException(HttpStatus.BAD_REQUEST,"로그인이 필요합니다.");
-            return responseService.getFailResult();
+            throw new ApiCustomException(HttpStatus.BAD_REQUEST,"로그인이 필요합니다.");
+            //return responseService.getFailResult();
         }else {
             userService.updateLikePost(account.getId(), postId); // userId or user 전달 선택
             return responseService.getSuccessResult();
@@ -207,8 +207,12 @@ public class PostController {
 
         int pageNo =pageable.getPageNumber();
 
-        int startNumber = (int)((Math.floor(pageNo/5)*5)+1 <= postPage.getTotalPages() ? (Math.floor(pageNo/5)*5) : postPage.getTotalPages());
-        int endNumber = (startNumber + 4 < postPage.getTotalPages() ? startNumber + 4 : postPage.getTotalPages()-1);
+        int startNumber=0; int endNumber=0;
+
+        if( postPage.getTotalPages() != 0) {
+             startNumber = (int) ((Math.floor(pageNo / 5) * 5) + 1 <= postPage.getTotalPages() ? (Math.floor(pageNo / 5) * 5) : postPage.getTotalPages());
+             endNumber = (startNumber + 4 < postPage.getTotalPages() ? startNumber + 4 : postPage.getTotalPages() - 1);
+        }
         log.debug("num = {} {} {}",pageNo,startNumber,endNumber);
         model.addAttribute("postPage",postPage);
         model.addAttribute("keyword",keyword);

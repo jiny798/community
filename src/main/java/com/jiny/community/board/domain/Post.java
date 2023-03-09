@@ -70,4 +70,6 @@ public class Post {
         return post;
     }
 
+    @Version
+    private Integer version;
 }
