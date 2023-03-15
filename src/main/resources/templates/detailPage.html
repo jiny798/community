@@ -159,11 +159,8 @@
                             console.log(res);
                             if(res.success===true){
                                 var n = res.data
-                                
-                                                                                   
-                                    $("#commentList").append(
-                                         
 
+                                    $("#commentList").append(
                                     );
                                 
                             }else{
@@ -181,7 +178,7 @@
                 <h6 class="border-bottom pb-2 mb-0">댓글</h6>
 
                 <div id="commentList">
-                    <div class="d-flex text-muted pt-3" th:each="commentDto : ${commentList}" th:id="${commentDto.id}">
+                    <div class="d-flex text-muted pt-3 comdiv" th:each="commentDto : ${commentList}" th:id="|${commentDto.id}div|" >
                         <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
                              xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
                              preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
@@ -198,7 +195,7 @@
                                     </span>
                                     <span class="created-time">
                                         <a href="#">
-                                            <span id="comment_delete_btn" th:value="${commentDto.id}" type="" class="comment_delete_btn">
+                                            <span th:id="${commentDto.id}" th:value="${commentDto.id}" type="" class="comment_delete_btn">
                                             삭제
                                             </span>
                                         </a>    
@@ -228,7 +225,7 @@
     
     $(document).ready(function () {
         $(".comment_delete_btn").on('click', function () {
-            var n = $("#comment_delete_btn").attr('value');
+            var n = $(this).attr('value');
             console.log(n);
             $.ajax({
                 beforeSend: function (xhr) {
@@ -244,8 +241,8 @@
                     console.log(res);
                     if (res.success === true) {
                         
-                        $("#"+n).remove();
-                        $("#"+n).val("");
+                        $("#"+n+"div").remove();
+                        $("#"+n+"div").val("");
                         
                     } else {
                         alert("로그인 후 사용해주세요");
