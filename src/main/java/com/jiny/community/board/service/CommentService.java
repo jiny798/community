@@ -26,7 +26,7 @@ public class CommentService {
     private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
-    public void addComment(Long userId,Long postId,String content){
+    public Long addComment(Long userId,Long postId,String content){
         log.debug("CommentService - 댓글 추가");
         Comment comment = new Comment();
         comment.setAccount(accountRepository.findById(userId).get());
@@ -35,6 +35,9 @@ public class CommentService {
 
         eventPublisher.publishEvent(new CommentCreatedEvent(comment)); //커멘트 정보와 함께 이벤트 발생
         commentRepository.save(comment);
+
+        Long id = comment.getId();
+        return id;
     }
 
     public List<CommentDto> findCommentList(Long postId){

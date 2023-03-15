@@ -17,6 +17,7 @@ import com.jiny.community.board.service.PageService;
 import com.jiny.community.board.service.PostService;
 import com.jiny.community.account.service.UserService;
 import com.jiny.community.common.controller.common.ApiCustomException;
+import com.jiny.community.common.controller.common.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -198,6 +199,18 @@ public class PostController {
         postService.updatePost(postId, postUpdateForm);
 
         return "redirect:/post/" + postId;
+    }
+
+    @PostMapping(value = "/{id}/delete")
+    public String deletePost(Model model,@PathVariable("id") Long postId,  @CurrentUser Account account) throws UnsupportedEncodingException {
+        log.info("account={} delete postID = {}",account,postId);
+        Post post =  postRepository.findById(postId).orElseThrow(() -> new NotFoundException(HttpStatus.BAD_REQUEST,"해당 게시글은 이미 삭제되었습니다."));
+        String categoryName = post.getCategory().getName();
+
+        postRepository.delete(post);
+
+        String str = URLEncoder.encode(categoryName, "UTF-8");
+        return "redirect:/post/list/"+str;
     }
 
     @GetMapping("/search")

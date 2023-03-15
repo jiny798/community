@@ -16,7 +16,7 @@ public abstract class CommonAttribute {
     public static class Profile {
         protected String bio;
         protected String company;
-        @Lob @Basic(fetch = FetchType.EAGER)
+        @Lob @Basic(fetch = FetchType.EAGER) @ToString.Exclude
         protected String image;
         public void setAttribute(String bio,String company){
             this.bio = bio;
