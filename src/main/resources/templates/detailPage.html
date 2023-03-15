@@ -3,6 +3,14 @@
 <head th:replace="fragment/head :: common_head">
     <title>jiny</title>
 </head>
+<style>
+    .red{
+        color: red;
+    }
+    .operation_btn{
+        margin: 0.2rem;
+    }
+</style>
 <body>
 
 <header th:replace="fragment/top :: header">
@@ -16,11 +24,20 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2" th:text="${post.title}">title</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="operation_btn">
                     <a href="#" th:href="@{/post/{id}/edit (id=${post.id})}">
                         <button type="button" class="btn btn-sm btn-outline-secondary">
                             수정하기
                         </button>
                     </a>
+                    </div>
+                    <div class="operation_btn">
+                    <a href="#" th:href="@{/post/{id}/delete (id=${post.id})}">
+                        <button type="button" class="btn btn-sm btn-outline-secondary">
+                            삭제하기
+                        </button>
+                    </a>
+                    </div>
                 </div>
             </div>
 
@@ -38,7 +55,7 @@
                     </div>
                     <div th:if="${star == 1}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                             class="bi bi-heart-fill" viewBox="0 0 16 16">
+                             class="bi bi-heart-fill red" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
                                   d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                         </svg>
@@ -68,7 +85,7 @@
                                 $('#likebtn').html(newtag);
                             }else{
                                 clickCnt = 1;
-                                var newtag2 = "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-heart-fill' viewBox='0 0 16 16'>"
+                                var newtag2 = "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-heart-fill red' viewBox='0 0 16 16'>"
                                     +"<path fill-rule='evenodd' d='M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z'/>"
                                     +"</svg>";
                                 $('#likebtn').html(newtag2);

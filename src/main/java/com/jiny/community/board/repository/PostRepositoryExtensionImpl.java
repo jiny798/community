@@ -22,7 +22,8 @@ public class PostRepositoryExtensionImpl extends QuerydslRepositorySupport imple
         QPost post = QPost.post;
         JPQLQuery<Post> query = from(post)
                 .where(post.title.containsIgnoreCase(keyword)
-                        .or(post.account.nickname.containsIgnoreCase(keyword))).orderBy(post.id.desc());
+                        .or(post.account.nickname.containsIgnoreCase(keyword))).orderBy(post.id.desc()
+                );
 
         JPQLQuery<Post> pageableQuery = getQuerydsl().applyPagination(pageable,query);
         QueryResults<Post> fetchResults = pageableQuery.fetchResults();
