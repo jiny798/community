@@ -159,10 +159,11 @@
                             console.log(res);
                             if(res.success===true){
                                 var n = res.data
+                                location.reload();
+<!--                                    $("#commentList").append(-->
 
-                                    $("#commentList").append(
-                                    );
-                                
+<!--                                    );-->
+
                             }else{
                                 alert("로그인 후 사용해주세요");
                             }
