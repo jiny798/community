@@ -1,9 +1,11 @@
 package com.jiny.community.admin.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jiny.community.board.domain.Post;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Builder
 @Entity
@@ -16,8 +18,9 @@ public class Category {
     @Column(name="category_id")
     private Long id;
     private String name;
+
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="post_id")
+    @JoinColumn(name="post_id") @JsonIgnore
     private Post post;
 
 }

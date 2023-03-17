@@ -27,7 +27,7 @@ public class CommonControllerAdvice {
     private final AccountRepository accountRepository;
     private final ResponseService responseService;
 
-    @ModelAttribute("category_list")
+    @ModelAttribute("category_list")//카테 고리 리스트 반환
     public List<CategoryResponseDto> categoryNames(){
         List<CategoryResponseDto> category_list = categoryService.getCategoryNames();
 
