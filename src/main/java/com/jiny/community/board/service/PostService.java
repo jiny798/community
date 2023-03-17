@@ -38,6 +38,7 @@ public class PostService {
         Account findAccount = accountRepository.findByNickname(account.getNickname());
 
         Post post = Post.createPost(findAccount,postForm.getTitle(),postForm.getContent(),category);
+        post.setImgUrl(postForm.getImgurl());
         postRepository.save(post);
         return post.getId();
 

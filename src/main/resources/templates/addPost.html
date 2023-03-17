@@ -41,7 +41,7 @@
                         </span>
                     </div>
                     <textarea id="summernote" th:field="*{content}" name="editordata"></textarea>
-
+                    <input type="hidden" id="imgUrl" th:field="*{imgurl}">
                     <button type="submit" class="btn btn-primary">Write</button>
                     <span class="field-error" th:errors="*{content}">
                     </span>
@@ -77,6 +77,7 @@ $('#summernote').summernote({
       /*
       * 업로드 메서드
       */
+      var tag =1;
       var token = $("meta[name='_csrf']").attr("content");
       var header = $("meta[name='_csrf_header']").attr("content");
 
@@ -95,6 +96,11 @@ $('#summernote').summernote({
 			processData : false,
 			success : function(data) {
             	//항상 업로드된 파일의 url이 있어야 한다.
+
+            	if(tag == 1){
+                    console.log(tag++);
+                    $("#imgUrl").val(data.url);
+            	}
             	console.log("data.url = "+data.url);
 				$(editor).summernote('insertImage', data.url);
 			}

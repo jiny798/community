@@ -127,6 +127,7 @@ public class PostController {
     @PostMapping(value = "/add")
     public String createPost(Model model,@Validated @ModelAttribute("postform") PostForm form, BindingResult result,@CurrentUser Account account) throws UnsupportedEncodingException {
 
+        log.debug("imgurl=={} ",form.getImgurl());
         log.debug("account proxy= {}",account.getClass().getName());
         if (result.hasErrors()) {
             log.info("errors={}", result);
