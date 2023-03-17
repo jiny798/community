@@ -26,6 +26,7 @@ public class Post {
     private Long viewCnt;
     private Long star;
     private Boolean remove;
+    private String imgUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id") //FK 이름

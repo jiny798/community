@@ -39,10 +39,6 @@ public class UploadController {
                 uploadResponseDto.setUrl("");
                 uploadResponseDto.setResult("fail");
             }
-
-
-
-
             return uploadResponseDto;
 
         }

@@ -150,23 +150,23 @@
                             },
                         url: "/post/[[${post.id}]]/comment", // 목적지
                         method: "POST",
-                        dataType: 'json', //서버로부터 받는
+                        dataType: 'html', //서버로부터 받는
                         data: commentDto,
                         fail: function(res){
                             console.log(res);    
                         },
-                        success: function(res){ 
-                            console.log(res);
-                            if(res.success===true){
-                                var n = res.data
-                                location.reload();
-<!--                                    $("#commentList").append(-->
+                        success: function(res){
+                        console.log(res);
+                            try{
+                                const obj = JSON.parse(res);
+                                alert("로그인 후 사용해주세요")
+                            }catch(err){
+                                $("#comment_text").val("");
 
-<!--                                    );-->
 
-                            }else{
-                                alert("로그인 후 사용해주세요");
+                                $("#commentList").append(res);
                             }
+
                         }
                         });
 
@@ -175,10 +175,11 @@
                 </script>
             </div>
 
-            <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <div class="my-3 p-3 bg-body rounded shadow-sm" >
                 <h6 class="border-bottom pb-2 mb-0">댓글</h6>
 
                 <div id="commentList">
+                    <div id="commentsub">
                     <div class="d-flex text-muted pt-3 comdiv" th:each="commentDto : ${commentList}" th:id="|${commentDto.id}div|" >
                         <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
                              xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
@@ -195,11 +196,38 @@
                                         3일 전
                                     </span>
                                     <span class="created-time">
-                                        <a href="#">
-                                            <span th:id="${commentDto.id}" th:value="${commentDto.id}" type="" class="comment_delete_btn">
+                                        <a href="#" >
+                                            <span th:id="${commentDto.id}" th:value="${commentDto.id}"  class="comment_delete_btn">
                                             삭제
                                             </span>
-                                        </a>    
+                                        </a>
+                                        <script th:inline="javascript">
+                                            var t = document.getElementById([[${commentDto.id}]]);
+                                            t.addEventListener('click', function(event){
+                                                $.ajax({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
+                url: "/post/[[${post.id}]]/comment/[[${commentDto.id}]]" , // 목적지
+                method: "POST",
+                dataType: 'json', //서버로부터 받는
+                fail: function (res) {
+                    console.log(res);
+                },
+                success: function (res) {
+                    console.log(res);
+                    if (res.success === true) {
+
+                        $("#[[${commentDto.id}]]"+"div").remove();
+                        $("#[[${commentDto.id}]]"+"div").val("");
+
+                    } else {
+                        alert("로그인 후 사용해주세요");
+                    }
+                }
+            });
+                                            });
+                                        </script>
                                     </span>
                                 </span>
                                 <!--                            <a href="#">Follow</a>-->
@@ -207,6 +235,7 @@
                             <div class="content" th:text="${commentDto.content}">안녕하세요</div>
                 
                         </div>
+                    </div>
                     </div>
                 </div>
 
@@ -220,40 +249,40 @@
 
 
 </body>
-<script th:inline="javascript">
-    var token = $("meta[name='_csrf']").attr("content");
-    var header = $("meta[name='_csrf_header']").attr("content");
-    
-    $(document).ready(function () {
-        $(".comment_delete_btn").on('click', function () {
-            var n = $(this).attr('value');
-            console.log(n);
-            $.ajax({
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader(header, token);
-                },
-                url: "/post/[[${post.id}]]/comment/"+ n, // 목적지
-                method: "POST",
-                dataType: 'json', //서버로부터 받는
-                fail: function (res) {
-                    console.log(res);
-                },
-                success: function (res) {
-                    console.log(res);
-                    if (res.success === true) {
-                        
-                        $("#"+n+"div").remove();
-                        $("#"+n+"div").val("");
-                        
-                    } else {
-                        alert("로그인 후 사용해주세요");
-                    }
-                }
-            });
+<!--<script th:inline="javascript">-->
+<!--    var token = $("meta[name='_csrf']").attr("content");-->
+<!--    var header = $("meta[name='_csrf_header']").attr("content");-->
 
-        });
-    });
-</script>
+<!--    $(document).ready(function () {-->
+<!--        $(".comment_delete_btn").on('click', function () {-->
+<!--            var n = $(this).attr('value');-->
+<!--            console.log(n);-->
+<!--            $.ajax({-->
+<!--                beforeSend: function (xhr) {-->
+<!--                    xhr.setRequestHeader(header, token);-->
+<!--                },-->
+<!--                url: "/post/[[${post.id}]]/comment/"+ n, // 목적지-->
+<!--                method: "POST",-->
+<!--                dataType: 'json', //서버로부터 받는-->
+<!--                fail: function (res) {-->
+<!--                    console.log(res);-->
+<!--                },-->
+<!--                success: function (res) {-->
+<!--                    console.log(res);-->
+<!--                    if (res.success === true) {-->
+
+<!--                        $("#"+n+"div").remove();-->
+<!--                        $("#"+n+"div").val("");-->
+
+<!--                    } else {-->
+<!--                        alert("로그인 후 사용해주세요");-->
+<!--                    }-->
+<!--                }-->
+<!--            });-->
+
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 <style>
 
 .postbtn{

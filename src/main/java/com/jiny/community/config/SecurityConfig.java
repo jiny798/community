@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .mvcMatchers( "/", "/index", "/post/list", "/signup"
                     ,"/email-login","check-email-login","check-email-token","login-link","/login-by-email").permitAll()
                     .mvcMatchers("/admin").hasRole("ADMIN")
-                    .mvcMatchers("/user","/post/add","/post/*/delete").hasRole("USER")
+                    .mvcMatchers("/user","/profile","/post/add","/post/*/delete").hasRole("USER")
                     .anyRequest().permitAll()  //.authenticated()
                     .expressionHandler(expressionHandler()); //accessDecisionManager의 voter가 사용하는 핸들러만 바꿔뀌움
 
