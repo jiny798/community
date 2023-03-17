@@ -75,8 +75,6 @@ public class PostController {
         model.addAttribute("endNumber",endNumber);
         model.addAttribute("category",str);
 
-
-
         return "board";
     }
 

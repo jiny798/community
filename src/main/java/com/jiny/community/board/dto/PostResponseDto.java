@@ -13,5 +13,6 @@ public class PostResponseDto {
     public String content;
     public String category;
     public Long starCnt;
+    public String imgUrl;
 
 }

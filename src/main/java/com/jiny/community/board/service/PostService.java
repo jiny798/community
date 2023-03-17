@@ -70,7 +70,7 @@ public class PostService {
 
     public Page<PostResponseDto> getPagingList( int pageNo, String categoryName, String name) {
 
-        Pageable pageable = PageRequest.of(pageNo, 5 , Sort.by(Sort.Direction.DESC, name));
+        Pageable pageable = PageRequest.of(pageNo, 6 , Sort.by(Sort.Direction.DESC, name));
         Category category=categoryRepository.findByName(categoryName);
 
         Page<Post> page = postRepository.findByCategory(category,pageable);
@@ -79,7 +79,8 @@ public class PostService {
                                             p.getTitle(),
                                             p.getContent(),
                                             p.getCategory().getName(),
-                                            p.getStar()));
+                                            p.getStar(),
+                                            p.getImgUrl()));
         //page를 유지하면서 Dto변환
         //    public Long id;
         //    public String nickname;
@@ -98,7 +99,8 @@ public class PostService {
                 p.getTitle(),
                 p.getContent(),
                 p.getCategory().getName(),
-                p.getStar()));
+                p.getStar(),
+                p.getImgUrl()));
 
         return posts;
     }

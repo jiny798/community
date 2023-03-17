@@ -13,7 +13,7 @@ public class PageService {
         int pageNo = postList.getNumber();
         int totalPage = postList.getTotalPages();
         // 현재 페이지를 통해 현재 페이지 그룹의 시작 페이지를 구함
-        int startNumber = (int)((Math.floor(pageNo/5)*5)+1 <= totalPage ? (Math.floor(pageNo/5)*5)+1 : totalPage);
+        int startNumber = (int)((Math.floor(pageNo/6)*6)+1 <= totalPage ? (Math.floor(pageNo/6)*6)+1 : totalPage);
 
         // 전체 페이지 수와 현재 페이지 그룹의 시작 페이지를 통해 현재 페이지 그룹의 마지막 페이지를 구함
         int endNumber = (startNumber + 4 < totalPage ? startNumber + 4 : totalPage);
