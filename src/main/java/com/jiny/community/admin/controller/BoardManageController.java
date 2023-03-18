@@ -33,7 +33,7 @@ public class BoardManageController {
     @ResponseBody
     public String deleteCategory(CategoryDto categoryDto){
         log.info("categoryName ={}",categoryDto.getId());
-        if(categoryDto.getId()==1 || categoryDto.getId()==2){
+        if(categoryDto.getName().equals("자유게시판") || categoryDto.getName().equals("공지사항") || categoryDto.getName().equals("Q&A")){
             return "admin";
         }
         categoryService.removeCategory(categoryDto.getId());
