@@ -5,6 +5,8 @@ import com.jiny.community.board.dto.CategoryResponseDto;
 import com.jiny.community.admin.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +20,11 @@ import java.util.stream.Collectors;
 @Transactional @Slf4j
 public class CategoryService {
     private final CategoryRepository categoryRepository;
+    private final CacheManager cacheManager;
 
+//    @CacheEvict(value = "categorys",key="")
     public void addCategory(String categoryName){
+        cacheManager.getCache("categorys").clear();
         Category category = new Category();
         category.setName(categoryName);
         categoryRepository.save(category);
@@ -43,7 +48,9 @@ public class CategoryService {
         return list;
     }
 
+//    @CacheEvict(value = "categorys",key="")
     public void removeCategory(Long id){
+        cacheManager.getCache("categorys").clear();
         Optional<Category> category = categoryRepository.findById(id);
         categoryRepository.delete(category.get());
     }
