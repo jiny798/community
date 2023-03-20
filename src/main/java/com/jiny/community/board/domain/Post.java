@@ -16,7 +16,7 @@ import java.util.List;
 @Getter @Setter @Proxy(lazy = false)
 public class Post {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "post_id")
     private Long id;
 
