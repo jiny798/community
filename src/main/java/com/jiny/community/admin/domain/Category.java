@@ -17,6 +17,7 @@ public class Category {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="category_id")
     private Long id;
+
     private String name;
 
     @OneToOne(fetch = FetchType.LAZY)

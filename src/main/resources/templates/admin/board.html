@@ -53,8 +53,8 @@
                     dataType: 'text', // 전송 데이터 형식
                     success: function(res){
 
-                        if(categoryDto.id == 1 || categoryDto.id==2){
-                            alert("자유게시판과 Q&A는 삭제할 수 없습니다.");
+                        if(res=='false'){
+                            alert("기본 메뉴는 삭제할 수 없습니다.");
                         }else{
                             window.location = '/'+res +'/';
                         }
@@ -98,7 +98,11 @@
                         success: function(res){
                             console.log(res);
 
-                            window.location = '/'+res +'/';
+                            if(res=='false'){
+                                alert("동일한 카테고리가 존재합니다");
+                            }else{
+                                window.location = '/'+res +'/';
+                            }
                         },
                         error : function(res){
                             alert("카테고리 추가 실패"+res);

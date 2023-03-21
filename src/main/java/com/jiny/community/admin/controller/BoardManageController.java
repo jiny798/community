@@ -1,5 +1,6 @@
 package com.jiny.community.admin.controller;
 
+import com.jiny.community.admin.domain.Category;
 import com.jiny.community.admin.dto.CategoryDto;
 import com.jiny.community.board.dto.CategoryResponseDto;
 import com.jiny.community.admin.repository.CategoryRepository;
@@ -34,7 +35,7 @@ public class BoardManageController {
     public String deleteCategory(CategoryDto categoryDto){
         log.info("categoryName ={}",categoryDto.getId());
         if(categoryDto.getName().equals("자유게시판") || categoryDto.getName().equals("공지사항") || categoryDto.getName().equals("Q&A")){
-            return "admin";
+            return "false";
         }
         categoryService.removeCategory(categoryDto.getId());
         return "admin";
@@ -43,8 +44,13 @@ public class BoardManageController {
     @ResponseBody
     public String addCategory(String categoryName){
         log.info("categoryName ={}",categoryName);
-        categoryService.addCategory(categoryName);
 
+        Category findCate=categoryRepository.findByName(categoryName);
+        if(findCate == null){
+            categoryService.addCategory(categoryName);
+        }else {
+            return "false";
+        }
         return "admin";
     }
 
