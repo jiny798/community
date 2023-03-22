@@ -4,6 +4,7 @@ import com.jiny.community.account.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.expression.SecurityExpressionHandler;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -38,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     ,"/email-login","check-email-login","check-email-token","login-link","/login-by-email").permitAll()
                     .mvcMatchers("/admin").hasRole("ADMIN")
                     .mvcMatchers("/user","/profile/**","/post/add","/post/*/delete").hasRole("USER")
+                    .antMatchers(HttpMethod.GET, "/test/**","/actuator/health").permitAll()
                     .anyRequest().permitAll()  //.authenticated()
                     .expressionHandler(expressionHandler()); //accessDecisionManager의 voter가 사용하는 핸들러만 바꿔뀌움
 
