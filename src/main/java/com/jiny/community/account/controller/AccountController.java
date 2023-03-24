@@ -20,7 +20,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Slf4j
 @RequiredArgsConstructor
 public class AccountController {
-
     private final AccountRepository accountRepository;
     private final SignUpFormValidator signUpFormValidator;
     private final AccountService accountService;
