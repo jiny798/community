@@ -1,13 +1,14 @@
 package com.jiny.community.account.domain;
 
 import com.jiny.community.board.domain.Post;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Getter @Setter
+@Getter @Setter @EqualsAndHashCode
 public class UserLikePost {
 
     @Id
