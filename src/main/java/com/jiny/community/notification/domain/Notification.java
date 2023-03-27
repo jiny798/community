@@ -2,6 +2,7 @@ package com.jiny.community.notification.domain;
 
 import com.jiny.community.account.domain.Account;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
+@Getter @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Notification {
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)

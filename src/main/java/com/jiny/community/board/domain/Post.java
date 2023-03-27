@@ -3,6 +3,7 @@ package com.jiny.community.board.domain;
 import com.jiny.community.account.domain.Account;
 import com.jiny.community.account.domain.UserLikePost;
 import com.jiny.community.admin.domain.Category;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Proxy;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Entity @EqualsAndHashCode
 @Getter @Setter @Proxy(lazy = false)
 public class Post {
 
