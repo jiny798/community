@@ -1,5 +1,12 @@
 # community
 ## 블로그 사이드 프로젝트
+URL : http://115.85.183.185/
+
+사용 기술 및 언어 : JAVA, JAVASCRIPT, Spring JPA, Data Jpa, Spring Security, Ajax
+데이터 베이스 : Maria DB
+개발 환경 : Window, Ubuntu
+
+<br><br><br>
 
 ### 공통 데이터 처리에 대한 고민
 - 블로그 메뉴는 추가/삭제가 가능하기에 메뉴 데이터는 항상 최신으로 조회가 가능해야 했습니다.
@@ -45,5 +52,5 @@
 게시판
 - 이미지 등록 기능
 - 게시글 CRUD
-- 게시글 좋아요 기능 (ajax 사용)
-- 댓글 기능 (ajax 사용)
+- 게시글 좋아요 기능
+- 댓글 기능
