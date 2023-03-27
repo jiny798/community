@@ -3,7 +3,7 @@ package com.jiny.community.account.service;
 
 import com.jiny.community.settings.controller.NotificationForm;
 import com.jiny.community.settings.controller.Profile;
-import com.jiny.community.account.domain.controller.dto.SignUpForm;
+import com.jiny.community.account.controller.dto.SignUpForm;
 import com.jiny.community.account.domain.Account;
 
 import com.jiny.community.account.domain.UserAccount;

@@ -1,6 +1,6 @@
 package com.jiny.community;
 
-import com.jiny.community.account.domain.controller.dto.SignUpForm;
+import com.jiny.community.account.controller.dto.SignUpForm;
 import com.jiny.community.account.service.AccountService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

@@ -1,6 +1,6 @@
-package com.jiny.community.account.domain.controller.validator;
+package com.jiny.community.account.controller.validator;
 
-import com.jiny.community.account.domain.controller.dto.SignUpForm;
+import com.jiny.community.account.controller.dto.SignUpForm;
 import com.jiny.community.account.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

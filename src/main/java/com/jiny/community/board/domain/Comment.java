@@ -2,7 +2,6 @@ package com.jiny.community.board.domain;
 
 import com.jiny.community.account.domain.Account;
 import com.jiny.community.board.domain.Post;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter @Setter @EqualsAndHashCode
+@Getter @Setter
 public class Comment {
 
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
