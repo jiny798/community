@@ -21,4 +21,11 @@ public class HomeControllerAdvice {
 
         return category_list;
     }
+
+    //    public void commonAccount(Model model, @CurrentUser Account account){
+//        if(account != null) {
+//            Account findAccount = accountRepository.findById(account.getId()).get();
+//            model.addAttribute("account", findAccount);
+//        }
+//    }
 }

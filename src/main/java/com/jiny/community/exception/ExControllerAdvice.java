@@ -25,37 +25,17 @@ public class ExControllerAdvice {
     private final AccountRepository accountRepository;
     private final ResponseService responseService;
 
-    public void commonAccount(Model model, @CurrentUser Account account){
-        if(account != null) {
-            Account findAccount = accountRepository.findById(account.getId()).get();
-            model.addAttribute("account", findAccount);
-        }
-    }
-
-    @ExceptionHandler(NotFoundException.class) //ResponseEntity<CustomError>
-    public String handleNotFoundException(NotFoundException notFoundException, ServletWebRequest webRequest,Model model){
-        model.addAttribute("message",notFoundException.getMessage().toString().substring(3));
-        return "error/error";
-//        return ResponseEntity.status(notFoundException.getStatusCode())
-//                .body(CustomError.builder()
-//                        .time(LocalDateTime.now().toString())
-//                        .status(notFoundException.getRawStatusCode())
-//                        .error(notFoundException.getStatusCode().toString())
-//                        .message(notFoundException.getMessage())
-//                        .path(webRequest.getRequest().getRequestURI())
-//                        .build());
-    }
-
-    @ExceptionHandler(ApiCustomException.class)
-    @ResponseBody
-    public CommonResult handleApiCustomErrorException(ApiCustomException apiCustomException, ServletWebRequest webRequest, Model model){
-       return responseService.getFailResult(apiCustomException.getMessage().toString());
-    }
     @ExceptionHandler(RuntimeException.class)
     public String handleRuntimeException(@CurrentUser Account account, HttpServletRequest request,RuntimeException ex,Model model){
         log.info(getNickname(account)+ "request uri = {}",request.getRequestURI());
         log.error("bad request",ex);
         model.addAttribute("message",ex.getMessage());
+        return "error/error";
+    }
+
+    @ExceptionHandler(NotFoundException.class) //ResponseEntity<CustomError>
+    public String handleNotFoundException(NotFoundException notFoundException, ServletWebRequest webRequest, Model model){
+        model.addAttribute("message",notFoundException.getMessage().toString().substring(3));
         return "error/error";
     }
 
