@@ -2,18 +2,14 @@ package com.jiny.community.board.controller;
 
 import com.jiny.community.account.domain.Account;
 import com.jiny.community.account.repository.AccountRepository;
-import com.jiny.community.account.service.AccountService;
 import com.jiny.community.account.service.UserService;
 import com.jiny.community.board.domain.Post;
 import com.jiny.community.board.repository.PostRepository;
-import com.jiny.community.board.service.PostService;
-import com.jiny.community.common.controller.common.NotFoundException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +19,6 @@ import javax.persistence.PersistenceContext;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest @Transactional
 class PostControllerTest {

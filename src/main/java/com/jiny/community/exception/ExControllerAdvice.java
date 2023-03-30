@@ -1,38 +1,29 @@
-package com.jiny.community.common.controller.common;
+package com.jiny.community.exception;
 
 import com.jiny.community.account.domain.Account;
 import com.jiny.community.account.repository.AccountRepository;
 import com.jiny.community.account.support.CurrentUser;
 import com.jiny.community.api.CommonResult;
 import com.jiny.community.api.ResponseService;
-import com.jiny.community.board.dto.CategoryResponseDto;
 import com.jiny.community.admin.service.CategoryService;
+import com.jiny.community.api.exception.ApiCustomException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Optional;
 
 @ControllerAdvice @Slf4j
 @RequiredArgsConstructor
-public class CommonControllerAdvice {
+public class ExControllerAdvice {
     private final CategoryService categoryService;
     private final AccountRepository accountRepository;
     private final ResponseService responseService;
-
-    @ModelAttribute("category_list")//카테 고리 리스트 반환
-    public List<CategoryResponseDto> categoryNames(){
-        List<CategoryResponseDto> category_list = categoryService.getCategoryNames();
-
-        return category_list;
-    }
 
     public void commonAccount(Model model, @CurrentUser Account account){
         if(account != null) {

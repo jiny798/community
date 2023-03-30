@@ -1,4 +1,4 @@
-package com.jiny.community.common.controller;
+package com.jiny.community.home;
 
 import com.jiny.community.account.domain.Account;
 import com.jiny.community.account.repository.AccountRepository;

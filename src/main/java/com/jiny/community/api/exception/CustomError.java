@@ -1,4 +1,4 @@
-package com.jiny.community.common.controller.common;
+package com.jiny.community.api.exception;
 
 import lombok.*;
 
