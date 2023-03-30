@@ -14,14 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity @EqualsAndHashCode
-@Getter @Setter @Proxy(lazy = false)
-public class Post {
+@Getter @Setter
+public class Post extends TimeEntity{
 
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "post_id")
     private Long id;
-
-    private LocalDateTime CreatedDate;
 
     private String title;
     private String content;
@@ -62,8 +60,6 @@ public class Post {
     public static Post createPost(Account account,String title ,String content,Category category){
         Post post = new Post();
         post.setUser(account);
-        post.setCreatedDate(LocalDateTime.now());
-
         post.setTitle(title);
         post.setContent(content);
         post.setViewCnt(0L);

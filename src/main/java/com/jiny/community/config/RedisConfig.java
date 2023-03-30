@@ -32,13 +32,13 @@ public class RedisConfig {
         // 캐시key마다 유효시간 세팅
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
         cacheConfigurations.put("account", RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(60)));
+                .entryTtl(Duration.ofSeconds(1000)));
         cacheConfigurations.put("categorys", RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(60)));
+                .entryTtl(Duration.ofSeconds(1000)));
         cacheConfigurations.put("post", RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(60)));
+                .entryTtl(Duration.ofSeconds(1000)));
         cacheConfigurations.put("posts", RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(60)));
+                .entryTtl(Duration.ofSeconds(1000)));
 
         return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory).cacheDefaults(configuration)
                 .withInitialCacheConfigurations(cacheConfigurations).build();

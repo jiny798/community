@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter @EqualsAndHashCode
-public class Comment {
+public class Comment extends TimeEntity {
 
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "comment_id")
@@ -27,7 +27,6 @@ public class Comment {
 
     private String content;
 
-    private LocalDateTime CreatedDate;
 
     private Boolean remove;
 }

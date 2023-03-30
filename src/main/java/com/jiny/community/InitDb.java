@@ -6,6 +6,7 @@ import com.jiny.community.account.repository.AccountRepository;
 import com.jiny.community.admin.domain.Category;
 import com.jiny.community.account.service.AccountService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
+@Component @Profile("local")
 @RequiredArgsConstructor
 public class InitDb {
     private final InitService initService;
@@ -26,7 +28,7 @@ public class InitDb {
     }
 
     @Transactional
-    @RequiredArgsConstructor
+    @RequiredArgsConstructor @Component
     static class InitService {
         private final EntityManager em;
         private final AccountService accountService;
@@ -43,10 +45,13 @@ public class InitDb {
             category.setName("자유게시판");
             Category category2 = new Category();
             category2.setName("Q&A");
+            Category category3 = new Category();
+            category3.setName("공지사항");
 
 
             em.persist(category);
             em.persist(category2);
+            em.persist(category3);
             em.persist(account);
 
         }
