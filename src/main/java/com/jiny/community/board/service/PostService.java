@@ -108,4 +108,22 @@ public class PostService {
     }
 
 
+    public List<PostResponseDto> getMyPost(Account account){
+        List<Post> posts = postRepository.findByAccount(account);
+
+        return getPosts(posts);
+    }
+    public List<PostResponseDto> getPosts(List<Post> postList){
+
+        List<PostResponseDto> posts =  postList.stream().map(p -> new PostResponseDto(p.getId(),
+                                        p.getAccount().getNickname(),
+                                        p.getTitle(),
+                                        p.getContent(),
+                                        p.getCategory().getName(),
+                                        p.getStar(),
+                                        p.getImgUrl(),
+                                        p.getCreatedDate())).collect(Collectors.toList());
+
+        return posts;
+    }
 }

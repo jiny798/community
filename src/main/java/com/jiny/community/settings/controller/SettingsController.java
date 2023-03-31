@@ -4,6 +4,8 @@ import com.jiny.community.account.domain.Account;
 import com.jiny.community.account.repository.AccountRepository;
 import com.jiny.community.account.service.AccountService;
 import com.jiny.community.account.support.CurrentUser;
+import com.jiny.community.board.dto.PostResponseDto;
+import com.jiny.community.board.service.PostService;
 import com.jiny.community.exception.NotFoundException;
 import com.jiny.community.settings.validator.PasswordFormValidator;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -27,6 +30,7 @@ public class SettingsController {
 
     private final AccountRepository accountRepository;
     private final AccountService accountService;
+    private final PostService postService;
 
     @InitBinder("passwordForm")
     public void initBinder(WebDataBinder webDataBinder){
@@ -59,6 +63,12 @@ public class SettingsController {
         if(findAccount ==null){
             throw new NotFoundException(HttpStatus.BAD_REQUEST,"사용자를 찾을 수 없습니다.");
         }
+
+        //게시글 조회
+        List<PostResponseDto> posts=postService.getMyPost(findAccount);
+        log.debug("나의 게시글 조회 개수 - {}",posts.size());
+
+        model.addAttribute("posts",posts);
         model.addAttribute(findAccount);
         model.addAttribute("isOwner", findAccount.equals(account));
         return "account/profile";

@@ -1,5 +1,6 @@
 package com.jiny.community.board.repository;
 
+import com.jiny.community.account.domain.Account;
 import com.jiny.community.admin.domain.Category;
 import com.jiny.community.board.domain.Post;
 import org.springframework.data.domain.Page;
@@ -21,4 +22,6 @@ public interface PostRepository extends JpaRepository<Post, Long>,PostRepository
     public List<Post> findByCategory(@Param("category") Category category);
 
     Page<Post> findByCategory(Category category , Pageable pageable);
+
+    public List<Post> findByAccount(Account account);
 }
