@@ -83,10 +83,34 @@ public class PostController {
     //게시글 상세
     @GetMapping(value = "/{id}")
     public String getPostDetail(@PathVariable("id") Long postId, Model model,Authentication authentication,@CurrentUser Account account){
+        checkLikePost(postId, model, account);
+        PostDetailResponseDto post = postService.getDetail(postId);
+        checkOwnerPost(postId,model,account);
+        model.addAttribute("post",post); //postDto 전달
+
+        //댓글 불러오기
+        List<CommentDto> commentDtoList = commentService.findCommentList(postId);
+        model.addAttribute("commentList",commentDtoList);
+
+
+        return "detailPage";
+    }
+
+    private void checkOwnerPost(Long postId, Model model, Account account) {
+        Post findpost = postRepository.findById(postId).orElseThrow(()->new RuntimeException());
+        if(findpost.getAccount().equals(account)){
+            model.addAttribute("owner",true);
+        }else{
+            model.addAttribute("owner",false);
+        }
+
+    }
+
+    private void checkLikePost(Long postId, Model model, Account account) {
         if(account != null) {
             Account findAccount = accountRepository.findById(account.getId()).get();
             model.addAttribute("account", findAccount);
-            if(userService.isLikePost(account.getId(),postId)){ //좋아요 했던 게시물인가
+            if(userService.isLikePost(account.getId(), postId)){ //좋아요 했던 게시물인가
                 model.addAttribute("star",1);
             }else {
                 model.addAttribute("star",-1);
@@ -94,14 +118,6 @@ public class PostController {
         }else{
             model.addAttribute("star",-1); // 좋아요 미체크
         }
-        PostDetailResponseDto post = postService.getDetail(postId);
-        model.addAttribute("post",post); //postDto 전달
-
-        List<CommentDto> commentDtoList = commentService.findCommentList(postId);
-        model.addAttribute("commentList",commentDtoList);
-
-
-        return "detailPage";
     }
 
     //게시글 등록 폼 가져오기

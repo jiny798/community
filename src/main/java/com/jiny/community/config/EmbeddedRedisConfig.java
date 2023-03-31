@@ -13,7 +13,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-@Profile("local")
+
 @Configuration @Slf4j
 public class EmbeddedRedisConfig {
 
