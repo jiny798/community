@@ -65,7 +65,7 @@
                   프로필 이미지
                 </div>
                 <div id="current-profile-image" class="mt-3">
-                  <i class="fa-solid fa-user" width="125" height="125"></i>
+                  <i th:if="${#strings.isEmpty(profile.image)}" class="fa-solid fa-user" width="125" height="125"></i>
 
                   <img th:if="${!#strings.isEmpty(profile.image)}" class="rounded"
                        th:src="${profile.image}"
