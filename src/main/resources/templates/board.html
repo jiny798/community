@@ -63,7 +63,7 @@
                                     <i class="fa-solid fa-user"></i>
                                     <span th:text="${postdto.nickname}" class="text-gray-dark">Full Name</span>
                                 </span>
-                                <span class="created-time">
+                                <span class="created-time" th:text="${#temporals.format(postdto.createdDate, 'yyyy-MM-dd HH:mm')}">
                                     3일 전
                                 </span>
                                 

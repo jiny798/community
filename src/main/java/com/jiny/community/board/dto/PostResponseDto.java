@@ -3,6 +3,8 @@ package com.jiny.community.board.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 public class PostResponseDto {
@@ -14,5 +16,6 @@ public class PostResponseDto {
     public String category;
     public Long starCnt;
     public String imgUrl;
+    public LocalDateTime createdDate;
 
 }

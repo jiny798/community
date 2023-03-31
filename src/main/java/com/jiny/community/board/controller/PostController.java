@@ -104,6 +104,8 @@ public class PostController {
             commentDto.setId(comments.get(i).getId());
             commentDto.setNickname(comments.get(i).getAccount().getNickname());
             commentDto.setContent(comments.get(i).getContent());
+            commentDto.setCreatedDate(comments.get(i).getCreatedDate());
+
             commentDtos.add(commentDto);
         }
         model.addAttribute("commentList",commentDtos);

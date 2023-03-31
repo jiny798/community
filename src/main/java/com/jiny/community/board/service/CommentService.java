@@ -49,6 +49,8 @@ public class CommentService {
             commentDto.setId(comment.getId());
             commentDto.setNickname(comment.getAccount().getNickname());
             commentDto.setContent(comment.getContent());
+            commentDto.setCreatedDate(comment.getCreatedDate());
+
             commentDtos.add(commentDto);
         }
         return  commentDtos;

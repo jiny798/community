@@ -156,7 +156,6 @@
                             console.log(res);    
                         },
                         success: function(res){
-                        console.log(res);
                             try{
                                 const obj = JSON.parse(res);
                                 alert("로그인 후 사용해주세요")
@@ -181,18 +180,13 @@
                 <div id="commentList">
                     <div id="commentsub">
                     <div class="d-flex text-muted pt-3 comdiv" th:each="commentDto : ${commentList}" th:id="|${commentDto.id}div|" >
-                        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
-                             xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
-                             preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
-                            <rect width="100%" height="100%" fill="#007bff"/>
-                            <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-                        </svg>
+
                         <div class="mb-0 small lh-sm  w-100">
                             <div class="d-flex justify-content-between">
                                 <span>
                                     <i class="fa-solid fa-user"></i>
                                     <span class="text-gray-dark" th:text="${commentDto.nickname}">Full Name</span>
-                                    <span class="created-time">
+                                    <span class="created-time" th:text="${#temporals.format(commentDto.createdDate, 'yyyy-MM-dd HH:mm')}">
                                         3일 전
                                     </span>
                                     <span class="created-time">
@@ -232,7 +226,7 @@
                                 </span>
                                 <!--                            <a href="#">Follow</a>-->
                             </div>
-                            <div class="content" th:text="${commentDto.content}">안녕하세요</div>
+                            <div style="white-space:pre;" class="content" th:text="${commentDto.content}">안녕하세요</div>
                 
                         </div>
                     </div>
@@ -249,40 +243,6 @@
 
 
 </body>
-<!--<script th:inline="javascript">-->
-<!--    var token = $("meta[name='_csrf']").attr("content");-->
-<!--    var header = $("meta[name='_csrf_header']").attr("content");-->
-
-<!--    $(document).ready(function () {-->
-<!--        $(".comment_delete_btn").on('click', function () {-->
-<!--            var n = $(this).attr('value');-->
-<!--            console.log(n);-->
-<!--            $.ajax({-->
-<!--                beforeSend: function (xhr) {-->
-<!--                    xhr.setRequestHeader(header, token);-->
-<!--                },-->
-<!--                url: "/post/[[${post.id}]]/comment/"+ n, // 목적지-->
-<!--                method: "POST",-->
-<!--                dataType: 'json', //서버로부터 받는-->
-<!--                fail: function (res) {-->
-<!--                    console.log(res);-->
-<!--                },-->
-<!--                success: function (res) {-->
-<!--                    console.log(res);-->
-<!--                    if (res.success === true) {-->
-
-<!--                        $("#"+n+"div").remove();-->
-<!--                        $("#"+n+"div").val("");-->
-
-<!--                    } else {-->
-<!--                        alert("로그인 후 사용해주세요");-->
-<!--                    }-->
-<!--                }-->
-<!--            });-->
-
-<!--        });-->
-<!--    });-->
-<!--</script>-->
 <style>
 
 .postbtn{

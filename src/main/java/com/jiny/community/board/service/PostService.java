@@ -80,7 +80,8 @@ public class PostService {
                                             p.getContent(),
                                             p.getCategory().getName(),
                                             p.getStar(),
-                                            p.getImgUrl()));
+                                            p.getImgUrl(),
+                                            p.getCreatedDate()));
         //page를 유지하면서 Dto변환
         //    public Long id;
         //    public String nickname;
@@ -100,7 +101,8 @@ public class PostService {
                 p.getContent(),
                 p.getCategory().getName(),
                 p.getStar(),
-                p.getImgUrl()));
+                p.getImgUrl(),
+                p.getCreatedDate()));
 
         return posts;
     }

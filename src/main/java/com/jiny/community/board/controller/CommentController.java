@@ -13,6 +13,7 @@ import com.jiny.community.board.repository.PostRepository;
 import com.jiny.community.board.service.CommentService;
 import com.jiny.community.board.service.PostService;
 import com.jiny.community.api.exception.ApiCustomException;
+import com.jiny.community.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -54,14 +55,17 @@ public class CommentController {
         }
         Long commentId = commentService.addComment(account.getId(),postId,commentDto.getContent());
 
+        Comment findComment = commentRepository.findById(commentId).orElseThrow(() -> new NotFoundException(HttpStatus.BAD_REQUEST,"게시물이 삭제되었습니다."));
         List<CommentDto> commentDtos = new ArrayList<>();
 
         CommentDto ComDto = new CommentDto();
-        ComDto.setId(commentId);
+        ComDto.setId(findComment.getId());
         ComDto.setNickname(account.getNickname());
-        ComDto.setContent(commentDto.getContent());
+        ComDto.setContent(findComment.getContent());
+        ComDto.setCreatedDate(findComment.getCreatedDate());
 
         commentDtos.add(ComDto);
+
         PostDetailResponseDto post = postService.getDetail(postId);
         model.addAttribute("post",post); //postDto 전달
         model.addAttribute("commentList",commentDtos);
