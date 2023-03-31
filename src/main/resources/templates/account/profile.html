@@ -116,7 +116,45 @@
                            <!---->
                             </div>
                             <div class="tab-pane fade show" id="v-pills-like" role="tabpanel" aria-labelledby="v-pills-like-tab">
-                                좋아요 게시글dqdwqdqwd
+
+                                <!-- 좋아요 게시글 -->
+                                <div class="d-flex text-muted pt-3 devide-gray" th:each="postdto : ${likePosts}">
+                                    <a href="#" th:href="@{/post/{id} (id=${postdto.id})}">
+                                        <div class="mb-0 small lh-sm  w-100">
+                                            <div class="d-flex justify-content-between">
+                                <span>
+
+                                </span>
+
+
+                                                <!--                            <a href="#">Follow</a>-->
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <strong id="post_title" th:text="${postdto.title}" class="d-block">@title</strong>
+                                            </div>
+
+
+
+                                            <div class="d-flex justify-content-between">
+                            <span id="heart">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor"
+                                     class="bi bi-heart-fill red" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                          d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                </svg>
+                                <span th:text="${postdto.starCnt}">1</span>
+                            </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+
+                                <!---->
+
+
+
+
                             </div>
                         </div>
                     </div>

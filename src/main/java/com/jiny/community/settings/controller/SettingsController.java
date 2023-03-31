@@ -66,9 +66,10 @@ public class SettingsController {
 
         //게시글 조회
         List<PostResponseDto> posts=postService.getMyPost(findAccount);
-        log.debug("나의 게시글 조회 개수 - {}",posts.size());
+        List<PostResponseDto> likePosts = postService.getLikePost(account);
 
         model.addAttribute("posts",posts);
+        model.addAttribute("likePosts",likePosts);
         model.addAttribute(findAccount);
         model.addAttribute("isOwner", findAccount.equals(account));
         return "account/profile";

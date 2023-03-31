@@ -1,11 +1,11 @@
 package com.jiny.community.account.service;
 
 import com.jiny.community.account.domain.Account;
+import com.jiny.community.account.repository.UserLikePostRepository;
 import com.jiny.community.board.domain.Post;
 import com.jiny.community.account.domain.UserLikePost;
 import com.jiny.community.account.repository.AccountRepository;
 import com.jiny.community.board.repository.PostRepository;
-import com.jiny.community.account.repository.UserLikePostRepository;
 import com.jiny.community.board.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +85,7 @@ public class UserService {
             post.addStar(); // star 증가
         }else{
             post.decreaseStar(); // star 감소
-            userLikePostRepository.delete(list.get(index).getId()); // 해당 게시물 좋아요 리스트에서 제거
+            userLikePostRepository.deleteById(list.get(index).getId()); // 해당 게시물 좋아요 리스트에서 제거
             list.remove(index); //account 연관 관계 list에서도 제거하여 더티체킹 방지
         }
     }

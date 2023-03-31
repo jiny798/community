@@ -1,7 +1,9 @@
 package com.jiny.community.board.service;
 
 import com.jiny.community.account.domain.Account;
+import com.jiny.community.account.domain.UserLikePost;
 import com.jiny.community.account.repository.AccountRepository;
+import com.jiny.community.account.repository.UserLikePostRepository;
 import com.jiny.community.admin.domain.Category;
 import com.jiny.community.board.domain.Post;
 import com.jiny.community.board.dto.PostDetailResponseDto;
@@ -30,6 +32,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final CategoryRepository categoryRepository;
     private final AccountRepository accountRepository;
+    private final UserLikePostRepository userLikePostRepository;
 
     //게시글 등록
     @Transactional
@@ -113,6 +116,14 @@ public class PostService {
 
         return getPosts(posts);
     }
+
+    public List<PostResponseDto> getLikePost(Account account){
+        List<UserLikePost> userLikePostList = userLikePostRepository.findByAccount(account);
+        List<PostResponseDto> posts = getPostsByLikeList(userLikePostList);
+
+        return posts;
+    }
+
     public List<PostResponseDto> getPosts(List<Post> postList){
 
         List<PostResponseDto> posts =  postList.stream().map(p -> new PostResponseDto(p.getId(),
@@ -125,5 +136,15 @@ public class PostService {
                                         p.getCreatedDate())).collect(Collectors.toList());
 
         return posts;
+    }
+
+    public List<PostResponseDto> getPostsByLikeList(List<UserLikePost> likePostList){
+        List<Post> posts = new ArrayList<>() ;
+        for(UserLikePost userLikePost : likePostList){
+            posts.add(userLikePost.getPost());
+        }
+
+        return getPosts(posts);
+
     }
 }

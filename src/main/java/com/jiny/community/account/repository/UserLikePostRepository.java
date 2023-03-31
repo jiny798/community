@@ -1,24 +1,17 @@
 package com.jiny.community.account.repository;
 
+import com.jiny.community.account.domain.Account;
 import com.jiny.community.account.domain.UserLikePost;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
-@Repository
-public class UserLikePostRepository {
-    @PersistenceContext
-    EntityManager em;
+public interface UserLikePostRepository extends JpaRepository<UserLikePost,Long> {
+    public List<UserLikePost> findByAccount(Account account);
 
-    public UserLikePost findOne(Long id) {
-        return em.find(UserLikePost.class, id);
-    }
-    public void delete(Long id){
-        em.remove(findOne(id));
-    }
-
-
-
+    public void deleteById(Long id);
 
 }
