@@ -191,7 +191,7 @@
                                     </span>
                                     <span class="created-time">
                                         <a href="#" >
-                                            <span th:id="${commentDto.id}" th:value="${commentDto.id}"  class="comment_delete_btn">
+                                            <span th:if="${commentDto.deleteBtn == true}" th:id="${commentDto.id}" th:value="${commentDto.id}"  class="comment_delete_btn">
                                             삭제
                                             </span>
                                         </a>

@@ -58,11 +58,7 @@ public class CommentController {
         Comment findComment = commentRepository.findById(commentId).orElseThrow(() -> new NotFoundException(HttpStatus.BAD_REQUEST,"게시물이 삭제되었습니다."));
         List<CommentDto> commentDtos = new ArrayList<>();
 
-        CommentDto ComDto = new CommentDto();
-        ComDto.setId(findComment.getId());
-        ComDto.setNickname(account.getNickname());
-        ComDto.setContent(findComment.getContent());
-        ComDto.setCreatedDate(findComment.getCreatedDate());
+        CommentDto ComDto = getCommentDto(account, findComment);
 
         commentDtos.add(ComDto);
 
@@ -71,6 +67,16 @@ public class CommentController {
         model.addAttribute("commentList",commentDtos);
 
         return "detailPage :: #commentsub";
+    }
+
+    private static CommentDto getCommentDto(Account account, Comment findComment) {
+        CommentDto ComDto = new CommentDto();
+        ComDto.setId(findComment.getId());
+        ComDto.setNickname(account.getNickname());
+        ComDto.setContent(findComment.getContent());
+        ComDto.setCreatedDate(findComment.getCreatedDate());
+        ComDto.setDeleteBtn(true);
+        return ComDto;
     }
 
     @PostMapping(value = "/post/{id}/comment/{commentId}")

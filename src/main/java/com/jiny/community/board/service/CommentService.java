@@ -1,5 +1,7 @@
 package com.jiny.community.board.service;
 
+import com.jiny.community.account.domain.Account;
+import com.jiny.community.account.domain.UserAccount;
 import com.jiny.community.board.domain.Comment;
 import com.jiny.community.board.dto.CommentDto;
 import com.jiny.community.account.repository.AccountRepository;
@@ -9,6 +11,8 @@ import com.jiny.community.board.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,9 +51,22 @@ public class CommentService {
             CommentDto commentDto = new CommentDto();
             Comment comment = list.get(i);
             commentDto.setId(comment.getId());
-            commentDto.setNickname(comment.getAccount().getNickname());
+
+            Account commentAccount = comment.getAccount();
+            commentDto.setNickname(commentAccount.getNickname());
             commentDto.setContent(comment.getContent());
             commentDto.setCreatedDate(comment.getCreatedDate());
+
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+            UserAccount userAccount = (UserAccount)authentication.getPrincipal();
+            Account CurrentAccount  = userAccount.getAccount();
+
+            if(commentAccount.equals(CurrentAccount)){
+                commentDto.setDeleteBtn(true);
+            }else{
+                commentDto.setDeleteBtn(false);
+            }
 
             commentDtos.add(commentDto);
         }

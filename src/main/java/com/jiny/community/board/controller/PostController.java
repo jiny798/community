@@ -13,6 +13,7 @@ import com.jiny.community.board.repository.CommentRepository;
 import com.jiny.community.board.repository.PostRepository;
 import com.jiny.community.account.repository.AccountRepository;
 import com.jiny.community.admin.service.CategoryService;
+import com.jiny.community.board.service.CommentService;
 import com.jiny.community.board.service.PageService;
 import com.jiny.community.board.service.PostService;
 import com.jiny.community.account.service.UserService;
@@ -47,6 +48,7 @@ public class PostController {
     private final PostService postService;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
+    private final CommentService commentService;
     private final CategoryRepository categoryRepository;
     private final CategoryService categoryService;
     private final PageService pageService;
@@ -95,20 +97,8 @@ public class PostController {
         PostDetailResponseDto post = postService.getDetail(postId);
         model.addAttribute("post",post); //postDto 전달
 
-//        UserAccount userAccount = (UserAccount)authentication.getPrincipal();
-
-        List<Comment> comments = commentRepository.findByPostId(postId);
-        List<CommentDto> commentDtos = new ArrayList<>();
-        for (int i=0;i<comments.size();i++){
-            CommentDto commentDto = new CommentDto();
-            commentDto.setId(comments.get(i).getId());
-            commentDto.setNickname(comments.get(i).getAccount().getNickname());
-            commentDto.setContent(comments.get(i).getContent());
-            commentDto.setCreatedDate(comments.get(i).getCreatedDate());
-
-            commentDtos.add(commentDto);
-        }
-        model.addAttribute("commentList",commentDtos);
+        List<CommentDto> commentDtoList = commentService.findCommentList(postId);
+        model.addAttribute("commentList",commentDtoList);
 
 
         return "detailPage";
