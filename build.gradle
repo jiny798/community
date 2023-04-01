@@ -40,7 +40,7 @@ dependencies {
 
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5' // 타임리프-시큐리티 확장
 
-	implementation 'org.springframework.boot:spring-boot-devtools' // 타임리프 즉시 렌더링
+	//implementation 'org.springframework.boot:spring-boot-devtools' // 타임리프 즉시 렌더링
 
 	//querydsl 추가
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"

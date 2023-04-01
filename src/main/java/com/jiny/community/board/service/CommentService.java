@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,9 +59,15 @@ public class CommentService {
             commentDto.setCreatedDate(comment.getCreatedDate());
 
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Account CurrentAccount;
+            Object principal = authentication.getPrincipal();
+            if(principal instanceof UserDetails){
+                UserAccount userAccount  = (UserAccount)principal;
+                CurrentAccount = userAccount.getAccount();
+            }else{
+                CurrentAccount = null;
+            }
 
-            UserAccount userAccount = (UserAccount)authentication.getPrincipal();
-            Account CurrentAccount  = userAccount.getAccount();
 
             if(commentAccount.equals(CurrentAccount)){
                 commentDto.setDeleteBtn(true);
