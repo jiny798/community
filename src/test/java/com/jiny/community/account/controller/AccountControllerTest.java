@@ -65,9 +65,6 @@ class AccountControllerTest {
                     Assertions.assertThat(beanPropertyBindingResult.getFieldError().getDefaultMessage()).isEqualTo("패스워드가 서로 일치하지 않습니다.");
 
                 });
-
-
-
     }
 
     @Test

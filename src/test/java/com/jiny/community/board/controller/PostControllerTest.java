@@ -1,10 +1,14 @@
 package com.jiny.community.board.controller;
 
 import com.jiny.community.account.domain.Account;
+import com.jiny.community.account.domain.UserLikePost;
 import com.jiny.community.account.repository.AccountRepository;
+import com.jiny.community.account.repository.UserLikePostRepository;
 import com.jiny.community.account.service.UserService;
 import com.jiny.community.board.domain.Post;
+import com.jiny.community.board.dto.PostForm;
 import com.jiny.community.board.repository.PostRepository;
+import com.jiny.community.board.service.PostService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,11 +20,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@SpringBootTest @Transactional
+@SpringBootTest
 class PostControllerTest {
 
     @Autowired
@@ -29,20 +34,32 @@ class PostControllerTest {
     UserService userService;
     @Autowired
     PostRepository postRepository;
+
+    @Autowired
+    UserLikePostRepository userLikePostRepository;
+
+    @Autowired
+    PostService postService;
     @PersistenceContext
     EntityManager em;
 
     @DisplayName("좋아요 동시 테스트")
-    @Test @Rollback(value = false)
+    @Test
     void likePostMulti() throws InterruptedException {
         Account account1 = accountRepository.findByNickname("abc123");
         Account account2 = accountRepository.findByNickname("abc798");
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         CountDownLatch latch = new CountDownLatch(2);
 
+        PostForm postForm = new PostForm();
+        postForm.setTitle("title");
+        postForm.setCategory("자유게시판");
+        postForm.setContent("Hello");
+        Long postId = postService.addPost(account1,postForm);
+
         executorService.execute(() ->{
             try {
-                userService.updateLikePost(account1.getId(), 8L); // DB에 8번 게시물 존재
+                userService.updateLikePost(account1.getId(), postId);
             }catch (ObjectOptimisticLockingFailureException ex){
                 System.out.println("Catch Transaction conflict");
             }
@@ -50,7 +67,7 @@ class PostControllerTest {
         });
         executorService.execute(() ->{
             try {
-                userService.updateLikePost(account2.getId(), 8L); // DB에 8번 게시물 존재
+                userService.updateLikePost(account2.getId(), postId);
             }catch (ObjectOptimisticLockingFailureException ex){
                 System.out.println("Catch Transaction conflict");
             }
@@ -58,12 +75,14 @@ class PostControllerTest {
         });
         latch.await();
 
-        Post post = postRepository.findById(8L).orElseThrow(RuntimeException::new);
+        Post post = postRepository.findById(postId).orElseThrow(RuntimeException::new);
         //2명이 동시에 좋아요하면 1명은 실패한다
         Assertions.assertThat(post.getStar()).isEqualTo(1);
 
-        //removeLike(account1,account2); //좋아요 다시 삭제
+        List<UserLikePost> uLikePost =userLikePostRepository.findByPost(post);
 
+        //좋아요가 등록된 테이블에도 1명만 있어야 한다.
+        Assertions.assertThat(uLikePost.size()).isEqualTo(1);
     }
 
     public void removeLike(Account account1,Account account2){
@@ -72,17 +91,25 @@ class PostControllerTest {
         Post post1 = postRepository.findById(8L).get();
         post1.setStar(0L);
     }
+
+
     @DisplayName("좋아요 테스트")
     @Test
     void likePost() throws InterruptedException {
+
+
         Account account = accountRepository.findByNickname("abc123");
-        System.out.println("start ---------------------------");
-        userService.updateLikePost(account.getId(),11L); // DB에 11번 게시물 존재
 
-        em.flush();
-        em.clear();
+        PostForm postForm = new PostForm();
+        postForm.setTitle("title");
+        postForm.setCategory("자유게시판");
+        postForm.setContent("Hello");
+        Long postId = postService.addPost(account,postForm);
 
-        Post post = postRepository.findById(11L).orElseThrow(RuntimeException::new);
+        userService.updateLikePost(account.getId(),postId);
+
+
+        Post post = postRepository.findById(postId).orElseThrow(RuntimeException::new);
 
         // 좋아요 개수 1개
         Assertions.assertThat(post.getStar()).isEqualTo(1);

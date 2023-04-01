@@ -7,8 +7,10 @@ import com.jiny.community.account.domain.UserLikePost;
 import com.jiny.community.account.repository.AccountRepository;
 import com.jiny.community.board.repository.PostRepository;
 import com.jiny.community.board.service.PostService;
+import com.jiny.community.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,8 +65,8 @@ public class UserService {
 
     @Transactional
     public void updateLikePost(Long accountId , Long postId) { //itemParam: 파리미터로 넘어온 준영속 상태의 엔티티
-        Account account=accountRepository.findById(accountId).get();
-        Post post=postRepository.findById(postId).get();
+        Account account=accountRepository.findById(accountId).orElseThrow(()->new NotFoundException(HttpStatus.BAD_REQUEST,"사용자를 찾을 수 없습니다."));
+        Post post=postRepository.findById(postId).orElseThrow(()->new NotFoundException(HttpStatus.BAD_REQUEST,"게시글을 찾을 수 없습니다."));
         boolean isLike = false;
 
         List<UserLikePost> list=account.getUserLikePosts();
