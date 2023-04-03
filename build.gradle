@@ -59,6 +59,9 @@ dependencies {
 
 	//무중단배포
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	//자시프트 추가
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3'
 }
 
 tasks.named('test') {
