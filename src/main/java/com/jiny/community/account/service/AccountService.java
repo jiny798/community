@@ -46,6 +46,8 @@ public class AccountService implements UserDetailsService {
     @Value("${spring.mail.username}")
     private String email;
 
+    public static ThreadLocal<String> threadLocal = new ThreadLocal<>();
+
     public Account signUp(SignUpForm signUpForm) {
         Account newAccount = saveNewAccount(signUpForm);
         sendVerificationEmail(newAccount);
@@ -70,20 +72,22 @@ public class AccountService implements UserDetailsService {
     }
 
     public void sendVerificationEmail(Account newAccount){
-        Context context = new Context();
-        context.setVariable("link", String.format("/check-email-token?token=%s&email=%s", newAccount.getEmailToken(),
-                newAccount.getEmail()));
-        context.setVariable("nickname", newAccount.getNickname());
-        context.setVariable("linkName", "이메일 인증하기");
-        context.setVariable("message", "가입 인증을 위해 링크를 클릭하세요.");
-        context.setVariable("host", appProperties.getHost());
-        String message = templateEngine.process("mail/simple-link", context);
-        emailService.sendEmail(EmailMessage.builder()
-                .to(newAccount.getEmail())
-                .subject("회원 가입 인증")
-                .message(message) //정보를 넘기고 sendEmail에서 추가 정보 세팅
-                .token(newAccount.getEmailToken())
-                .build());
+//        Context context = new Context();
+//        context.setVariable("link", String.format("/check-email-token?token=%s&email=%s", newAccount.getEmailToken(),
+//                newAccount.getEmail()));
+//        context.setVariable("nickname", newAccount.getNickname());
+//        context.setVariable("linkName", "이메일 인증하기");
+//        context.setVariable("message", "가입 인증을 위해 링크를 클릭하세요.");
+//        context.setVariable("host", appProperties.getHost());
+//        String message = templateEngine.process("mail/simple-link", context);
+//        emailService.sendEmail(EmailMessage.builder()
+//                .to(newAccount.getEmail())
+//                .subject("회원 가입 인증")
+//                .message(message) //정보를 넘기고 sendEmail에서 추가 정보 세팅
+//                .token(newAccount.getEmailToken())
+//                .build());
+        threadLocal.set(appProperties.getHost()+"/check-email-token?token="+newAccount.getEmailToken()+"&email="+newAccount.getEmail());
+
     }
 
     public void login(Account account) {

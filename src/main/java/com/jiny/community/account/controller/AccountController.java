@@ -32,7 +32,7 @@ public class AccountController {
     }
 
     @PostMapping(value = "/account/new")
-    public String create(@Validated @ModelAttribute("form") SignUpForm form, BindingResult result){
+    public String create(@Validated @ModelAttribute("form") SignUpForm form, BindingResult result,RedirectAttributes redirectAttributes){
         log.info("회원가입 요청 = {}",form.getEmail());
         if(!form.getPassword().equals(form.getPassword2())){
             result.rejectValue("password","wrong.value","패스워드가 서로 일치하지 않습니다.");
@@ -45,6 +45,13 @@ public class AccountController {
 
         Account account = accountService.signUp(form);
         accountService.login(account);
+
+        //이메일 인증 임시
+        String tempEmailToken = AccountService.threadLocal.get();
+        log.debug("emailToken = " + tempEmailToken);
+        AccountService.threadLocal.remove();
+
+        redirectAttributes.addFlashAttribute("tempEmailToken",tempEmailToken);
 
         return "redirect:/";
     }

@@ -32,17 +32,16 @@ public class EmailService {
             mimeMessageHelper.setFrom(email);
 
             javaMailSender.send(mimeMessage);
-//            log.info("sent email: {}", emailMessage.getMessage());
-//            SimpleMailMessage mailMessage = new SimpleMailMessage(); // (7)
-//            mailMessage.setTo(emailMessage.getTo());
-//            mailMessage.setSubject("회원 가입 인증");
-//
-//            mailMessage.setText(String.format("/check-email-token?token=%s&email=%s", emailMessage.getToken(),
-//                    emailMessage.getTo()));
-//              javaMailSender.send(mailMessage);
+
+
         } catch (Exception e) { //MessagingException e
             log.error("failed to send email", e);
             throw new RuntimeException(e);
         }
     }
+
+
+
+
+
 }

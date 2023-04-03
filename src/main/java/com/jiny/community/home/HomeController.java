@@ -2,6 +2,7 @@ package com.jiny.community.home;
 
 import com.jiny.community.account.domain.Account;
 import com.jiny.community.account.repository.AccountRepository;
+import com.jiny.community.account.service.AccountService;
 import com.jiny.community.account.support.CurrentUser;
 import com.jiny.community.board.dto.CategoryResponseDto;
 import com.jiny.community.admin.service.CategoryService;

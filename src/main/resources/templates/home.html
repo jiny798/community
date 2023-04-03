@@ -10,11 +10,16 @@
 <div class="container py-3">
     <div class="row">
 
-      
+
       <main>
-          <div class="alert alert-warning" role="alert" th:if="${account != null && !account.isValid()}">
-              가입을 완료하려면 <a href="#" th:href="@{/check-email}" class="alert-link">계정 인증 이메일을 확인</a>하세요.
-          </div>
+<!--          <div class="alert alert-warning" role="alert" th:if="${account != null && !account.isValid()}">-->
+<!--              가입을 완료하려면 <a href="#" th:href="@{/check-email}" class="alert-link">계정 인증 이메일을 확인</a>하세요.-->
+<!--          </div>-->
+
+        <div class="alert alert-warning" role="alert" th:if="${account != null && !account.isValid()}">
+          가입을 완료하려면 <a href="#" th:href="| ${tempEmailToken} |" class="alert-link">여기를 클릭 </a> 하세요.
+          이메일 인증은 대체되었습니다.
+        </div>
         <section class="py-5 text-center container">
           <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
